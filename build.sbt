@@ -13,4 +13,4 @@ lazy val LAS32 = (project in file("."))
         libraryDependencies ++= Seq(spinalCore, spinalLib, spinalIdslPlugin)
     )
 
-// fork := true
+fork := true

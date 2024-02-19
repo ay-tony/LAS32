@@ -1,6 +1,8 @@
 .bsp
 .metals
-target
+target/
+tmp/
+simWorkspace/
 
 # nodes
 node_modules/
