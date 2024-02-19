@@ -1,0 +1,8 @@
+.bsp
+.metals
+target
+
+# nodes
+node_modules/
+package.json
+package-lock.json
