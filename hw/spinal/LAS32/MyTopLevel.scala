@@ -1,23 +1,51 @@
 package LAS32
 
 import spinal.core._
+import spinal.lib.misc.pipeline._
 
 case class MyTopLevel() extends Component {
     val io = new Bundle {
-        val cond0 = in Bool ()
-        val cond1 = in Bool ()
-        val flag = out Bool ()
-        val state = out UInt (8 bits)
+        val pc = out UInt (32 bits)
     }
 
-    val counter = Reg(UInt(8 bits)) init 0
+    // val stages = new Area {
+    val fetch, decode, execute, memory, write = CtrlLink()
+    // }
+    //
+    // val links = new Area {
+    //     import stages._
+    val f2d = StageLink(fetch.down, decode.up)
+    val d2e = StageLink(decode.down, execute.up)
+    val e2m = StageLink(execute.down, memory.up)
+    val m2w = StageLink(memory.down, write.up)
+    // }
 
-    when(io.cond0) {
-        counter := counter + 1
+    val PC = Payload(UInt(32 bits))
+    val INSTRUCTION = Payload(Bits(32 bits))
+
+    val fetcher = new fetch.Area {
+        val pc = Reg(PC) init (0x3000)
+        up(PC) := pc
+        up.valid := True
+        when(up.isFiring) {
+            pc := PC + 4
+        }
     }
 
-    io.state := counter
-    io.flag := (counter === 0) | io.cond1
+    io.pc := write(PC)
+
+    Builder(
+        fetch,
+        decode,
+        execute,
+        memory,
+        write,
+        f2d,
+        d2e,
+        e2m,
+        m2w
+    )
+
 }
 
 object MyTopLevelVerilog extends App {
