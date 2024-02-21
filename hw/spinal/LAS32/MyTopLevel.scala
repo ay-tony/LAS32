@@ -41,7 +41,7 @@ case class MyTopLevel() extends Component {
     val REGFILE_VAL1, REGFILE_VAL2 = Payload(Bits(32 bits))
 
     object AluOp extends SpinalEnum {
-        val add, sub = newElement()
+        val add, sub, or = newElement()
     }
     val ALU_OP = Payload(AluOp()) // control signal
     val ALU_OUT = Payload(Bits(32 bits))
@@ -66,14 +66,16 @@ case class MyTopLevel() extends Component {
         val IS_NOP = INSTRUCTION === M"00000000000000000000000000000000"
         val IS_ADD = INSTRUCTION === M"000000---------------00000100000"
         val IS_ADDI = INSTRUCTION === M"001000--------------------------"
-        val IS_ADDU = INSTRUCTION === M"000000--------------------100001"
+        val IS_ADDU = INSTRUCTION === M"000000---------------00000100001"
         val IS_ADDIU = INSTRUCTION === M"001001--------------------------"
-        val IS_SUB = INSTRUCTION === M"000000--------------------100010"
-        val IS_SUBU = INSTRUCTION === M"000000--------------------100011"
-        val IS_SLT = INSTRUCTION === M"000000--------------------101010"
+        val IS_SUB = INSTRUCTION === M"000000---------------00000100010"
+        val IS_SUBU = INSTRUCTION === M"000000---------------00000100011"
+        val IS_SLT = INSTRUCTION === M"000000---------------00000101010"
         val IS_SLTI = INSTRUCTION === M"001010--------------------------"
-        val IS_SLTU = INSTRUCTION === M"000000--------------------101011"
+        val IS_SLTU = INSTRUCTION === M"000000---------------00000101011"
         val IS_SLTIU = INSTRUCTION === M"001011--------------------------"
+
+        val IS_ORI = INSTRUCTION === M"001101--------------------------"
 
         // default signals
         INSTRUCTION_TYPE := InstructionType.r
@@ -108,6 +110,15 @@ case class MyTopLevel() extends Component {
 
             ALU_OP := AluOp.sub
             REGFILE_WRITE_ENABLE := True
+        }.elsewhen(IS_ORI) {
+            INSTRUCTION_TYPE := InstructionType.i
+
+            BYPASS_EXECUTE_ENABLE := True
+            BYPASS_MEMORY_ENABLE := True
+
+            REGFILE_ADDR2 := 0
+            ALU_OP := AluOp.or
+            REGFILE_WRITE_ENABLE := True
         }
     }
 
@@ -132,7 +143,6 @@ case class MyTopLevel() extends Component {
         }.elsewhen(ALU_OP === AluOp.sub) {
             ALU_OUT := B(S(in1) - S(in2))
         }.otherwise {
-            assert(False, "Illegal signals ALU_OP!")
             ALU_OUT := B(S(in1) + S(in2))
         }
 
