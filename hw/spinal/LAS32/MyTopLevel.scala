@@ -75,6 +75,7 @@ case class MyTopLevel() extends Component {
         val IS_SLTU = INSTRUCTION === M"000000---------------00000101011"
         val IS_SLTIU = INSTRUCTION === M"001011--------------------------"
 
+        val IS_LUI = INSTRUCTION === M"00111100000---------------------"
         val IS_ORI = INSTRUCTION === M"001101--------------------------"
 
         // default signals
@@ -92,20 +93,17 @@ case class MyTopLevel() extends Component {
         REGFILE_WRITE_DATA := 0 // not control signal, but initialize here to prevent latch
 
         when(IS_ADD) {
-            BYPASS_EXECUTE_ENABLE := True
             BYPASS_MEMORY_ENABLE := True
 
             REGFILE_WRITE_ENABLE := True
         }.elsewhen(IS_ADDI) {
             INSTRUCTION_TYPE := InstructionType.i
 
-            BYPASS_EXECUTE_ENABLE := True
             BYPASS_MEMORY_ENABLE := True
 
             REGFILE_ADDR2 := 0
             REGFILE_WRITE_ENABLE := True
         }.elsewhen(IS_SUB) {
-            BYPASS_EXECUTE_ENABLE := True
             BYPASS_MEMORY_ENABLE := True
 
             ALU_OP := AluOp.sub
@@ -113,7 +111,6 @@ case class MyTopLevel() extends Component {
         }.elsewhen(IS_ORI) {
             INSTRUCTION_TYPE := InstructionType.i
 
-            BYPASS_EXECUTE_ENABLE := True
             BYPASS_MEMORY_ENABLE := True
 
             REGFILE_ADDR2 := 0
