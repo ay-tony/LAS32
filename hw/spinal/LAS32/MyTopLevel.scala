@@ -41,7 +41,7 @@ case class MyTopLevel() extends Component {
     val REGFILE_VAL1, REGFILE_VAL2 = Payload(Bits(32 bits))
 
     object AluOp extends SpinalEnum {
-        val add = newElement()
+        val add, sub = newElement()
     }
     val ALU_OP = Payload(AluOp()) // control signal
     val ALU_OUT = Payload(Bits(32 bits))
@@ -102,24 +102,38 @@ case class MyTopLevel() extends Component {
 
             REGFILE_ADDR2 := 0
             REGFILE_WRITE_ENABLE := True
+        }.elsewhen(IS_SUB) {
+            BYPASS_EXECUTE_ENABLE := True
+            BYPASS_MEMORY_ENABLE := True
+
+            ALU_OP := AluOp.sub
+            REGFILE_WRITE_ENABLE := True
         }
     }
 
     val regfile = new decode.Area {
         val regfile = Mem(Bits(32 bits), 32)
 
-        REGFILE_VAL1 := (REGFILE_ADDR1 =/= 0) ? regfile(REGFILE_ADDR1) | B(0, 32 bits)
-        REGFILE_VAL2 := (REGFILE_ADDR2 =/= 0) ? regfile(REGFILE_ADDR2) | B(0, 32 bits)
+        // inner regfile forward
+        REGFILE_VAL1 := (REGFILE_ADDR1 =/= 0) ?
+            ((REGFILE_ADDR1 === write(REGFILE_WRITE_ADDR)) ? write(REGFILE_WRITE_DATA) | regfile(REGFILE_ADDR1)) |
+            B(0, 32 bits)
+        REGFILE_VAL2 := (REGFILE_ADDR2 =/= 0) ?
+            ((REGFILE_ADDR2 === write(REGFILE_WRITE_ADDR)) ? write(REGFILE_WRITE_DATA) | regfile(REGFILE_ADDR2)) |
+            B(0, 32 bits)
     }
 
     val alu = new execute.Area {
         val in1 = REGFILE_VAL1
         val in2 = (INSTRUCTION_TYPE === InstructionType.i) ? B(S(INSTRUCTION(15 downto 0), 32 bits)) | REGFILE_VAL2
 
-        ALU_OUT := B(S(in1) + S(in2))
-        // when(ALU_OP === AluOp.add) {
-        //     ALU_OUT := B(S(in1) + S(in2))
-        // }
+        when(ALU_OP === AluOp.add) {
+            ALU_OUT := B(S(in1) + S(in2))
+        }.elsewhen(ALU_OP === AluOp.sub) {
+            ALU_OUT := B(S(in1) - S(in2))
+        }.otherwise {
+            ALU_OUT := B(S(in1) + S(in2))
+        }
 
         when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.Alu) {
             execute.bypass(REGFILE_WRITE_DATA) := ALU_OUT
