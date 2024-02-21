@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : MyTopLevel
-// Git hash  : 0b1a39dbeeb6042e828025804404513bf7c74bf2
+// Git hash  : 6c53cd0ceba94541bb43ffab6fbd12e7ab814f62
 
 `timescale 1ns/1ps
 
@@ -82,20 +82,20 @@ module MyTopLevel (
   reg                 decode_down_ready;
   reg                 execute_up_ready;
   wire       [31:0]   write_down_PC;
-  reg                 _zz_execute_haltRequest_MyTopLevel_l181;
-  reg                 _zz_execute_haltRequest_MyTopLevel_l174;
-  reg        [31:0]   execute_up_REGFILE_VAL1;
-  reg        [31:0]   execute_REGFILE_VAL1_bypass;
-  wire       [4:0]    execute_down_REGFILE_ADDR1;
-  reg                 _zz_execute_haltRequest_MyTopLevel_l164;
+  reg                 _zz_execute_haltRequest_MyTopLevel_l182;
+  reg                 _zz_execute_haltRequest_MyTopLevel_l175;
+  reg        [31:0]   execute_up_REGFILE_VAL2;
+  reg        [31:0]   execute_REGFILE_VAL2_bypass;
+  wire       [4:0]    execute_down_REGFILE_ADDR2;
+  reg                 _zz_execute_haltRequest_MyTopLevel_l165;
   wire       [31:0]   memory_down_REGFILE_WRITE_DATA;
   wire                memory_down_BYPASS_MEMORY_ENABLE;
   wire       [4:0]    memory_down_REGFILE_WRITE_ADDR;
-  reg                 _zz_execute_haltRequest_MyTopLevel_l157;
-  reg        [31:0]   execute_up_REGFILE_VAL2;
-  reg        [31:0]   execute_REGFILE_VAL2_bypass;
+  reg                 _zz_execute_haltRequest_MyTopLevel_l158;
+  reg        [31:0]   execute_up_REGFILE_VAL1;
+  reg        [31:0]   execute_REGFILE_VAL1_bypass;
   wire                memory_down_BYPASS_WRITE_ENABLE;
-  wire       [4:0]    execute_down_REGFILE_ADDR2;
+  wire       [4:0]    execute_down_REGFILE_ADDR1;
   reg                 _zz_1;
   wire                write_down_REGFILE_WRITE_ENABLE;
   reg        [31:0]   execute_up_REGFILE_WRITE_DATA;
@@ -140,18 +140,18 @@ module MyTopLevel (
   wire       [31:0]   alu_in2;
   wire                when_MyTopLevel_l130;
   wire                when_MyTopLevel_l132;
-  wire                when_MyTopLevel_l138;
-  wire                when_MyTopLevel_l144;
-  wire                when_MyTopLevel_l151;
-  wire                when_MyTopLevel_l153;
-  wire                execute_haltRequest_MyTopLevel_l157;
-  wire                when_MyTopLevel_l160;
-  wire                execute_haltRequest_MyTopLevel_l164;
-  wire                when_MyTopLevel_l168;
-  wire                when_MyTopLevel_l170;
-  wire                execute_haltRequest_MyTopLevel_l174;
-  wire                when_MyTopLevel_l177;
-  wire                execute_haltRequest_MyTopLevel_l181;
+  wire                when_MyTopLevel_l139;
+  wire                when_MyTopLevel_l145;
+  wire                when_MyTopLevel_l152;
+  wire                when_MyTopLevel_l154;
+  wire                execute_haltRequest_MyTopLevel_l158;
+  wire                when_MyTopLevel_l161;
+  wire                execute_haltRequest_MyTopLevel_l165;
+  wire                when_MyTopLevel_l169;
+  wire                when_MyTopLevel_l171;
+  wire                execute_haltRequest_MyTopLevel_l175;
+  wire                when_MyTopLevel_l178;
+  wire                execute_haltRequest_MyTopLevel_l182;
   wire                when_CtrlLink_l151;
   wire                when_StageLink_l67;
   wire                when_StageLink_l67_1;
@@ -236,61 +236,22 @@ module MyTopLevel (
   `endif
 
   always @(*) begin
-    _zz_execute_haltRequest_MyTopLevel_l181 = 1'b0;
-    if(when_MyTopLevel_l168) begin
-      if(when_MyTopLevel_l177) begin
+    _zz_execute_haltRequest_MyTopLevel_l182 = 1'b0;
+    if(when_MyTopLevel_l169) begin
+      if(when_MyTopLevel_l178) begin
         if(!memory_down_BYPASS_MEMORY_ENABLE) begin
-          _zz_execute_haltRequest_MyTopLevel_l181 = 1'b1;
+          _zz_execute_haltRequest_MyTopLevel_l182 = 1'b1;
         end
       end
     end
   end
 
   always @(*) begin
-    _zz_execute_haltRequest_MyTopLevel_l174 = 1'b0;
-    if(when_MyTopLevel_l168) begin
-      if(when_MyTopLevel_l170) begin
+    _zz_execute_haltRequest_MyTopLevel_l175 = 1'b0;
+    if(when_MyTopLevel_l169) begin
+      if(when_MyTopLevel_l171) begin
         if(!memory_down_BYPASS_WRITE_ENABLE) begin
-          _zz_execute_haltRequest_MyTopLevel_l174 = 1'b1;
-        end
-      end
-    end
-  end
-
-  assign execute_down_REGFILE_VAL1 = execute_REGFILE_VAL1_bypass;
-  always @(*) begin
-    execute_REGFILE_VAL1_bypass = execute_up_REGFILE_VAL1;
-    if(when_MyTopLevel_l168) begin
-      if(when_MyTopLevel_l170) begin
-        if(memory_down_BYPASS_WRITE_ENABLE) begin
-          execute_REGFILE_VAL1_bypass = write_down_REGFILE_WRITE_DATA;
-        end
-      end
-      if(when_MyTopLevel_l177) begin
-        if(memory_down_BYPASS_MEMORY_ENABLE) begin
-          execute_REGFILE_VAL1_bypass = memory_down_REGFILE_WRITE_DATA;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_execute_haltRequest_MyTopLevel_l164 = 1'b0;
-    if(when_MyTopLevel_l151) begin
-      if(when_MyTopLevel_l160) begin
-        if(!memory_down_BYPASS_MEMORY_ENABLE) begin
-          _zz_execute_haltRequest_MyTopLevel_l164 = 1'b1;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_execute_haltRequest_MyTopLevel_l157 = 1'b0;
-    if(when_MyTopLevel_l151) begin
-      if(when_MyTopLevel_l153) begin
-        if(!memory_down_BYPASS_WRITE_ENABLE) begin
-          _zz_execute_haltRequest_MyTopLevel_l157 = 1'b1;
+          _zz_execute_haltRequest_MyTopLevel_l175 = 1'b1;
         end
       end
     end
@@ -299,13 +260,13 @@ module MyTopLevel (
   assign execute_down_REGFILE_VAL2 = execute_REGFILE_VAL2_bypass;
   always @(*) begin
     execute_REGFILE_VAL2_bypass = execute_up_REGFILE_VAL2;
-    if(when_MyTopLevel_l151) begin
-      if(when_MyTopLevel_l153) begin
+    if(when_MyTopLevel_l169) begin
+      if(when_MyTopLevel_l171) begin
         if(memory_down_BYPASS_WRITE_ENABLE) begin
           execute_REGFILE_VAL2_bypass = write_down_REGFILE_WRITE_DATA;
         end
       end
-      if(when_MyTopLevel_l160) begin
+      if(when_MyTopLevel_l178) begin
         if(memory_down_BYPASS_MEMORY_ENABLE) begin
           execute_REGFILE_VAL2_bypass = memory_down_REGFILE_WRITE_DATA;
         end
@@ -314,8 +275,47 @@ module MyTopLevel (
   end
 
   always @(*) begin
+    _zz_execute_haltRequest_MyTopLevel_l165 = 1'b0;
+    if(when_MyTopLevel_l152) begin
+      if(when_MyTopLevel_l161) begin
+        if(!memory_down_BYPASS_MEMORY_ENABLE) begin
+          _zz_execute_haltRequest_MyTopLevel_l165 = 1'b1;
+        end
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_execute_haltRequest_MyTopLevel_l158 = 1'b0;
+    if(when_MyTopLevel_l152) begin
+      if(when_MyTopLevel_l154) begin
+        if(!memory_down_BYPASS_WRITE_ENABLE) begin
+          _zz_execute_haltRequest_MyTopLevel_l158 = 1'b1;
+        end
+      end
+    end
+  end
+
+  assign execute_down_REGFILE_VAL1 = execute_REGFILE_VAL1_bypass;
+  always @(*) begin
+    execute_REGFILE_VAL1_bypass = execute_up_REGFILE_VAL1;
+    if(when_MyTopLevel_l152) begin
+      if(when_MyTopLevel_l154) begin
+        if(memory_down_BYPASS_WRITE_ENABLE) begin
+          execute_REGFILE_VAL1_bypass = write_down_REGFILE_WRITE_DATA;
+        end
+      end
+      if(when_MyTopLevel_l161) begin
+        if(memory_down_BYPASS_MEMORY_ENABLE) begin
+          execute_REGFILE_VAL1_bypass = memory_down_REGFILE_WRITE_DATA;
+        end
+      end
+    end
+  end
+
+  always @(*) begin
     _zz_1 = 1'b0;
-    if(when_MyTopLevel_l144) begin
+    if(when_MyTopLevel_l145) begin
       _zz_1 = 1'b1;
     end
   end
@@ -323,7 +323,7 @@ module MyTopLevel (
   assign execute_down_REGFILE_WRITE_DATA = execute_REGFILE_WRITE_DATA_bypass;
   always @(*) begin
     execute_REGFILE_WRITE_DATA_bypass = execute_up_REGFILE_WRITE_DATA;
-    if(when_MyTopLevel_l138) begin
+    if(when_MyTopLevel_l139) begin
       execute_REGFILE_WRITE_DATA_bypass = execute_down_ALU_OUT;
     end
   end
@@ -437,18 +437,18 @@ module MyTopLevel (
   end
 
   assign when_MyTopLevel_l132 = (execute_down_ALU_OP == AluOp_sub);
-  assign when_MyTopLevel_l138 = 1'b1;
-  assign when_MyTopLevel_l144 = (write_down_REGFILE_WRITE_ENABLE && (write_down_REGFILE_WRITE_ADDR != 5'h00));
-  assign when_MyTopLevel_l151 = (execute_down_REGFILE_ADDR2 != 5'h00);
-  assign when_MyTopLevel_l153 = (execute_down_REGFILE_ADDR2 == write_down_REGFILE_WRITE_ADDR);
-  assign execute_haltRequest_MyTopLevel_l157 = _zz_execute_haltRequest_MyTopLevel_l157;
-  assign when_MyTopLevel_l160 = (execute_down_REGFILE_ADDR2 == memory_down_REGFILE_WRITE_ADDR);
-  assign execute_haltRequest_MyTopLevel_l164 = _zz_execute_haltRequest_MyTopLevel_l164;
-  assign when_MyTopLevel_l168 = (execute_down_REGFILE_ADDR1 != 5'h00);
-  assign when_MyTopLevel_l170 = (execute_down_REGFILE_ADDR1 == write_down_REGFILE_WRITE_ADDR);
-  assign execute_haltRequest_MyTopLevel_l174 = _zz_execute_haltRequest_MyTopLevel_l174;
-  assign when_MyTopLevel_l177 = (execute_down_REGFILE_ADDR1 == memory_down_REGFILE_WRITE_ADDR);
-  assign execute_haltRequest_MyTopLevel_l181 = _zz_execute_haltRequest_MyTopLevel_l181;
+  assign when_MyTopLevel_l139 = 1'b1;
+  assign when_MyTopLevel_l145 = (write_down_REGFILE_WRITE_ENABLE && (write_down_REGFILE_WRITE_ADDR != 5'h00));
+  assign when_MyTopLevel_l152 = (execute_down_REGFILE_ADDR1 != 5'h00);
+  assign when_MyTopLevel_l154 = (execute_down_REGFILE_ADDR1 == write_down_REGFILE_WRITE_ADDR);
+  assign execute_haltRequest_MyTopLevel_l158 = _zz_execute_haltRequest_MyTopLevel_l158;
+  assign when_MyTopLevel_l161 = (execute_down_REGFILE_ADDR1 == memory_down_REGFILE_WRITE_ADDR);
+  assign execute_haltRequest_MyTopLevel_l165 = _zz_execute_haltRequest_MyTopLevel_l165;
+  assign when_MyTopLevel_l169 = (execute_down_REGFILE_ADDR2 != 5'h00);
+  assign when_MyTopLevel_l171 = (execute_down_REGFILE_ADDR2 == write_down_REGFILE_WRITE_ADDR);
+  assign execute_haltRequest_MyTopLevel_l175 = _zz_execute_haltRequest_MyTopLevel_l175;
+  assign when_MyTopLevel_l178 = (execute_down_REGFILE_ADDR2 == memory_down_REGFILE_WRITE_ADDR);
+  assign execute_haltRequest_MyTopLevel_l182 = _zz_execute_haltRequest_MyTopLevel_l182;
   assign io_pc = write_down_PC;
   assign io_regfile_write_enable = write_down_REGFILE_WRITE_ENABLE;
   assign io_regfile_write_addr = write_down_REGFILE_WRITE_ADDR;
@@ -471,7 +471,7 @@ module MyTopLevel (
     end
   end
 
-  assign when_CtrlLink_l151 = (|{execute_haltRequest_MyTopLevel_l181,{execute_haltRequest_MyTopLevel_l174,{execute_haltRequest_MyTopLevel_l164,execute_haltRequest_MyTopLevel_l157}}});
+  assign when_CtrlLink_l151 = (|{execute_haltRequest_MyTopLevel_l182,{execute_haltRequest_MyTopLevel_l175,{execute_haltRequest_MyTopLevel_l165,execute_haltRequest_MyTopLevel_l158}}});
   assign execute_down_PC = execute_up_PC;
   assign execute_down_INSTRUCTION = execute_up_INSTRUCTION;
   assign execute_down_INSTRUCTION_TYPE = execute_up_INSTRUCTION_TYPE;
@@ -526,6 +526,20 @@ module MyTopLevel (
       write_up_valid <= 1'b0;
     end else begin
       fetcher_pc <= (fetcher_pc + 32'h00000004);
+      if(!when_MyTopLevel_l130) begin
+        if(!when_MyTopLevel_l132) begin
+          `ifndef SYNTHESIS
+            `ifdef FORMAL
+              assert(1'b0); // MyTopLevel.scala:L135
+            `else
+              if(!1'b0) begin
+                $display("FAILURE Illegal signals ALU_OP!"); // MyTopLevel.scala:L135
+                $finish;
+              end
+            `endif
+          `endif
+        end
+      end
       if(decode_down_isReady) begin
         execute_up_valid <= decode_down_isValid;
       end

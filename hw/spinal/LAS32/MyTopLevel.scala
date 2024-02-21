@@ -132,6 +132,7 @@ case class MyTopLevel() extends Component {
         }.elsewhen(ALU_OP === AluOp.sub) {
             ALU_OUT := B(S(in1) - S(in2))
         }.otherwise {
+            assert(False, "Illegal signals ALU_OP!")
             ALU_OUT := B(S(in1) + S(in2))
         }
 
@@ -148,23 +149,6 @@ case class MyTopLevel() extends Component {
 
     val hazard = new Area {
         // execute stage
-        when(execute(REGFILE_ADDR2) =/= 0) {
-            // stages are iterated reversely to guarentee that novel generations are preserved
-            when(execute(REGFILE_ADDR2) === write(REGFILE_WRITE_ADDR)) {
-                when(memory(BYPASS_WRITE_ENABLE)) {
-                    execute.bypass(REGFILE_VAL2) := write(REGFILE_WRITE_DATA)
-                }.otherwise {
-                    execute.haltIt()
-                }
-            }
-            when(execute(REGFILE_ADDR2) === memory(REGFILE_WRITE_ADDR)) {
-                when(memory(BYPASS_MEMORY_ENABLE)) {
-                    execute.bypass(REGFILE_VAL2) := memory(REGFILE_WRITE_DATA)
-                }.otherwise {
-                    execute.haltIt()
-                }
-            }
-        }
         when(execute(REGFILE_ADDR1) =/= 0) {
             // stages are iterated reversely to guarentee that novel generations are preserved
             when(execute(REGFILE_ADDR1) === write(REGFILE_WRITE_ADDR)) {
@@ -177,6 +161,23 @@ case class MyTopLevel() extends Component {
             when(execute(REGFILE_ADDR1) === memory(REGFILE_WRITE_ADDR)) {
                 when(memory(BYPASS_MEMORY_ENABLE)) {
                     execute.bypass(REGFILE_VAL1) := memory(REGFILE_WRITE_DATA)
+                }.otherwise {
+                    execute.haltIt()
+                }
+            }
+        }
+        when(execute(REGFILE_ADDR2) =/= 0) {
+            // stages are iterated reversely to guarentee that novel generations are preserved
+            when(execute(REGFILE_ADDR2) === write(REGFILE_WRITE_ADDR)) {
+                when(memory(BYPASS_WRITE_ENABLE)) {
+                    execute.bypass(REGFILE_VAL2) := write(REGFILE_WRITE_DATA)
+                }.otherwise {
+                    execute.haltIt()
+                }
+            }
+            when(execute(REGFILE_ADDR2) === memory(REGFILE_WRITE_ADDR)) {
+                when(memory(BYPASS_MEMORY_ENABLE)) {
+                    execute.bypass(REGFILE_VAL2) := memory(REGFILE_WRITE_DATA)
                 }.otherwise {
                     execute.haltIt()
                 }
