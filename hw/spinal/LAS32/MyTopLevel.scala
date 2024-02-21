@@ -33,7 +33,7 @@ case class MyTopLevel() extends Component {
     val INSTRUCTION_TYPE = Payload(InstructionType()) // control signal
     val BYPASS_EXECUTE_ENABLE, BYPASS_MEMORY_ENABLE, BYPASS_WRITE_ENABLE = Payload(Bool()) // control signal
     object BypassRegfileWriteDataComponent extends SpinalEnum {
-        val Alu = newElement()
+        val Alu, Luc = newElement()
     }
     val BYPASS_REGFILE_WRITE_DATA_COMPONENT = Payload(BypassRegfileWriteDataComponent()) // control signal
 
@@ -90,7 +90,7 @@ case class MyTopLevel() extends Component {
         REGFILE_WRITE_ENABLE := False
         REGFILE_WRITE_ADDR :=
             (INSTRUCTION_TYPE === InstructionType.r) ? U(INSTRUCTION(15 downto 11)) | U(INSTRUCTION(20 downto 16))
-        REGFILE_WRITE_DATA := 0 // not control signal, but initialize here to prevent latch
+        up(REGFILE_WRITE_DATA) := 0 // not control signal, but initialize here to prevent latch
 
         when(IS_ADD) {
             BYPASS_MEMORY_ENABLE := True
@@ -116,6 +116,16 @@ case class MyTopLevel() extends Component {
             REGFILE_ADDR2 := 0
             ALU_OP := AluOp.or
             REGFILE_WRITE_ENABLE := True
+        }.elsewhen(IS_LUI) {
+            INSTRUCTION_TYPE := InstructionType.i
+
+            BYPASS_EXECUTE_ENABLE := True
+            BYPASS_MEMORY_ENABLE := True
+            BYPASS_REGFILE_WRITE_DATA_COMPONENT := BypassRegfileWriteDataComponent.Luc
+
+            REGFILE_ADDR1 := 0
+            REGFILE_ADDR2 := 0
+            REGFILE_WRITE_ENABLE := True
         }
     }
 
@@ -129,6 +139,12 @@ case class MyTopLevel() extends Component {
         REGFILE_VAL2 := (REGFILE_ADDR2 =/= 0) ?
             ((REGFILE_ADDR2 === write(REGFILE_WRITE_ADDR)) ? write(REGFILE_WRITE_DATA) | regfile(REGFILE_ADDR2)) |
             B(0, 32 bits)
+    }
+
+    val luc = new decode.Area {
+        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.Luc) {
+            decode.bypass(REGFILE_WRITE_DATA) := INSTRUCTION(15 downto 0) ## B(0, 16 bits)
+        }
     }
 
     val alu = new execute.Area {
