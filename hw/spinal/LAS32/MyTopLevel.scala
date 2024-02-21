@@ -11,6 +11,9 @@ case class MyTopLevel() extends Component {
         val regfile_write_data = out Bits (32 bits)
     }
 
+    // -----
+    // ----- stages
+    // -----
     val fetch, decode, execute, memory, write = CtrlLink()
 
     val f2d = StageLink(fetch.down, decode.up)
@@ -18,6 +21,9 @@ case class MyTopLevel() extends Component {
     val e2m = StageLink(execute.down, memory.up)
     val m2w = StageLink(memory.down, write.up)
 
+    // -----
+    // ----- signals
+    // -----
     val PC = Payload(UInt(32 bits))
     val INSTRUCTION = Payload(Bits(32 bits))
 
@@ -44,6 +50,9 @@ case class MyTopLevel() extends Component {
     val REGFILE_WRITE_ADDR = Payload(UInt(5 bits)) // control signal
     val REGFILE_WRITE_DATA = Payload(Bits(32 bits))
 
+    // -----
+    // ----- components
+    // -----
     val fetcher = new fetch.Area {
         val pc = Reg(PC) init (0x3000)
         pc := pc + 4
@@ -161,11 +170,17 @@ case class MyTopLevel() extends Component {
         }
     }
 
+    // -----
+    // ----- ios
+    // -----
     io.pc := write(PC)
     io.regfile_write_enable := write(REGFILE_WRITE_ENABLE)
     io.regfile_write_addr := write(REGFILE_WRITE_ADDR)
     io.regfile_write_data := write(REGFILE_WRITE_DATA)
 
+    // -----
+    // ----- build the pipeline
+    // -----
     Builder(
         fetch,
         decode,
