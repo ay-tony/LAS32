@@ -33,9 +33,15 @@ case class MyTopLevel() extends Component {
     val INSTRUCTION_TYPE = Payload(InstructionType()) // control signal
     val BYPASS_EXECUTE_ENABLE, BYPASS_MEMORY_ENABLE, BYPASS_WRITE_ENABLE = Payload(Bool()) // control signal
     object BypassRegfileWriteDataComponent extends SpinalEnum {
-        val Alu, Luc = newElement()
+        val Alu, Luc, Npc = newElement()
     }
     val BYPASS_REGFILE_WRITE_DATA_COMPONENT = Payload(BypassRegfileWriteDataComponent()) // control signal
+
+    object NpcOp extends SpinalEnum {
+        val pc4, imm26, regfile = newElement()
+    }
+    val NPC_OP = Payload(NpcOp()) // control signal
+    val NPC = Payload(UInt(32 bits))
 
     val REGFILE_ADDR1, REGFILE_ADDR2 = Payload(UInt(5 bits)) // control signal
     val REGFILE_VAL1, REGFILE_VAL2 = Payload(Bits(32 bits))
@@ -55,7 +61,7 @@ case class MyTopLevel() extends Component {
     // -----
     val fetcher = new fetch.Area {
         val pc = Reg(PC) init (0x3000)
-        pc := pc + 4
+        pc := decode(NPC)
         PC := pc
 
         val icache = Mem(Bits(32 bits), 0x8000)
@@ -77,6 +83,9 @@ case class MyTopLevel() extends Component {
 
         val IS_LUI = INSTRUCTION === M"00111100000---------------------"
         val IS_ORI = INSTRUCTION === M"001101--------------------------"
+        val IS_J = INSTRUCTION === M"000010--------------------------"
+        val IS_JAL = INSTRUCTION === M"000011--------------------------"
+        val IS_JR = INSTRUCTION === M"000000-----000000000000000001000"
 
         // default signals
         INSTRUCTION_TYPE := InstructionType.r
@@ -84,6 +93,7 @@ case class MyTopLevel() extends Component {
         BYPASS_MEMORY_ENABLE := False
         BYPASS_WRITE_ENABLE := True
         BYPASS_REGFILE_WRITE_DATA_COMPONENT := BypassRegfileWriteDataComponent.Alu
+        NPC_OP := NpcOp.pc4
         REGFILE_ADDR1 := U(INSTRUCTION(25 downto 21))
         REGFILE_ADDR2 := U(INSTRUCTION(20 downto 16))
         ALU_OP := AluOp.add
@@ -126,9 +136,33 @@ case class MyTopLevel() extends Component {
             REGFILE_ADDR1 := 0
             REGFILE_ADDR2 := 0
             REGFILE_WRITE_ENABLE := True
+        }.elsewhen(IS_J) {
+            INSTRUCTION_TYPE := InstructionType.j
+
+            NPC_OP := NpcOp.imm26
+            REGFILE_ADDR1 := 0
+            REGFILE_ADDR2 := 0
+        }.elsewhen(IS_JAL) {
+            INSTRUCTION_TYPE := InstructionType.j
+
+            BYPASS_EXECUTE_ENABLE := True
+            BYPASS_MEMORY_ENABLE := True
+            BYPASS_REGFILE_WRITE_DATA_COMPONENT := BypassRegfileWriteDataComponent.Npc
+
+            NPC_OP := NpcOp.imm26
+            REGFILE_ADDR1 := 0
+            REGFILE_ADDR2 := 0
+            REGFILE_WRITE_ADDR := 31
+            REGFILE_WRITE_ENABLE := True
+        }.elsewhen(IS_JR) {
+            INSTRUCTION_TYPE := InstructionType.j
+
+            NPC_OP := NpcOp.regfile
+            REGFILE_ADDR1 := 0
         }
     }
 
+    // general register file
     val regfile = new decode.Area {
         val regfile = Mem(Bits(32 bits), 32)
 
@@ -141,12 +175,31 @@ case class MyTopLevel() extends Component {
             B(0, 32 bits)
     }
 
+    // load upperbits component
     val luc = new decode.Area {
         when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.Luc) {
             decode.bypass(REGFILE_WRITE_DATA) := INSTRUCTION(15 downto 0) ## B(0, 16 bits)
         }
     }
 
+    // npc
+    val npc = new decode.Area {
+        when(NPC_OP === NpcOp.pc4) {
+            NPC := fetch(PC) + 4
+        }.elsewhen(NPC_OP === NpcOp.imm26) {
+            NPC := U(PC(31 downto 28) ## INSTRUCTION(25 downto 0) ## B(0, 2 bits))
+        }.elsewhen(NPC_OP === NpcOp.regfile) {
+            NPC := U(REGFILE_VAL1)
+        }.otherwise {
+            NPC := fetch(PC) + 4
+        }
+
+        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.Npc) {
+            decode.bypass(REGFILE_WRITE_DATA) := B(PC + 8)
+        }
+    }
+
+    // algorithm logical unit
     val alu = new execute.Area {
         val in1 = REGFILE_VAL1
         val in2 = (INSTRUCTION_TYPE === InstructionType.i) ? B(S(INSTRUCTION(15 downto 0), 32 bits)) | REGFILE_VAL2
@@ -164,6 +217,7 @@ case class MyTopLevel() extends Component {
         }
     }
 
+    // general register file - write stage
     val write_regfile = new write.Area {
         when(REGFILE_WRITE_ENABLE && REGFILE_WRITE_ADDR =/= 0) {
             regfile.regfile(REGFILE_WRITE_ADDR) := REGFILE_WRITE_DATA

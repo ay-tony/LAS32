@@ -17,6 +17,9 @@ object CpuSim extends App {
             def sub(rd: Int, rs: Int, rt: Int) = BigInt((0 << 26) | (rs << 21) | (rt << 16) | (rd << 11) | 0x22)
             def ori(rt: Int, rs: Int, imm: Int) = BigInt((0x0d << 26) | (rs << 21) | (rt << 16) | imm)
             def lui(rt: Int, imm: Int) = BigInt((0x0f << 26) | (rt << 16) | imm)
+            def j(imm: Int) = BigInt((0x02 << 26) | imm)
+            def jal(imm: Int) = BigInt((0x03 << 26) | imm)
+            def jr(rs: Int) = BigInt(rs << 21 | 0x08)
 
             val mem = dut.fetcher.icache
             mem.setBigInt(0x3000 / 4, addi(1, 0, 1))
@@ -27,10 +30,12 @@ object CpuSim extends App {
             mem.setBigInt(0x3014 / 4, sub(5, 0, 1))
             mem.setBigInt(0x3018 / 4, ori(6, 2, 0x1200))
             mem.setBigInt(0x301c / 4, lui(8, 0x1234))
-            mem.setBigInt(0x3020 / 4, ori(8, 8, 0x5678))
+            mem.setBigInt(0x3020 / 4, j(0x3000 / 4))
+            mem.setBigInt(0x3024 / 4, ori(8, 8, 0x5678))
 
             dut.clockDomain.forkStimulus(10)
 
+            dut.clockDomain.waitRisingEdge()
             dut.clockDomain.assertReset()
             dut.clockDomain.waitRisingEdge()
             dut.clockDomain.deassertReset()
