@@ -21,17 +21,25 @@ object CpuSim extends App {
             def jal(imm: Int) = BigInt((0x03 << 26) | imm)
             def jr(rs: Int) = BigInt(rs << 21 | 0x08)
 
+            val instructions = List(
+                lui(1, 0x1234),
+                ori(1, 1, 0x5678),
+                jal(0x301c),
+                nop(),
+                add(2, 2, 2),
+                j(0x3000),
+                nop(),
+                add(2, 1, 1),
+                jr(31),
+                nop()
+            )
+
             val mem = dut.fetcher.icache
-            mem.setBigInt(0x3000 / 4, addi(1, 0, 1))
-            mem.setBigInt(0x3004 / 4, addi(2, 0, 10))
-            mem.setBigInt(0x3008 / 4, add(3, 1, 2))
-            mem.setBigInt(0x300c / 4, nop())
-            mem.setBigInt(0x3010 / 4, sub(4, 3, 2))
-            mem.setBigInt(0x3014 / 4, sub(5, 0, 1))
-            mem.setBigInt(0x3018 / 4, ori(6, 2, 0x1200))
-            mem.setBigInt(0x301c / 4, lui(8, 0x1234))
-            mem.setBigInt(0x3020 / 4, j(0x3000 / 4))
-            mem.setBigInt(0x3024 / 4, ori(8, 8, 0x5678))
+            var addr = 0x3000
+            for (inst <- instructions) {
+                mem.setBigInt(addr / 4, inst)
+                addr += 4
+            }
 
             dut.clockDomain.forkStimulus(10)
 
