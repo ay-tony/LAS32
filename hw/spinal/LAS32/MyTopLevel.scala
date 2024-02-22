@@ -155,8 +155,6 @@ case class MyTopLevel() extends Component {
             REGFILE_WRITE_ADDR := 31
             REGFILE_WRITE_ENABLE := True
         }.elsewhen(IS_JR) {
-            INSTRUCTION_TYPE := InstructionType.j
-
             NPC_OP := NpcOp.regfile
             REGFILE_ADDR2 := 0
         }
