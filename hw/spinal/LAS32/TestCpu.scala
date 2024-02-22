@@ -17,6 +17,7 @@ object CpuSim extends App {
             def sub(rd: Int, rs: Int, rt: Int) = BigInt((0 << 26) | (rs << 21) | (rt << 16) | (rd << 11) | 0x22)
             def ori(rt: Int, rs: Int, imm: Int) = BigInt((0x0d << 26) | (rs << 21) | (rt << 16) | imm)
             def lui(rt: Int, imm: Int) = BigInt((0x0f << 26) | (rt << 16) | imm)
+            def beq(rs: Int, rt: Int, imm: Int) = BigInt((0x04 << 26) | (rs << 21) | (rt << 16) | imm)
             def j(imm: Int) = BigInt((0x02 << 26) | imm)
             def jal(imm: Int) = BigInt((0x03 << 26) | imm)
             def jr(rs: Int) = BigInt(rs << 21 | 0x08)
@@ -27,11 +28,21 @@ object CpuSim extends App {
                 jal(0x301c / 4),
                 nop(),
                 add(2, 2, 2),
-                j(0x3000 / 4),
+                j(0x3028 / 4),
                 nop(),
                 add(2, 1, 1),
                 jr(31),
-                nop()
+                nop(),
+                // for loop below
+                addi(1, 0, 0), // 0x3028: $1 = 0
+                addi(2, 0, 5), // 0x302c: $2 = 5
+                beq(1, 2, 4), // 0x3030:while $1 != $2 ( = 5)
+                nop(),
+                addi(1, 1, 1), // 0x3038: $1 ++
+                j(0x3030 / 4),
+                nop(),
+                // for loop end
+                addi(1, 0, 100)
             )
 
             val mem = dut.fetcher.icache
@@ -48,7 +59,7 @@ object CpuSim extends App {
             dut.clockDomain.waitRisingEdge()
             dut.clockDomain.deassertReset()
 
-            for (t <- 0 until 32) {
+            for (t <- 0 until 48) {
                 dut.clockDomain.waitRisingEdge()
                 val pc = dut.io.pc.toLong
                 val en = dut.io.regfile_write_enable.toBoolean

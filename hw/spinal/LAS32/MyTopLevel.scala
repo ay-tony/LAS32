@@ -85,7 +85,7 @@ case class MyTopLevel() extends Component {
 
         val IS_LUI = INSTRUCTION === M"00111100000---------------------"
         val IS_ORI = INSTRUCTION === M"001101--------------------------"
-        val IS_BEQ = INSTRUCTION === M"001000--------------------------"
+        val IS_BEQ = INSTRUCTION === M"000100--------------------------"
         val IS_J = INSTRUCTION === M"000010--------------------------"
         val IS_JAL = INSTRUCTION === M"000011--------------------------"
         val IS_JR = INSTRUCTION === M"000000-----000000000000000001000"
@@ -201,7 +201,7 @@ case class MyTopLevel() extends Component {
         }.elsewhen(NPC_OP === NpcOp.regfile) {
             NPC := U(REGFILE_VAL1)
         }.elsewhen(NPC_OP === NpcOp.imm16) {
-            NPC := fetch(PC) + U(INSTRUCTION(15 downto 0))
+            NPC := fetch(PC) + U(INSTRUCTION(15 downto 0) ## B(0, 2 bits))
         }.otherwise {
             NPC := fetch(PC) + 4
         }
