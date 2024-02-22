@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : MyTopLevel
-// Git hash  : cf8e0a406bde9e84c7dee4f68a598c98d960b7c2
+// Git hash  : 58e83e8668735d84bf9492add3c8032912ded5ca
 
 `timescale 1ns/1ps
 
@@ -565,10 +565,6 @@ module MyTopLevel (
               end else begin
                 if(decoder_IS_JAL) begin
                   decode_down_REGFILE_ADDR1 = 5'h00;
-                end else begin
-                  if(decoder_IS_JR) begin
-                    decode_down_REGFILE_ADDR1 = 5'h00;
-                  end
                 end
               end
             end
@@ -596,6 +592,10 @@ module MyTopLevel (
               end else begin
                 if(decoder_IS_JAL) begin
                   decode_down_REGFILE_ADDR2 = 5'h00;
+                end else begin
+                  if(decoder_IS_JR) begin
+                    decode_down_REGFILE_ADDR2 = 5'h00;
+                  end
                 end
               end
             end

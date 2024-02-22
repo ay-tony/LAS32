@@ -24,10 +24,10 @@ object CpuSim extends App {
             val instructions = List(
                 lui(1, 0x1234),
                 ori(1, 1, 0x5678),
-                jal(0x301c),
+                jal(0x301c / 4),
                 nop(),
                 add(2, 2, 2),
-                j(0x3000),
+                j(0x3000 / 4),
                 nop(),
                 add(2, 1, 1),
                 jr(31),

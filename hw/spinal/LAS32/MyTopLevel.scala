@@ -158,7 +158,7 @@ case class MyTopLevel() extends Component {
             INSTRUCTION_TYPE := InstructionType.j
 
             NPC_OP := NpcOp.regfile
-            REGFILE_ADDR1 := 0
+            REGFILE_ADDR2 := 0
         }
     }
 
