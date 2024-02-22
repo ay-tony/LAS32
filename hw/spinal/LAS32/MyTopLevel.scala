@@ -38,13 +38,15 @@ case class MyTopLevel() extends Component {
     val BYPASS_REGFILE_WRITE_DATA_COMPONENT = Payload(BypassRegfileWriteDataComponent()) // control signal
 
     object NpcOp extends SpinalEnum {
-        val pc4, imm26, regfile = newElement()
+        val pc4, imm26, regfile, imm16 = newElement()
     }
     val NPC_OP = Payload(NpcOp()) // control signal
     val NPC = Payload(UInt(32 bits))
 
     val REGFILE_ADDR1, REGFILE_ADDR2 = Payload(UInt(5 bits)) // control signal
     val REGFILE_VAL1, REGFILE_VAL2 = Payload(Bits(32 bits))
+
+    val REGFILE_VAL_EQUAL = Payload(Bool())
 
     object AluOp extends SpinalEnum {
         val add, sub, or = newElement()
@@ -83,6 +85,7 @@ case class MyTopLevel() extends Component {
 
         val IS_LUI = INSTRUCTION === M"00111100000---------------------"
         val IS_ORI = INSTRUCTION === M"001101--------------------------"
+        val IS_BEQ = INSTRUCTION === M"001000--------------------------"
         val IS_J = INSTRUCTION === M"000010--------------------------"
         val IS_JAL = INSTRUCTION === M"000011--------------------------"
         val IS_JR = INSTRUCTION === M"000000-----000000000000000001000"
@@ -157,6 +160,10 @@ case class MyTopLevel() extends Component {
         }.elsewhen(IS_JR) {
             NPC_OP := NpcOp.regfile
             REGFILE_ADDR2 := 0
+        }.elsewhen(IS_BEQ) {
+            INSTRUCTION_TYPE := InstructionType.i
+
+            NPC_OP := REGFILE_VAL_EQUAL ? NpcOp.imm16 | NpcOp.pc4
         }
     }
 
@@ -171,6 +178,11 @@ case class MyTopLevel() extends Component {
         REGFILE_VAL2 := (REGFILE_ADDR2 =/= 0) ?
             ((REGFILE_ADDR2 === write(REGFILE_WRITE_ADDR)) ? write(REGFILE_WRITE_DATA) | regfile(REGFILE_ADDR2)) |
             B(0, 32 bits)
+    }
+
+    // comparing component
+    val cmp = new decode.Area {
+        REGFILE_VAL_EQUAL := (REGFILE_VAL1 === REGFILE_VAL2)
     }
 
     // load upperbits component
@@ -188,6 +200,8 @@ case class MyTopLevel() extends Component {
             NPC := U(PC(31 downto 28) ## INSTRUCTION(25 downto 0) ## B(0, 2 bits))
         }.elsewhen(NPC_OP === NpcOp.regfile) {
             NPC := U(REGFILE_VAL1)
+        }.elsewhen(NPC_OP === NpcOp.imm16) {
+            NPC := fetch(PC) + U(INSTRUCTION(15 downto 0))
         }.otherwise {
             NPC := fetch(PC) + 4
         }
