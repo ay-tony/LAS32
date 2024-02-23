@@ -46,8 +46,10 @@ object CpuSim extends App {
                 // for loop end
                 addi(1, 0, 100),
                 sw(1, 0, 0), // 0x3048: $1 -> *0x0
-                lw(2, 0, 0), // *0x0 -> $2
-                addi(2, 2, 1)
+                lw(2, 0, 0), // 0x304c: *0x0 -> $2
+                addi(2, 2, 1), // 0x3050
+                nop(),
+                addi(2, 2, 0) // 0x3058
             )
 
             val mem = dut.fetcher.icache

@@ -65,7 +65,7 @@ case class MyTopLevel() extends Component {
     // -----
     val fetcher = new fetch.Area {
         val pc = Reg(PC) init (0x3000)
-        pc := decode(NPC)
+        pc := up.isFiring ? decode(NPC) | pc
         PC := pc
 
         val icache = Mem(Bits(32 bits), 0x8000)
@@ -250,7 +250,7 @@ case class MyTopLevel() extends Component {
     val mem = new memory.Area {
         val dcache = Mem(Bits(32 bits), 0x8000)
 
-        when(MEMORY_WRITE_ENABLE) {
+        when(MEMORY_WRITE_ENABLE && up.isFiring) {
             dcache(U(ALU_OUT(16 downto 2))) := REGFILE_VAL2
         }
 
@@ -261,7 +261,7 @@ case class MyTopLevel() extends Component {
 
     // general register file - write stage
     val write_regfile = new write.Area {
-        when(REGFILE_WRITE_ENABLE && REGFILE_WRITE_ADDR =/= 0) {
+        when(REGFILE_WRITE_ENABLE && REGFILE_WRITE_ADDR =/= 0 && up.isFiring) {
             regfile.regfile(REGFILE_WRITE_ADDR) := REGFILE_WRITE_DATA
         }
     }

@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : MyTopLevel
-// Git hash  : 64bde2dbaf7c979ef8d49d4f4dcf8aab0d2e6ebc
+// Git hash  : d11065cda1844a3b2613ef0a2a2b98ca55db87d8
 
 `timescale 1ns/1ps
 
@@ -46,6 +46,11 @@ module MyTopLevel (
   wire       [31:0]   _zz_execute_down_ALU_OUT_7;
   wire       [31:0]   _zz_execute_down_ALU_OUT_8;
   wire       [14:0]   _zz_mem_dcache_port;
+  wire                write_up_isReady;
+  wire                write_up_isValid;
+  wire                memory_up_isReady;
+  wire                fetch_up_isReady;
+  wire                fetch_up_isValid;
   wire                memory_down_isValid;
   wire                memory_up_isValid;
   wire                execute_down_isValid;
@@ -131,6 +136,7 @@ module MyTopLevel (
   wire                write_down_BYPASS_WRITE_ENABLE;
   wire       [4:0]    execute_down_REGFILE_ADDR1;
   reg                 _zz_1;
+  wire                write_up_isFiring;
   wire                write_down_REGFILE_WRITE_ENABLE;
   reg        [31:0]   memory_up_REGFILE_WRITE_DATA;
   wire       [31:0]   memory_down_REGFILE_WRITE_DATA;
@@ -139,6 +145,7 @@ module MyTopLevel (
   reg                 _zz_2;
   wire       [31:0]   memory_down_REGFILE_VAL2;
   wire       [31:0]   memory_down_ALU_OUT;
+  wire                memory_up_isFiring;
   wire                memory_down_MEMORY_WRITE_ENABLE;
   reg        [31:0]   execute_up_REGFILE_WRITE_DATA;
   wire       [31:0]   execute_down_REGFILE_WRITE_DATA;
@@ -175,6 +182,7 @@ module MyTopLevel (
   wire       [31:0]   fetch_down_INSTRUCTION;
   wire       [31:0]   fetch_down_PC;
   reg        [31:0]   decode_down_NPC;
+  wire                fetch_up_isFiring;
   reg        [31:0]   fetcher_pc;
   wire       [14:0]   _zz_fetch_down_INSTRUCTION;
   wire                decoder_IS_NOP;
@@ -207,6 +215,7 @@ module MyTopLevel (
   wire                when_MyTopLevel_l236;
   wire                when_MyTopLevel_l238;
   wire                when_MyTopLevel_l244;
+  wire                when_MyTopLevel_l253;
   wire                when_MyTopLevel_l257;
   wire       [14:0]   _zz_memory_REGFILE_WRITE_DATA_bypass;
   wire                when_MyTopLevel_l264;
@@ -537,7 +546,7 @@ module MyTopLevel (
 
   always @(*) begin
     _zz_2 = 1'b0;
-    if(memory_down_MEMORY_WRITE_ENABLE) begin
+    if(when_MyTopLevel_l253) begin
       _zz_2 = 1'b1;
     end
   end
@@ -948,9 +957,10 @@ module MyTopLevel (
 
   assign when_MyTopLevel_l238 = (execute_down_ALU_OP == AluOp_sub);
   assign when_MyTopLevel_l244 = (execute_down_BYPASS_REGFILE_WRITE_DATA_COMPONENT == BypassRegfileWriteDataComponent_alu);
+  assign when_MyTopLevel_l253 = (memory_down_MEMORY_WRITE_ENABLE && memory_up_isFiring);
   assign when_MyTopLevel_l257 = (memory_down_BYPASS_REGFILE_WRITE_DATA_COMPONENT == BypassRegfileWriteDataComponent_memory);
   assign _zz_memory_REGFILE_WRITE_DATA_bypass = memory_down_ALU_OUT[16 : 2];
-  assign when_MyTopLevel_l264 = (write_down_REGFILE_WRITE_ENABLE && (write_down_REGFILE_WRITE_ADDR != 5'h00));
+  assign when_MyTopLevel_l264 = ((write_down_REGFILE_WRITE_ENABLE && (write_down_REGFILE_WRITE_ADDR != 5'h00)) && write_up_isFiring);
   assign when_MyTopLevel_l271 = (execute_down_REGFILE_ADDR1 != 5'h00);
   assign when_MyTopLevel_l273 = (execute_down_REGFILE_ADDR1 == write_down_REGFILE_WRITE_ADDR);
   assign execute_haltRequest_MyTopLevel_l277 = _zz_execute_haltRequest_MyTopLevel_l277;
@@ -1057,6 +1067,9 @@ module MyTopLevel (
   end
 
   assign when_StageLink_l67_2 = (! memory_up_isValid);
+  assign fetch_up_isFiring = (fetch_up_isValid && fetch_up_isReady);
+  assign fetch_up_isValid = 1'b1;
+  assign fetch_up_isReady = fetch_up_ready;
   assign fetch_down_isReady = fetch_down_ready;
   assign decode_up_isValid = 1'b1;
   assign decode_down_isValid = 1'b1;
@@ -1064,9 +1077,14 @@ module MyTopLevel (
   assign execute_up_isValid = execute_up_valid;
   assign execute_down_isValid = execute_down_valid;
   assign execute_down_isReady = execute_down_ready;
+  assign memory_up_isFiring = (memory_up_isValid && memory_up_isReady);
   assign memory_up_isValid = memory_up_valid;
+  assign memory_up_isReady = memory_up_ready;
   assign memory_down_isValid = memory_down_valid;
   assign memory_down_isReady = 1'b1;
+  assign write_up_isFiring = (write_up_isValid && write_up_isReady);
+  assign write_up_isValid = write_up_valid;
+  assign write_up_isReady = 1'b1;
   always @(posedge clk) begin
     if(reset) begin
       fetcher_pc <= 32'h00003000;
@@ -1074,7 +1092,7 @@ module MyTopLevel (
       memory_up_valid <= 1'b0;
       write_up_valid <= 1'b0;
     end else begin
-      fetcher_pc <= decode_down_NPC;
+      fetcher_pc <= (fetch_up_isFiring ? decode_down_NPC : fetcher_pc);
       if(decode_down_isReady) begin
         execute_up_valid <= decode_down_isValid;
       end
