@@ -33,7 +33,7 @@ case class MyTopLevel() extends Component {
     val INSTRUCTION_TYPE = Payload(InstructionType()) // control signal
     val BYPASS_EXECUTE_ENABLE, BYPASS_MEMORY_ENABLE, BYPASS_WRITE_ENABLE = Payload(Bool()) // control signal
     object BypassRegfileWriteDataComponent extends SpinalEnum {
-        val Alu, Luc, Npc = newElement()
+        val alu, luc, npc, memory = newElement()
     }
     val BYPASS_REGFILE_WRITE_DATA_COMPONENT = Payload(BypassRegfileWriteDataComponent()) // control signal
 
@@ -53,6 +53,8 @@ case class MyTopLevel() extends Component {
     }
     val ALU_OP = Payload(AluOp()) // control signal
     val ALU_OUT = Payload(Bits(32 bits))
+
+    val MEMORY_WRITE_ENABLE = Payload(Bool()) // control signal
 
     val REGFILE_WRITE_ENABLE = Payload(Bool()) // control signal
     val REGFILE_WRITE_ADDR = Payload(UInt(5 bits)) // control signal
@@ -89,17 +91,20 @@ case class MyTopLevel() extends Component {
         val IS_J = INSTRUCTION === M"000010--------------------------"
         val IS_JAL = INSTRUCTION === M"000011--------------------------"
         val IS_JR = INSTRUCTION === M"000000-----000000000000000001000"
+        val IS_LW = INSTRUCTION === M"010011--------------------------"
+        val IS_SW = INSTRUCTION === M"011011--------------------------"
 
         // default signals
         INSTRUCTION_TYPE := InstructionType.r
         BYPASS_EXECUTE_ENABLE := False
         BYPASS_MEMORY_ENABLE := False
         BYPASS_WRITE_ENABLE := True
-        BYPASS_REGFILE_WRITE_DATA_COMPONENT := BypassRegfileWriteDataComponent.Alu
+        BYPASS_REGFILE_WRITE_DATA_COMPONENT := BypassRegfileWriteDataComponent.alu
         NPC_OP := NpcOp.pc4
         REGFILE_ADDR1 := U(INSTRUCTION(25 downto 21))
         REGFILE_ADDR2 := U(INSTRUCTION(20 downto 16))
         ALU_OP := AluOp.add
+        MEMORY_WRITE_ENABLE := False
         REGFILE_WRITE_ENABLE := False
         REGFILE_WRITE_ADDR :=
             (INSTRUCTION_TYPE === InstructionType.r) ? U(INSTRUCTION(15 downto 11)) | U(INSTRUCTION(20 downto 16))
@@ -134,7 +139,7 @@ case class MyTopLevel() extends Component {
 
             BYPASS_EXECUTE_ENABLE := True
             BYPASS_MEMORY_ENABLE := True
-            BYPASS_REGFILE_WRITE_DATA_COMPONENT := BypassRegfileWriteDataComponent.Luc
+            BYPASS_REGFILE_WRITE_DATA_COMPONENT := BypassRegfileWriteDataComponent.luc
 
             REGFILE_ADDR1 := 0
             REGFILE_ADDR2 := 0
@@ -150,7 +155,7 @@ case class MyTopLevel() extends Component {
 
             BYPASS_EXECUTE_ENABLE := True
             BYPASS_MEMORY_ENABLE := True
-            BYPASS_REGFILE_WRITE_DATA_COMPONENT := BypassRegfileWriteDataComponent.Npc
+            BYPASS_REGFILE_WRITE_DATA_COMPONENT := BypassRegfileWriteDataComponent.npc
 
             NPC_OP := NpcOp.imm26
             REGFILE_ADDR1 := 0
@@ -164,6 +169,18 @@ case class MyTopLevel() extends Component {
             INSTRUCTION_TYPE := InstructionType.i
 
             NPC_OP := REGFILE_VAL_EQUAL ? NpcOp.imm16 | NpcOp.pc4
+        }.elsewhen(IS_LW) {
+            INSTRUCTION_TYPE := InstructionType.i
+
+            BYPASS_REGFILE_WRITE_DATA_COMPONENT := BypassRegfileWriteDataComponent.memory
+
+            REGFILE_ADDR2 := 0
+            REGFILE_WRITE_ENABLE := True
+        }.elsewhen(IS_SW) {
+            INSTRUCTION_TYPE := InstructionType.i
+
+            REGFILE_WRITE_ADDR := 0
+            MEMORY_WRITE_ENABLE := True
         }
     }
 
@@ -187,7 +204,7 @@ case class MyTopLevel() extends Component {
 
     // load upperbits component
     val luc = new decode.Area {
-        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.Luc) {
+        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.luc) {
             decode.bypass(REGFILE_WRITE_DATA) := INSTRUCTION(15 downto 0) ## B(0, 16 bits)
         }
     }
@@ -206,7 +223,7 @@ case class MyTopLevel() extends Component {
             NPC := fetch(PC) + 4
         }
 
-        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.Npc) {
+        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.npc) {
             decode.bypass(REGFILE_WRITE_DATA) := B(PC + 8)
         }
     }
@@ -224,8 +241,21 @@ case class MyTopLevel() extends Component {
             ALU_OUT := B(S(in1) + S(in2))
         }
 
-        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.Alu) {
+        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.alu) {
             execute.bypass(REGFILE_WRITE_DATA) := ALU_OUT
+        }
+    }
+
+    // memory
+    val mem = new memory.Area {
+        val dcache = Mem(Bits(32 bits), 0x8000)
+
+        when(MEMORY_WRITE_ENABLE) {
+            dcache(U(ALU_OUT(16 downto 2))) := REGFILE_VAL2
+        }
+
+        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.memory) {
+            memory.bypass(REGFILE_WRITE_DATA) := dcache(U(ALU_OUT(16 downto 2)))
         }
     }
 
@@ -241,7 +271,7 @@ case class MyTopLevel() extends Component {
         when(execute(REGFILE_ADDR1) =/= 0) {
             // stages are iterated reversely to guarentee that novel generations are preserved
             when(execute(REGFILE_ADDR1) === write(REGFILE_WRITE_ADDR)) {
-                when(memory(BYPASS_WRITE_ENABLE)) {
+                when(write(BYPASS_WRITE_ENABLE)) {
                     execute.bypass(REGFILE_VAL1) := write(REGFILE_WRITE_DATA)
                 }.otherwise {
                     execute.haltIt()
@@ -258,7 +288,7 @@ case class MyTopLevel() extends Component {
         when(execute(REGFILE_ADDR2) =/= 0) {
             // stages are iterated reversely to guarentee that novel generations are preserved
             when(execute(REGFILE_ADDR2) === write(REGFILE_WRITE_ADDR)) {
-                when(memory(BYPASS_WRITE_ENABLE)) {
+                when(write(BYPASS_WRITE_ENABLE)) {
                     execute.bypass(REGFILE_VAL2) := write(REGFILE_WRITE_DATA)
                 }.otherwise {
                     execute.haltIt()
@@ -269,6 +299,26 @@ case class MyTopLevel() extends Component {
                     execute.bypass(REGFILE_VAL2) := memory(REGFILE_WRITE_DATA)
                 }.otherwise {
                     execute.haltIt()
+                }
+            }
+        }
+
+        // memory stage
+        when(memory(REGFILE_ADDR1) =/= 0) {
+            when(memory(REGFILE_ADDR1) === write(REGFILE_WRITE_ADDR)) {
+                when(write(BYPASS_WRITE_ENABLE)) {
+                    memory.bypass(REGFILE_VAL1) := write(REGFILE_WRITE_DATA)
+                }.otherwise {
+                    memory.haltIt()
+                }
+            }
+        }
+        when(memory(REGFILE_ADDR2) =/= 0) {
+            when(memory(REGFILE_ADDR2) === write(REGFILE_WRITE_ADDR)) {
+                when(write(BYPASS_WRITE_ENABLE)) {
+                    memory.bypass(REGFILE_VAL2) := write(REGFILE_WRITE_DATA)
+                }.otherwise {
+                    memory.haltIt()
                 }
             }
         }

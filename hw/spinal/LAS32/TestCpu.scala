@@ -21,6 +21,8 @@ object CpuSim extends App {
             def j(imm: Int) = BigInt((0x02 << 26) | imm)
             def jal(imm: Int) = BigInt((0x03 << 26) | imm)
             def jr(rs: Int) = BigInt(rs << 21 | 0x08)
+            def lw(rt: Int, offset: Int, base: Int) = BigInt((0x13 << 26) | (base << 21) | (rt << 16) | offset)
+            def sw(rt: Int, offset: Int, base: Int) = BigInt((0x1b << 26) | (base << 21) | (rt << 16) | offset)
 
             val instructions = List(
                 lui(1, 0x1234),
@@ -42,7 +44,10 @@ object CpuSim extends App {
                 j(0x3030 / 4),
                 nop(),
                 // for loop end
-                addi(1, 0, 100)
+                addi(1, 0, 100),
+                sw(1, 0, 0), // 0x3048: $1 -> *0x0
+                lw(2, 0, 0), // *0x0 -> $2
+                addi(2, 2, 1)
             )
 
             val mem = dut.fetcher.icache
@@ -59,7 +64,7 @@ object CpuSim extends App {
             dut.clockDomain.waitRisingEdge()
             dut.clockDomain.deassertReset()
 
-            for (t <- 0 until 48) {
+            for (t <- 0 until 64) {
                 dut.clockDomain.waitRisingEdge()
                 val pc = dut.io.pc.toLong
                 val en = dut.io.regfile_write_enable.toBoolean
