@@ -91,8 +91,8 @@ case class MyTopLevel() extends Component {
         val IS_J = INSTRUCTION === M"000010--------------------------"
         val IS_JAL = INSTRUCTION === M"000011--------------------------"
         val IS_JR = INSTRUCTION === M"000000-----000000000000000001000"
-        val IS_LW = INSTRUCTION === M"010011--------------------------"
-        val IS_SW = INSTRUCTION === M"011011--------------------------"
+        val IS_LW = INSTRUCTION === M"100011--------------------------"
+        val IS_SW = INSTRUCTION === M"101011--------------------------"
 
         // default signals
         INSTRUCTION_TYPE := InstructionType.r
