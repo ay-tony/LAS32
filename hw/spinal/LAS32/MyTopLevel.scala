@@ -24,38 +24,49 @@ case class MyTopLevel() extends Component {
     // -----
     // ----- signals
     // -----
+
+    // base
     val PC = Payload(UInt(32 bits))
     val INSTRUCTION = Payload(Bits(32 bits))
 
+    // instruction
     object InstructionType extends SpinalEnum {
         val r, i, j = newElement()
     }
     val INSTRUCTION_TYPE = Payload(InstructionType()) // control signal
+
+    // bypass
     val BYPASS_EXECUTE_ENABLE, BYPASS_MEMORY_ENABLE, BYPASS_WRITE_ENABLE = Payload(Bool()) // control signal
     object BypassRegfileWriteDataComponent extends SpinalEnum {
         val alu, luc, npc, memory = newElement()
     }
     val BYPASS_REGFILE_WRITE_DATA_COMPONENT = Payload(BypassRegfileWriteDataComponent()) // control signal
 
+    // npc
     object NpcOp extends SpinalEnum {
         val pc4, imm26, regfile, imm16 = newElement()
     }
     val NPC_OP = Payload(NpcOp()) // control signal
     val NPC = Payload(UInt(32 bits))
 
+    // regfile read
     val REGFILE_ADDR1, REGFILE_ADDR2 = Payload(UInt(5 bits)) // control signal
     val REGFILE_VAL1, REGFILE_VAL2 = Payload(Bits(32 bits))
 
+    // cmp
     val REGFILE_VAL_EQUAL = Payload(Bool())
 
+    // alu
     object AluOp extends SpinalEnum {
         val add, sub, or = newElement()
     }
     val ALU_OP = Payload(AluOp()) // control signal
     val ALU_OUT = Payload(Bits(32 bits))
 
+    // memory
     val MEMORY_WRITE_ENABLE = Payload(Bool()) // control signal
 
+    // regfile write
     val REGFILE_WRITE_ENABLE = Payload(Bool()) // control signal
     val REGFILE_WRITE_ADDR = Payload(UInt(5 bits)) // control signal
     val REGFILE_WRITE_DATA = Payload(Bits(32 bits))
