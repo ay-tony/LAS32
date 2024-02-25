@@ -249,7 +249,7 @@ case class MyTopLevel() extends Component {
             ALU_OUT := B(S(in1) + S(in2))
         }
 
-        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.alu) {
+        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.alu && isValid) {
             execute.bypass(REGFILE_WRITE_DATA) := ALU_OUT
         }
     }
@@ -262,30 +262,30 @@ case class MyTopLevel() extends Component {
             dcache(U(ALU_OUT(16 downto 2))) := REGFILE_VAL2
         }
 
-        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.memory) {
+        when(BYPASS_REGFILE_WRITE_DATA_COMPONENT === BypassRegfileWriteDataComponent.memory && isValid) {
             memory.bypass(REGFILE_WRITE_DATA) := dcache(U(ALU_OUT(16 downto 2)))
         }
     }
 
     // general register file - write stage
     val write_regfile = new write.Area {
-        when(REGFILE_WRITE_ENABLE && REGFILE_WRITE_ADDR =/= 0 && up.isFiring) {
+        when(REGFILE_WRITE_ENABLE && REGFILE_WRITE_ADDR =/= 0 && up.isFiring && isValid) {
             regfile.regfile(REGFILE_WRITE_ADDR) := REGFILE_WRITE_DATA
         }
     }
 
     val hazard = new Area {
         // execute stage
-        when(execute(REGFILE_ADDR1) =/= 0) {
+        when(execute(REGFILE_ADDR1) =/= 0 && execute.isValid) {
             // stages are iterated reversely to guarentee that novel generations are preserved
-            when(execute(REGFILE_ADDR1) === write(REGFILE_WRITE_ADDR)) {
+            when(execute(REGFILE_ADDR1) === write(REGFILE_WRITE_ADDR) && write.isValid) {
                 when(write(BYPASS_WRITE_ENABLE)) {
                     execute.bypass(REGFILE_VAL1) := write(REGFILE_WRITE_DATA)
                 }.otherwise {
                     execute.haltIt()
                 }
             }
-            when(execute(REGFILE_ADDR1) === memory(REGFILE_WRITE_ADDR)) {
+            when(execute(REGFILE_ADDR1) === memory(REGFILE_WRITE_ADDR) && memory.isValid) {
                 when(memory(BYPASS_MEMORY_ENABLE)) {
                     execute.bypass(REGFILE_VAL1) := memory(REGFILE_WRITE_DATA)
                 }.otherwise {
@@ -293,16 +293,16 @@ case class MyTopLevel() extends Component {
                 }
             }
         }
-        when(execute(REGFILE_ADDR2) =/= 0) {
+        when(execute(REGFILE_ADDR2) =/= 0 && execute.isValid) {
             // stages are iterated reversely to guarentee that novel generations are preserved
-            when(execute(REGFILE_ADDR2) === write(REGFILE_WRITE_ADDR)) {
+            when(execute(REGFILE_ADDR2) === write(REGFILE_WRITE_ADDR) && write.isValid) {
                 when(write(BYPASS_WRITE_ENABLE)) {
                     execute.bypass(REGFILE_VAL2) := write(REGFILE_WRITE_DATA)
                 }.otherwise {
                     execute.haltIt()
                 }
             }
-            when(execute(REGFILE_ADDR2) === memory(REGFILE_WRITE_ADDR)) {
+            when(execute(REGFILE_ADDR2) === memory(REGFILE_WRITE_ADDR) && memory.isValid) {
                 when(memory(BYPASS_MEMORY_ENABLE)) {
                     execute.bypass(REGFILE_VAL2) := memory(REGFILE_WRITE_DATA)
                 }.otherwise {
@@ -312,8 +312,8 @@ case class MyTopLevel() extends Component {
         }
 
         // memory stage
-        when(memory(REGFILE_ADDR1) =/= 0) {
-            when(memory(REGFILE_ADDR1) === write(REGFILE_WRITE_ADDR)) {
+        when(memory(REGFILE_ADDR1) =/= 0 && memory.isValid) {
+            when(memory(REGFILE_ADDR1) === write(REGFILE_WRITE_ADDR) && write.isValid) {
                 when(write(BYPASS_WRITE_ENABLE)) {
                     memory.bypass(REGFILE_VAL1) := write(REGFILE_WRITE_DATA)
                 }.otherwise {
@@ -321,8 +321,8 @@ case class MyTopLevel() extends Component {
                 }
             }
         }
-        when(memory(REGFILE_ADDR2) =/= 0) {
-            when(memory(REGFILE_ADDR2) === write(REGFILE_WRITE_ADDR)) {
+        when(memory(REGFILE_ADDR2) =/= 0 && memory.isValid) {
+            when(memory(REGFILE_ADDR2) === write(REGFILE_WRITE_ADDR) && write.isValid) {
                 when(write(BYPASS_WRITE_ENABLE)) {
                     memory.bypass(REGFILE_VAL2) := write(REGFILE_WRITE_DATA)
                 }.otherwise {

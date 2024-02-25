@@ -62,6 +62,8 @@ object CpuSim extends App {
             dut.clockDomain.forkStimulus(10)
 
             dut.clockDomain.waitRisingEdge()
+            dut.clockDomain.waitRisingEdge()
+            dut.clockDomain.waitRisingEdge()
             dut.clockDomain.assertReset()
             dut.clockDomain.waitRisingEdge()
             dut.clockDomain.deassertReset()
