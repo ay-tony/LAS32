@@ -147,6 +147,8 @@ case class MyTopLevel() extends Component {
         }.elsewhen(IS_J) {
             INSTRUCTION_TYPE := InstructionType.j
 
+            BYPASS_WRITE_ENABLE := False
+
             NPC_OP := NpcOp.imm26
             REGFILE_ADDR1 := 0
             REGFILE_ADDR2 := 0
@@ -163,10 +165,14 @@ case class MyTopLevel() extends Component {
             REGFILE_WRITE_ADDR := 31
             REGFILE_WRITE_ENABLE := True
         }.elsewhen(IS_JR) {
+            BYPASS_WRITE_ENABLE := False
+
             NPC_OP := NpcOp.regfile
             REGFILE_ADDR2 := 0
         }.elsewhen(IS_BEQ) {
             INSTRUCTION_TYPE := InstructionType.i
+
+            BYPASS_WRITE_ENABLE := False
 
             NPC_OP := REGFILE_VAL_EQUAL ? NpcOp.imm16 | NpcOp.pc4
         }.elsewhen(IS_LW) {
@@ -178,6 +184,8 @@ case class MyTopLevel() extends Component {
             REGFILE_WRITE_ENABLE := True
         }.elsewhen(IS_SW) {
             INSTRUCTION_TYPE := InstructionType.i
+
+            BYPASS_WRITE_ENABLE := False
 
             REGFILE_WRITE_ADDR := 0
             MEMORY_WRITE_ENABLE := True
