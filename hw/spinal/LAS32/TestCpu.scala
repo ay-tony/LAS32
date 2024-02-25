@@ -21,8 +21,8 @@ object CpuSim extends App {
             def j(imm: Int) = BigInt((0x02 << 26) | imm)
             def jal(imm: Int) = BigInt((0x03 << 26) | imm)
             def jr(rs: Int) = BigInt(rs << 21 | 0x08)
-            def lw(rt: Int, offset: Int, base: Int) = BigInt((0x23 << 26) | (base << 21) | (rt << 16) | offset)
-            def sw(rt: Int, offset: Int, base: Int) = BigInt((0x2b << 26) | (base << 21) | (rt << 16) | offset)
+            def lw(rt: Int, offset: Int, base: Int) = BigInt((0x23L << 26) | (base << 21) | (rt << 16) | offset)
+            def sw(rt: Int, offset: Int, base: Int) = BigInt((0x2bL << 26) | (base << 21) | (rt << 16) | offset)
 
             val instructions = List(
                 lui(1, 0x1234),
