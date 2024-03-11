@@ -5,15 +5,16 @@ import spinal.lib.misc.pipeline._
 import LAS32._
 
 class DebugBus(stageIndex: Int) extends Plugin {
+    val debugBus = new Bundle {
+        val pc = out UInt (32 bits)
+        val regfileWriteEnable = out Bool ()
+        val regfileWriteAddr = out UInt (5 bits)
+        val regfileWriteVal = out Bits (32 bits)
+    }
+
     override def register(pipeline: Pipeline): Unit = {}
 
     override def build(pipeline: Pipeline): Unit = {
-        val debugBus = new Bundle {
-            val pc = out UInt (32 bits)
-            val regfileWriteEnable = out Bool ()
-            val regfileWriteAddr = out UInt (5 bits)
-            val regfileWriteVal = out Bits (32 bits)
-        }
 
         val fetcher = pipeline.getPlugin(classOf[Fetcher])
         import fetcher.PC

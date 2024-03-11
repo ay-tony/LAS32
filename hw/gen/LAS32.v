@@ -1,14 +1,14 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : b6d8a9b91c4ed85b96777dd3bada8e602e542f05
+// Git hash  : 73fc1c201d718ba3a67ef6c06b15877cec21aed6
 
 `timescale 1ns/1ps
 
 module LAS32 (
-  output wire [31:0]   _zz_23,
-  output wire          _zz_24,
-  output wire [4:0]    _zz_25,
-  output wire [31:0]   _zz_26,
+  output wire [31:0]   _zz_17,
+  output wire          _zz_18,
+  output wire [4:0]    _zz_19,
+  output wire [31:0]   _zz_20,
   input  wire          clk,
   input  wire          reset
 );
@@ -17,9 +17,9 @@ module LAS32 (
   localparam AluOp_or_1 = 2'd2;
 
   wire       [31:0]   _zz__zz_16_port0;
-  wire       [31:0]   _zz__zz_18_port1;
-  wire       [31:0]   _zz__zz_18_port2;
-  wire       [31:0]   _zz__zz_22;
+  wire       [31:0]   _zz__zz_22_port1;
+  wire       [31:0]   _zz__zz_22_port2;
+  wire       [31:0]   _zz__zz_26;
   wire                write_up_isReady;
   reg        [31:0]   _zz_1;
   reg        [4:0]    _zz_when_RegisterFile_l35;
@@ -54,7 +54,7 @@ module LAS32 (
   wire       [14:0]   _zz_when_Decoder_l40_4;
   wire                when_Decoder_l40;
   wire                when_RegisterFile_l35;
-  reg        [31:0]   _zz_22;
+  reg        [31:0]   _zz_26;
   `ifndef SYNTHESIS
   reg [31:0] _zz_7_string;
   reg [31:0] _zz_10_string;
@@ -62,18 +62,18 @@ module LAS32 (
   `endif
 
   reg [31:0] _zz_16 [0:32767];
-  (* ram_style = "distributed" *) reg [31:0] _zz_18 [0:31];
+  (* ram_style = "distributed" *) reg [31:0] _zz_22 [0:31];
 
-  assign _zz__zz_22 = (_zz_6 + _zz_5);
+  assign _zz__zz_26 = (_zz_6 + _zz_5);
   assign _zz__zz_16_port0 = _zz_16[_zz_when_Decoder_l40_4];
   always @(posedge clk) begin
     if(_zz_11) begin
-      _zz_18[_zz_when_RegisterFile_l35_6] <= _zz_12;
+      _zz_22[_zz_when_RegisterFile_l35_6] <= _zz_12;
     end
   end
 
-  assign _zz__zz_18_port1 = _zz_18[_zz_15];
-  assign _zz__zz_18_port2 = _zz_18[_zz_14];
+  assign _zz__zz_22_port1 = _zz_22[_zz_15];
+  assign _zz__zz_22_port2 = _zz_22[_zz_14];
   `ifndef SYNTHESIS
   always @(*) begin
     case(_zz_7)
@@ -131,18 +131,18 @@ module LAS32 (
   always @(*) begin
     case(_zz_10)
       AluOp_add : begin
-        _zz_22 = _zz__zz_22;
+        _zz_26 = _zz__zz_26;
       end
       default : begin
-        _zz_22 = 32'h00000000;
+        _zz_26 = 32'h00000000;
       end
     endcase
   end
 
-  assign _zz_23 = _zz_2;
-  assign _zz_24 = _zz_when_RegisterFile_l35_7;
-  assign _zz_25 = _zz_when_RegisterFile_l35_6;
-  assign _zz_26 = _zz_12;
+  assign _zz_17 = _zz_2;
+  assign _zz_18 = _zz_when_RegisterFile_l35_7;
+  assign _zz_19 = _zz_when_RegisterFile_l35_6;
+  assign _zz_20 = _zz_12;
   assign _zz_when_Decoder_l40_1 = _zz_when_Decoder_l40;
   assign _zz_10 = _zz_7;
   assign _zz_when_RegisterFile_l35_7 = _zz_when_RegisterFile_l35_1;
@@ -166,12 +166,12 @@ module LAS32 (
     _zz_when_RegisterFile_l35_5 <= _zz_when_RegisterFile_l35_8;
     _zz_when_RegisterFile_l35_4 <= _zz_when_Decoder_l40_1[4 : 0];
     _zz_7 <= _zz_13;
-    _zz_6 <= ((_zz_15 != 5'h00) ? ((_zz_15 == _zz_when_RegisterFile_l35_6) ? _zz_12 : _zz__zz_18_port1) : 32'h00000000);
-    _zz_5 <= ((_zz_14 != 5'h00) ? ((_zz_14 == _zz_when_RegisterFile_l35_6) ? _zz_12 : _zz__zz_18_port2) : 32'h00000000);
+    _zz_6 <= ((_zz_15 != 5'h00) ? ((_zz_15 == _zz_when_RegisterFile_l35_6) ? _zz_12 : _zz__zz_22_port1) : 32'h00000000);
+    _zz_5 <= ((_zz_14 != 5'h00) ? ((_zz_14 == _zz_when_RegisterFile_l35_6) ? _zz_12 : _zz__zz_22_port2) : 32'h00000000);
     _zz_4 <= _zz_8;
     _zz_when_RegisterFile_l35_3 <= _zz_when_RegisterFile_l35_5;
     _zz_when_RegisterFile_l35_2 <= _zz_when_RegisterFile_l35_4;
-    _zz_3 <= _zz_22;
+    _zz_3 <= _zz_26;
     _zz_2 <= _zz_4;
     _zz_when_RegisterFile_l35_1 <= _zz_when_RegisterFile_l35_3;
     _zz_when_RegisterFile_l35 <= _zz_when_RegisterFile_l35_2;
