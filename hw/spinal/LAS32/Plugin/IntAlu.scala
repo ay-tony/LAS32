@@ -30,6 +30,17 @@ class IntAlu(stageIndex: Int) extends Plugin {
                 REGFILE_WRITE_ENABLE -> True
             )
         )
+
+        // SUB.W
+        decoderService.addInstruction(
+            M"00000000000100010---------------",
+            List(
+                ALU_OP -> AluOp.sub(),
+                REGFILE_VAL1_ENABLE -> True,
+                REGFILE_VAL2_ENABLE -> True,
+                REGFILE_WRITE_ENABLE -> True
+            )
+        )
     }
 
     override def build(pipeline: Pipeline) = {
@@ -43,6 +54,7 @@ class IntAlu(stageIndex: Int) extends Plugin {
         new stage.Area {
             ALU_OUT := ALU_OP.mux(
                 AluOp.add -> B(U(in1) + U(in2)),
+                AluOp.sub -> B(U(in1) - U(in2)),
                 default -> B(0)
             )
             REGFILE_WRITE_VAL := ALU_OUT
