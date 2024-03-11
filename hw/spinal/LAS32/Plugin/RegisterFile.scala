@@ -16,6 +16,8 @@ class RegisterFile(readStageIndex: Int, writeStageIndex: Int) extends Plugin {
     val REGFILE_WRITE_ADDR = Payload(UInt(5 bits)) // control signal
     val REGFILE_WRITE_VAL = Payload(Bits(32 bits))
 
+    val regfile = Mem(Bits(32 bits), 32)
+
     override def register(pipeline: Pipeline): Unit = {
         val decoderService = pipeline.getService(classOf[DecoderService])
 
@@ -28,8 +30,6 @@ class RegisterFile(readStageIndex: Int, writeStageIndex: Int) extends Plugin {
     }
 
     override def build(pipeline: Pipeline): Unit = {
-        val regfile = Mem(Bits(32 bits), 32)
-
         val writeStage = pipeline.stages(writeStageIndex)
         new writeStage.Area {
             when(REGFILE_WRITE_ENABLE && REGFILE_WRITE_ADDR =/= 0 && up.isFiring && isValid) {

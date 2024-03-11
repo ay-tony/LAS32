@@ -15,7 +15,6 @@ class DebugBus(stageIndex: Int) extends Plugin {
     override def register(pipeline: Pipeline): Unit = {}
 
     override def build(pipeline: Pipeline): Unit = {
-
         val fetcher = pipeline.getPlugin(classOf[Fetcher])
         import fetcher.PC
 

@@ -15,7 +15,7 @@ class Fetcher(stageIndex: Int) extends Plugin {
 
     override def build(pipeline: Pipeline): Unit = {
         val stage = pipeline.stages(stageIndex)
-        val fetcher = new stage.Area {
+        new stage.Area {
             pc := pc + 4
             PC := pc
 
