@@ -15,3 +15,12 @@
     [ALU_OP], [IntAlu], [AluOp], [AluOp.add],
     [ALU_OUT], [IntAlu], [Bits(32 bits)], [],
 )
+
+- ADD.W
+#table(
+  columns: 2,
+  [ALU_OP], [AluOp.add],
+  [REGFILE_VAL1_ENABLE], [True],
+  [REGFILE_VAL2_ENABLE], [True],
+  [REGFILE_WRITE_ENABLE], [True]
+)
