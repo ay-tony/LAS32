@@ -19,14 +19,14 @@ class DebugBus(stageIndex: Int) extends Plugin {
         import fetcher.PC
 
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
-        import registerFile.{REGFILE_WRITE_ENABLE, REGFILE_WRITE_VAL, REGFILE_WRITE_ADDR}
+        import registerFile.{REGFILE_RD_ENABLE, REGFILE_RD_ADDR, REGFILE_RD}
 
         val stage = pipeline.stages(stageIndex)
         new stage.Area {
             debugBus.pc := PC
-            debugBus.regfileWriteEnable := REGFILE_WRITE_ENABLE
-            debugBus.regfileWriteAddr := REGFILE_WRITE_ADDR
-            debugBus.regfileWriteVal := REGFILE_WRITE_VAL
+            debugBus.regfileWriteEnable := REGFILE_RD_ENABLE
+            debugBus.regfileWriteAddr := REGFILE_RD_ADDR
+            debugBus.regfileWriteVal := REGFILE_RD
         }
     }
 }
