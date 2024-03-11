@@ -7,11 +7,11 @@ import LAS32._
 class IntAlu(stageIndex: Int) extends Plugin {
 
     object AluOp extends SpinalEnum {
-        val add, sub, or = newElement()
+        val add, sub, or, src2 = newElement()
     }
     val ALU_OP = Payload(AluOp()) // control signal
     object AluSrc2 extends SpinalEnum {
-        val rk, si12 = newElement()
+        val rk, si12, si20 = newElement()
     }
     val ALU_SRC2 = Payload(AluSrc2()) // control signal
     val ALU_OUT = Payload(Bits(32 bits))
@@ -29,12 +29,13 @@ class IntAlu(stageIndex: Int) extends Plugin {
         decoderService.addInstruction(
             M"00000000000100000---------------",
             List(
-                ALU_OP -> AluOp.add(),
                 REGFILE_VAL1_ENABLE -> True,
                 REGFILE_VAL2_ENABLE -> True,
                 REGFILE_WRITE_ENABLE -> True
             )
         )
+
+        // TODO: test instructions below
 
         // SUB.W
         decoderService.addInstruction(
@@ -51,9 +52,18 @@ class IntAlu(stageIndex: Int) extends Plugin {
         decoderService.addInstruction(
             M"0000001010----------------------",
             List(
-                ALU_OP -> AluOp.add(),
                 ALU_SRC2 -> AluSrc2.si12(),
                 REGFILE_VAL1_ENABLE -> True,
+                REGFILE_WRITE_ENABLE -> True
+            )
+        )
+
+        // LU12I.W
+        decoderService.addInstruction(
+            M"0001010-------------------------",
+            List(
+                ALU_OP -> AluOp.src2(),
+                ALU_SRC2 -> AluSrc2.si20(),
                 REGFILE_WRITE_ENABLE -> True
             )
         )
@@ -72,13 +82,15 @@ class IntAlu(stageIndex: Int) extends Plugin {
             val src2 = Bits(32 bits)
             src2 := ALU_SRC2.mux(
                 AluSrc2.rk -> B(REGFILE_VAL2),
-                AluSrc2.si12 -> B(S(INSTRUCTION(21 downto 10), 32 bits))
+                AluSrc2.si12 -> B(S(INSTRUCTION(21 downto 10), 32 bits)),
+                AluSrc2.si20 -> B(S(INSTRUCTION(24 downto 5), 32 bits))
                 // default -> B(0)
             )
 
             ALU_OUT := ALU_OP.mux(
                 AluOp.add -> B(U(src1) + U(src2)),
                 AluOp.sub -> B(U(src1) - U(src2)),
+                AluOp.src2 -> B(S(src2)),
                 default -> B(0)
             )
             REGFILE_WRITE_VAL := ALU_OUT
