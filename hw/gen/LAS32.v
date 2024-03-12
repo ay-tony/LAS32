@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : 7549a4de9cb6b62e49ed0f630c4f09fdead2bf8c
+// Git hash  : 585ac519d22ea97f9a67118bd85ffe574a440e8b
 
 `timescale 1ns/1ps
 
@@ -319,6 +319,9 @@ module LAS32 (
 
   always @(*) begin
     _zz_27 = AluSrc2_rk;
+    if(when_Decoder_l40_2) begin
+      _zz_27 = AluSrc2_luc;
+    end
     if(when_Decoder_l40_6) begin
       _zz_27 = AluSrc2_luc;
     end

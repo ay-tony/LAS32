@@ -41,15 +41,17 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile.{REGFILE_RJ_ENABLE, REGFILE_RK_ENABLE, REGFILE_RD_ENABLE}
 
+        val commonAluSignals = List(
+            REGFILE_RJ_ENABLE -> True,
+            REGFILE_RK_ENABLE -> True,
+            REGFILE_RD_ENABLE -> True,
+            WRITE_AT_ALU -> True
+        )
+
         // ADD.W
         decoderService.addInstruction(
             M"00000000000100000---------------",
-            List(
-                REGFILE_RJ_ENABLE -> True,
-                REGFILE_RK_ENABLE -> True,
-                REGFILE_RD_ENABLE -> True,
-                WRITE_AT_ALU -> True
-            )
+            commonAluSignals
         )
 
         // TODO: test instructions below
@@ -57,13 +59,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         // SUB.W
         decoderService.addInstruction(
             M"00000000000100010---------------",
-            List(
-                ALU_OP -> AluOp.sub(),
-                REGFILE_RJ_ENABLE -> True,
-                REGFILE_RK_ENABLE -> True,
-                REGFILE_RD_ENABLE -> True,
-                WRITE_AT_ALU -> True
-            )
+            commonAluSignals :+ (ALU_OP -> AluOp.sub())
         )
 
         // ADDI.W
@@ -71,6 +67,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             M"0000001010----------------------",
             List(
                 LUC_OP -> LucOp.si12(),
+                ALU_SRC2 -> AluSrc2.luc(),
                 REGFILE_RJ_ENABLE -> True,
                 REGFILE_RD_ENABLE -> True,
                 WRITE_AT_ALU -> True
