@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : d2a11f4e94388ae1781d15f441f4db751c76f0ad
+// Git hash  : e0d05901e7b58e1b983947cd45dab89e1a3f3662
 
 `timescale 1ns/1ps
 
@@ -17,7 +17,7 @@ module LAS32 (
   localparam AluSrc2_si20 = 2'd2;
   localparam AluOp_add = 3'd0;
   localparam AluOp_sub = 3'd1;
-  localparam AluOp_src2 = 3'd2;
+  localparam AluOp_lu12i = 3'd2;
   localparam AluOp_slt = 3'd3;
   localparam AluOp_sltu = 3'd4;
 
@@ -32,7 +32,6 @@ module LAS32 (
   wire       [31:0]   _zz__zz_34_1;
   wire       [31:0]   _zz__zz_34_2;
   wire       [31:0]   _zz__zz_34_3;
-  wire       [31:0]   _zz__zz_34_4;
   wire                write_up_isReady;
   reg        [31:0]   _zz_1;
   reg        [4:0]    _zz_when_RegisterFile_l36;
@@ -83,11 +82,11 @@ module LAS32 (
   reg        [31:0]   _zz_34;
   `ifndef SYNTHESIS
   reg [31:0] _zz_7_string;
-  reg [31:0] _zz_8_string;
-  reg [31:0] _zz_13_string;
+  reg [39:0] _zz_8_string;
+  reg [39:0] _zz_13_string;
   reg [31:0] _zz_15_string;
   reg [31:0] _zz_18_string;
-  reg [31:0] _zz_19_string;
+  reg [39:0] _zz_19_string;
   `endif
 
   reg [31:0] _zz_22 [0:32767];
@@ -99,9 +98,8 @@ module LAS32 (
   assign _zz__zz_33_2 = {{12{_zz__zz_33_3[19]}}, _zz__zz_33_3};
   assign _zz__zz_34 = (_zz_12 + _zz_32);
   assign _zz__zz_34_1 = (_zz_12 - _zz_32);
-  assign _zz__zz_34_2 = _zz_32;
-  assign _zz__zz_34_3 = _zz_12;
-  assign _zz__zz_34_4 = _zz_32;
+  assign _zz__zz_34_2 = _zz_12;
+  assign _zz__zz_34_3 = _zz_32;
   assign _zz__zz_22_port0 = _zz_22[_zz_when_Decoder_l40_4];
   always @(posedge clk) begin
     if(_zz_16) begin
@@ -122,22 +120,22 @@ module LAS32 (
   end
   always @(*) begin
     case(_zz_8)
-      AluOp_add : _zz_8_string = "add ";
-      AluOp_sub : _zz_8_string = "sub ";
-      AluOp_src2 : _zz_8_string = "src2";
-      AluOp_slt : _zz_8_string = "slt ";
-      AluOp_sltu : _zz_8_string = "sltu";
-      default : _zz_8_string = "????";
+      AluOp_add : _zz_8_string = "add  ";
+      AluOp_sub : _zz_8_string = "sub  ";
+      AluOp_lu12i : _zz_8_string = "lu12i";
+      AluOp_slt : _zz_8_string = "slt  ";
+      AluOp_sltu : _zz_8_string = "sltu ";
+      default : _zz_8_string = "?????";
     endcase
   end
   always @(*) begin
     case(_zz_13)
-      AluOp_add : _zz_13_string = "add ";
-      AluOp_sub : _zz_13_string = "sub ";
-      AluOp_src2 : _zz_13_string = "src2";
-      AluOp_slt : _zz_13_string = "slt ";
-      AluOp_sltu : _zz_13_string = "sltu";
-      default : _zz_13_string = "????";
+      AluOp_add : _zz_13_string = "add  ";
+      AluOp_sub : _zz_13_string = "sub  ";
+      AluOp_lu12i : _zz_13_string = "lu12i";
+      AluOp_slt : _zz_13_string = "slt  ";
+      AluOp_sltu : _zz_13_string = "sltu ";
+      default : _zz_13_string = "?????";
     endcase
   end
   always @(*) begin
@@ -158,12 +156,12 @@ module LAS32 (
   end
   always @(*) begin
     case(_zz_19)
-      AluOp_add : _zz_19_string = "add ";
-      AluOp_sub : _zz_19_string = "sub ";
-      AluOp_src2 : _zz_19_string = "src2";
-      AluOp_slt : _zz_19_string = "slt ";
-      AluOp_sltu : _zz_19_string = "sltu";
-      default : _zz_19_string = "????";
+      AluOp_add : _zz_19_string = "add  ";
+      AluOp_sub : _zz_19_string = "sub  ";
+      AluOp_lu12i : _zz_19_string = "lu12i";
+      AluOp_slt : _zz_19_string = "slt  ";
+      AluOp_sltu : _zz_19_string = "sltu ";
+      default : _zz_19_string = "?????";
     endcase
   end
   `endif
@@ -207,7 +205,7 @@ module LAS32 (
       _zz_19 = AluOp_sub;
     end
     if(when_Decoder_l40_3) begin
-      _zz_19 = AluOp_src2;
+      _zz_19 = AluOp_lu12i;
     end
     if(when_Decoder_l40_4) begin
       _zz_19 = AluOp_slt;
@@ -257,11 +255,11 @@ module LAS32 (
       AluOp_sub : begin
         _zz_34 = _zz__zz_34_1;
       end
-      AluOp_src2 : begin
-        _zz_34 = _zz__zz_34_2;
+      AluOp_lu12i : begin
+        _zz_34 = {_zz_32[19 : 0],12'h000};
       end
       AluOp_slt : begin
-        _zz_34 = (($signed(_zz__zz_34_3) < $signed(_zz__zz_34_4)) ? 32'h00000001 : 32'h00000000);
+        _zz_34 = (($signed(_zz__zz_34_2) < $signed(_zz__zz_34_3)) ? 32'h00000001 : 32'h00000000);
       end
       default : begin
         _zz_34 = ((_zz_12 < _zz_32) ? 32'h00000001 : 32'h00000000);

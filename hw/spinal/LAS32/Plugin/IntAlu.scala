@@ -7,7 +7,7 @@ import LAS32._
 class IntAlu(stageIndex: Int) extends Plugin {
 
     object AluOp extends SpinalEnum {
-        val add, sub, src2, slt, sltu = newElement()
+        val add, sub, lu12i, slt, sltu = newElement()
     }
     val ALU_OP = Payload(AluOp()) // control signal
     object AluSrc2 extends SpinalEnum {
@@ -62,7 +62,7 @@ class IntAlu(stageIndex: Int) extends Plugin {
         decoderService.addInstruction(
             M"0001010-------------------------",
             List(
-                ALU_OP -> AluOp.src2(),
+                ALU_OP -> AluOp.lu12i(),
                 ALU_SRC2 -> AluSrc2.si20(),
                 REGFILE_RD_ENABLE -> True
             )
@@ -111,7 +111,7 @@ class IntAlu(stageIndex: Int) extends Plugin {
             ALU_OUT := ALU_OP.mux(
                 AluOp.add -> B(U(src1) + U(src2)),
                 AluOp.sub -> B(U(src1) - U(src2)),
-                AluOp.src2 -> B(S(src2)),
+                AluOp.lu12i -> B(src2(19 downto 0) ## U(0, 12 bits)),
                 AluOp.slt -> B((S(src1) < S(src2)) ? U(1, 32 bits) | U(0, 32 bits)),
                 AluOp.sltu -> B((U(src1) < U(src2)) ? U(1, 32 bits) | U(0, 32 bits))
             )
