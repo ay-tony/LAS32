@@ -7,7 +7,7 @@ import LAS32._
 class IntAlu(stageIndex: Int) extends Plugin {
 
     object AluOp extends SpinalEnum {
-        val add, sub, src2 = newElement()
+        val add, sub, src2, slt, sltu = newElement()
     }
     val ALU_OP = Payload(AluOp()) // control signal
     object AluSrc2 extends SpinalEnum {
@@ -67,6 +67,28 @@ class IntAlu(stageIndex: Int) extends Plugin {
                 REGFILE_RD_ENABLE -> True
             )
         )
+
+        // SLT
+        decoderService.addInstruction(
+            M"00000000000100100---------------",
+            List(
+                ALU_OP -> AluOp.slt(),
+                REGFILE_RJ_ENABLE -> True,
+                REGFILE_RK_ENABLE -> True,
+                REGFILE_RD_ENABLE -> True
+            )
+        )
+
+        // SLTU
+        decoderService.addInstruction(
+            M"00000000000100101---------------",
+            List(
+                ALU_OP -> AluOp.sltu(),
+                REGFILE_RJ_ENABLE -> True,
+                REGFILE_RK_ENABLE -> True,
+                REGFILE_RD_ENABLE -> True
+            )
+        )
     }
 
     override def build(pipeline: Pipeline) = {
@@ -89,7 +111,9 @@ class IntAlu(stageIndex: Int) extends Plugin {
             ALU_OUT := ALU_OP.mux(
                 AluOp.add -> B(U(src1) + U(src2)),
                 AluOp.sub -> B(U(src1) - U(src2)),
-                AluOp.src2 -> B(S(src2))
+                AluOp.src2 -> B(S(src2)),
+                AluOp.slt -> B((S(src1) < S(src2)) ? U(1, 32 bits) | U(0, 32 bits)),
+                AluOp.sltu -> B((U(src1) < U(src2)) ? U(1, 32 bits) | U(0, 32 bits))
             )
             REGFILE_RD := ALU_OUT
         }

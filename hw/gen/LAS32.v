@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : fb5a3d4ce648babec5f9cc8c74ae48966536f7d3
+// Git hash  : d2a11f4e94388ae1781d15f441f4db751c76f0ad
 
 `timescale 1ns/1ps
 
@@ -15,9 +15,11 @@ module LAS32 (
   localparam AluSrc2_rk = 2'd0;
   localparam AluSrc2_si12 = 2'd1;
   localparam AluSrc2_si20 = 2'd2;
-  localparam AluOp_add = 2'd0;
-  localparam AluOp_sub = 2'd1;
-  localparam AluOp_src2 = 2'd2;
+  localparam AluOp_add = 3'd0;
+  localparam AluOp_sub = 3'd1;
+  localparam AluOp_src2 = 3'd2;
+  localparam AluOp_slt = 3'd3;
+  localparam AluOp_sltu = 3'd4;
 
   wire       [31:0]   _zz__zz_22_port0;
   wire       [31:0]   _zz__zz_23_port1;
@@ -29,6 +31,8 @@ module LAS32 (
   wire       [31:0]   _zz__zz_34;
   wire       [31:0]   _zz__zz_34_1;
   wire       [31:0]   _zz__zz_34_2;
+  wire       [31:0]   _zz__zz_34_3;
+  wire       [31:0]   _zz__zz_34_4;
   wire                write_up_isReady;
   reg        [31:0]   _zz_1;
   reg        [4:0]    _zz_when_RegisterFile_l36;
@@ -41,7 +45,7 @@ module LAS32 (
   reg        [31:0]   _zz_5;
   reg        [31:0]   _zz_6;
   reg        [1:0]    _zz_7;
-  reg        [1:0]    _zz_8;
+  reg        [2:0]    _zz_8;
   reg        [4:0]    _zz_when_RegisterFile_l36_4;
   reg                 _zz_when_RegisterFile_l36_5;
   reg        [31:0]   _zz_9;
@@ -49,7 +53,7 @@ module LAS32 (
   reg        [31:0]   _zz_when_Decoder_l40;
   reg        [31:0]   _zz_11;
   wire       [31:0]   _zz_12;
-  wire       [1:0]    _zz_13;
+  wire       [2:0]    _zz_13;
   wire       [31:0]   _zz_14;
   wire       [1:0]    _zz_15;
   reg                 _zz_16;
@@ -59,7 +63,7 @@ module LAS32 (
   wire       [4:0]    _zz_when_RegisterFile_l36_6;
   wire                _zz_when_RegisterFile_l36_7;
   reg        [1:0]    _zz_18;
-  reg        [1:0]    _zz_19;
+  reg        [2:0]    _zz_19;
   reg                 _zz_when_RegisterFile_l36_8;
   wire       [4:0]    _zz_20;
   wire       [4:0]    _zz_21;
@@ -71,6 +75,8 @@ module LAS32 (
   wire                when_Decoder_l40_1;
   wire                when_Decoder_l40_2;
   wire                when_Decoder_l40_3;
+  wire                when_Decoder_l40_4;
+  wire                when_Decoder_l40_5;
   wire                when_RegisterFile_l36;
   wire       [31:0]   _zz_32;
   reg        [31:0]   _zz_33;
@@ -94,6 +100,8 @@ module LAS32 (
   assign _zz__zz_34 = (_zz_12 + _zz_32);
   assign _zz__zz_34_1 = (_zz_12 - _zz_32);
   assign _zz__zz_34_2 = _zz_32;
+  assign _zz__zz_34_3 = _zz_12;
+  assign _zz__zz_34_4 = _zz_32;
   assign _zz__zz_22_port0 = _zz_22[_zz_when_Decoder_l40_4];
   always @(posedge clk) begin
     if(_zz_16) begin
@@ -117,6 +125,8 @@ module LAS32 (
       AluOp_add : _zz_8_string = "add ";
       AluOp_sub : _zz_8_string = "sub ";
       AluOp_src2 : _zz_8_string = "src2";
+      AluOp_slt : _zz_8_string = "slt ";
+      AluOp_sltu : _zz_8_string = "sltu";
       default : _zz_8_string = "????";
     endcase
   end
@@ -125,6 +135,8 @@ module LAS32 (
       AluOp_add : _zz_13_string = "add ";
       AluOp_sub : _zz_13_string = "sub ";
       AluOp_src2 : _zz_13_string = "src2";
+      AluOp_slt : _zz_13_string = "slt ";
+      AluOp_sltu : _zz_13_string = "sltu";
       default : _zz_13_string = "????";
     endcase
   end
@@ -149,6 +161,8 @@ module LAS32 (
       AluOp_add : _zz_19_string = "add ";
       AluOp_sub : _zz_19_string = "sub ";
       AluOp_src2 : _zz_19_string = "src2";
+      AluOp_slt : _zz_19_string = "slt ";
+      AluOp_sltu : _zz_19_string = "sltu";
       default : _zz_19_string = "????";
     endcase
   end
@@ -179,6 +193,12 @@ module LAS32 (
     if(when_Decoder_l40_3) begin
       _zz_when_RegisterFile_l36_8 = 1'b1;
     end
+    if(when_Decoder_l40_4) begin
+      _zz_when_RegisterFile_l36_8 = 1'b1;
+    end
+    if(when_Decoder_l40_5) begin
+      _zz_when_RegisterFile_l36_8 = 1'b1;
+    end
   end
 
   always @(*) begin
@@ -188,6 +208,12 @@ module LAS32 (
     end
     if(when_Decoder_l40_3) begin
       _zz_19 = AluOp_src2;
+    end
+    if(when_Decoder_l40_4) begin
+      _zz_19 = AluOp_slt;
+    end
+    if(when_Decoder_l40_5) begin
+      _zz_19 = AluOp_sltu;
     end
   end
 
@@ -205,6 +231,8 @@ module LAS32 (
   assign when_Decoder_l40_1 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00110000);
   assign when_Decoder_l40_2 = ((_zz_when_Decoder_l40_1 & 32'hffc00000) == 32'h02800000);
   assign when_Decoder_l40_3 = ((_zz_when_Decoder_l40_1 & 32'hfe000000) == 32'h14000000);
+  assign when_Decoder_l40_4 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00120000);
+  assign when_Decoder_l40_5 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00128000);
   assign when_RegisterFile_l36 = (((_zz_when_RegisterFile_l36_7 && (_zz_when_RegisterFile_l36_6 != 5'h00)) && write_up_isFiring) && write_up_isValid);
   always @(*) begin
     case(_zz_15)
@@ -229,8 +257,14 @@ module LAS32 (
       AluOp_sub : begin
         _zz_34 = _zz__zz_34_1;
       end
-      default : begin
+      AluOp_src2 : begin
         _zz_34 = _zz__zz_34_2;
+      end
+      AluOp_slt : begin
+        _zz_34 = (($signed(_zz__zz_34_3) < $signed(_zz__zz_34_4)) ? 32'h00000001 : 32'h00000000);
+      end
+      default : begin
+        _zz_34 = ((_zz_12 < _zz_32) ? 32'h00000001 : 32'h00000000);
       end
     endcase
   end
