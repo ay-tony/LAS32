@@ -12,40 +12,13 @@
     [REGFILE_RD_ENABLE], [RegisterFile], [Bool()], [False], 
     [REGFILE_RD_ADDR], [RegisterFile], [UInt(5 bits)], [I(4:0)],
     [REGFILE_RD], [RegisterFile], [Bits(32 bits)], [],
+    [LUC_OP], [IntAlu], [LucOp], [LucOp.si12()],
+    [LUC_OUT], [IntAlu], [Bits(32 bits)], [],
+    [WRITE_AT_LUC], [IntAlu], [Bool()], [False],
     [ALU_OP], [IntAlu], [AluOp], [AluOp.add()],
+    [ALU_SRC1], [IntAlu], [AluSrc1], [AluSrc1.rj()],
     [ALU_SRC2], [IntAlu], [AluSrc2], [AluSrc2.rk()],
     [ALU_OUT], [IntAlu], [Bits(32 bits)], [],
+    [WRITE_AT_ALU], [IntAlu], [Bool()], [False],
 )
 
-- ADD.W (IntAlu)
-#table(
-  columns: 2,
-  [REGFILE_RJ_ENABLE], [True],
-  [REGFILE_RK_ENABLE], [True],
-  [REGFILE_RD_ENABLE], [True]
-)
-
-- SUB.W (IntAlu)
-#table(
-  columns: 2,
-  [ALU_OP], [AluOp.sub()],
-  [REGFILE_RJ_ENABLE], [True],
-  [REGFILE_RK_ENABLE], [True],
-  [REGFILE_RD_ENABLE], [True]
-)
-
-- ADDI.W (IntAlu)
-#table(
-  columns: 2,
-  [ALU_SRC2], [AluSrc2.si12()],
-  [REGFILE_RJ_ENABLE], [True],
-  [REGFILE_RD_ENABLE], [True]
-)
-
-- LU12I.W (IntAlu)
-#table(
-  columns: 2,
-  [ALU_OP], [AluOp.src2()],
-  [ALU_SRC2], [AluSrc2.si20()],
-  [REGFILE_RD_ENABLE], [True]
-)
