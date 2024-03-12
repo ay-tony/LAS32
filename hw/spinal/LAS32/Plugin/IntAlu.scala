@@ -14,7 +14,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
     val WRITE_AT_LUC = Payload(Bool()) // control signal
 
     object AluOp extends SpinalEnum {
-        val add, sub, slt, sltu = newElement()
+        val add, sub, slt, sltu, and, or, nor, xor = newElement()
     }
     val ALU_OP = Payload(AluOp()) // control signal
     object AluSrc1 extends SpinalEnum {
@@ -139,15 +139,28 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
 
         // PCADDU12I
         decoderService.addInstruction(
-            M"0000001001----------------------",
+            M"0001110-------------------------",
             List(
-                LUC_OP -> LucOp.si20(),
-                ALU_OP -> AluOp.sltu(),
+                LUC_OP -> LucOp.u12i(),
+                ALU_SRC1 -> AluSrc1.pc(),
                 ALU_SRC2 -> AluSrc2.luc(),
                 REGFILE_RD_ENABLE -> True,
                 WRITE_AT_ALU -> True
             )
         )
+
+        // AND
+        decoderService.addInstruction(
+            M"00000000000101001---------------",
+            List(
+                ALU_OP -> AluOp.and(),
+                REGFILE_RJ_ENABLE -> True,
+                REGFILE_RK_ENABLE -> True,
+                REGFILE_RD_ENABLE -> True,
+                WRITE_AT_ALU -> True
+            )
+        )
+
     }
 
     override def build(pipeline: Pipeline) = {
@@ -186,7 +199,11 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
                 AluOp.add -> B(U(src1) + U(src2)),
                 AluOp.sub -> B(U(src1) - U(src2)),
                 AluOp.slt -> B((S(src1) < S(src2)) ? U(1, 32 bits) | U(0, 32 bits)),
-                AluOp.sltu -> B((U(src1) < U(src2)) ? U(1, 32 bits) | U(0, 32 bits))
+                AluOp.sltu -> B((U(src1) < U(src2)) ? U(1, 32 bits) | U(0, 32 bits)),
+                AluOp.and -> (src1 & src2),
+                AluOp.or -> (src1 | src2),
+                AluOp.nor -> ~(src1 | src2),
+                AluOp.xor -> (src1 ^ src2)
             )
 
             when(WRITE_AT_ALU) {
