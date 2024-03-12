@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : 585ac519d22ea97f9a67118bd85ffe574a440e8b
+// Git hash  : 2868468e31dd7939d16f80960f7b88199de0833c
 
 `timescale 1ns/1ps
 
@@ -24,17 +24,14 @@ module LAS32 (
   localparam AluOp_or_1 = 3'd5;
   localparam AluOp_nor_1 = 3'd6;
   localparam AluOp_xor_1 = 3'd7;
-  localparam LucOp_si12 = 2'd0;
-  localparam LucOp_si20 = 2'd1;
-  localparam LucOp_u12i = 2'd2;
+  localparam LucOp_si12 = 1'd0;
+  localparam LucOp_si20 = 1'd1;
 
   wire       [31:0]   _zz__zz_32_port0;
   wire       [31:0]   _zz__zz_33_port1;
   wire       [31:0]   _zz__zz_33_port2;
   wire       [31:0]   _zz__zz_42;
   wire       [11:0]   _zz__zz_42_1;
-  wire       [31:0]   _zz__zz_42_2;
-  wire       [19:0]   _zz__zz_42_3;
   wire       [31:0]   _zz__zz_47;
   wire       [31:0]   _zz__zz_47_1;
   wire       [31:0]   _zz__zz_47_2;
@@ -76,7 +73,7 @@ module LAS32 (
   wire                _zz_when_RegisterFile_l36_7;
   reg                 _zz_24;
   reg                 _zz_25;
-  reg        [1:0]    _zz_26;
+  reg        [0:0]    _zz_26;
   reg        [0:0]    _zz_27;
   reg        [0:0]    _zz_28;
   reg        [2:0]    _zz_29;
@@ -122,8 +119,6 @@ module LAS32 (
 
   assign _zz__zz_42_1 = _zz_when_Decoder_l40_1[21 : 10];
   assign _zz__zz_42 = {{20{_zz__zz_42_1[11]}}, _zz__zz_42_1};
-  assign _zz__zz_42_3 = _zz_when_Decoder_l40_1[24 : 5];
-  assign _zz__zz_42_2 = {{12{_zz__zz_42_3[19]}}, _zz__zz_42_3};
   assign _zz__zz_47 = (_zz_43 + _zz_44);
   assign _zz__zz_47_1 = (_zz_43 - _zz_44);
   assign _zz__zz_47_2 = _zz_43;
@@ -196,7 +191,6 @@ module LAS32 (
     case(_zz_26)
       LucOp_si12 : _zz_26_string = "si12";
       LucOp_si20 : _zz_26_string = "si20";
-      LucOp_u12i : _zz_26_string = "u12i";
       default : _zz_26_string = "????";
     endcase
   end
@@ -339,7 +333,7 @@ module LAS32 (
       _zz_26 = LucOp_si12;
     end
     if(when_Decoder_l40_3) begin
-      _zz_26 = LucOp_u12i;
+      _zz_26 = LucOp_si20;
     end
     if(when_Decoder_l40_6) begin
       _zz_26 = LucOp_si12;
@@ -348,7 +342,7 @@ module LAS32 (
       _zz_26 = LucOp_si12;
     end
     if(when_Decoder_l40_8) begin
-      _zz_26 = LucOp_u12i;
+      _zz_26 = LucOp_si20;
     end
   end
 
@@ -405,9 +399,6 @@ module LAS32 (
     case(_zz_26)
       LucOp_si12 : begin
         _zz_42 = _zz__zz_42;
-      end
-      LucOp_si20 : begin
-        _zz_42 = _zz__zz_42_2;
       end
       default : begin
         _zz_42 = {_zz_when_Decoder_l40_1[24 : 5],12'h000};
