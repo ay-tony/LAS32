@@ -40,6 +40,9 @@ class RegisterFile(readStageIndex: Int, writeStageIndex: Int) extends Plugin {
 
         val readStage = pipeline.stages(readStageIndex)
         new readStage.Area {
+            // TODO: move the follow assignment to forward Plugin
+            up(REGFILE_RD) := B(0)
+
             // inner regfile forward
             REGFILE_RJ := (REGFILE_ADDR_RJ =/= 0) ?
                 ((REGFILE_ADDR_RJ === writeStage(REGFILE_RD_ADDR)) ?
