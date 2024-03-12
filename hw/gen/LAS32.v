@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : c1c9eb624ee32a6344035abafb979041b9eebed2
+// Git hash  : d64c116848e285bbba56c4187f5d7f2e8155f969
 
 `timescale 1ns/1ps
 
@@ -24,14 +24,17 @@ module LAS32 (
   localparam AluOp_or_1 = 3'd5;
   localparam AluOp_nor_1 = 3'd6;
   localparam AluOp_xor_1 = 3'd7;
-  localparam LucOp_si12 = 1'd0;
-  localparam LucOp_si20 = 1'd1;
+  localparam LucOp_si12 = 2'd0;
+  localparam LucOp_si20 = 2'd1;
+  localparam LucOp_ui12 = 2'd2;
 
   wire       [31:0]   _zz__zz_32_port0;
   wire       [31:0]   _zz__zz_33_port1;
   wire       [31:0]   _zz__zz_33_port2;
   wire       [31:0]   _zz__zz_42;
   wire       [11:0]   _zz__zz_42_1;
+  wire       [31:0]   _zz__zz_42_2;
+  wire       [11:0]   _zz__zz_42_3;
   wire       [31:0]   _zz__zz_47;
   wire       [31:0]   _zz__zz_47_1;
   wire       [31:0]   _zz__zz_47_2;
@@ -73,7 +76,7 @@ module LAS32 (
   wire                _zz_when_RegisterFile_l36_7;
   reg                 _zz_24;
   reg                 _zz_25;
-  reg        [0:0]    _zz_26;
+  reg        [1:0]    _zz_26;
   reg        [0:0]    _zz_27;
   reg        [0:0]    _zz_28;
   reg        [2:0]    _zz_29;
@@ -97,6 +100,9 @@ module LAS32 (
   wire                when_Decoder_l40_10;
   wire                when_Decoder_l40_11;
   wire                when_Decoder_l40_12;
+  wire                when_Decoder_l40_13;
+  wire                when_Decoder_l40_14;
+  wire                when_Decoder_l40_15;
   wire                when_RegisterFile_l36;
   reg        [31:0]   _zz_42;
   wire       [31:0]   _zz_43;
@@ -122,6 +128,8 @@ module LAS32 (
 
   assign _zz__zz_42_1 = _zz_when_Decoder_l40_1[21 : 10];
   assign _zz__zz_42 = {{20{_zz__zz_42_1[11]}}, _zz__zz_42_1};
+  assign _zz__zz_42_3 = _zz_when_Decoder_l40_1[21 : 10];
+  assign _zz__zz_42_2 = {20'd0, _zz__zz_42_3};
   assign _zz__zz_47 = (_zz_43 + _zz_44);
   assign _zz__zz_47_1 = (_zz_43 - _zz_44);
   assign _zz__zz_47_2 = _zz_43;
@@ -194,6 +202,7 @@ module LAS32 (
     case(_zz_26)
       LucOp_si12 : _zz_26_string = "si12";
       LucOp_si20 : _zz_26_string = "si20";
+      LucOp_ui12 : _zz_26_string = "ui12";
       default : _zz_26_string = "????";
     endcase
   end
@@ -292,6 +301,15 @@ module LAS32 (
     if(when_Decoder_l40_12) begin
       _zz_when_RegisterFile_l36_8 = 1'b1;
     end
+    if(when_Decoder_l40_13) begin
+      _zz_when_RegisterFile_l36_8 = 1'b1;
+    end
+    if(when_Decoder_l40_14) begin
+      _zz_when_RegisterFile_l36_8 = 1'b1;
+    end
+    if(when_Decoder_l40_15) begin
+      _zz_when_RegisterFile_l36_8 = 1'b1;
+    end
   end
 
   always @(*) begin
@@ -323,6 +341,15 @@ module LAS32 (
     if(when_Decoder_l40_12) begin
       _zz_29 = AluOp_xor_1;
     end
+    if(when_Decoder_l40_13) begin
+      _zz_29 = AluOp_and_1;
+    end
+    if(when_Decoder_l40_14) begin
+      _zz_29 = AluOp_or_1;
+    end
+    if(when_Decoder_l40_15) begin
+      _zz_29 = AluOp_xor_1;
+    end
   end
 
   always @(*) begin
@@ -346,6 +373,15 @@ module LAS32 (
     if(when_Decoder_l40_8) begin
       _zz_27 = AluSrc2_luc;
     end
+    if(when_Decoder_l40_13) begin
+      _zz_27 = AluSrc2_luc;
+    end
+    if(when_Decoder_l40_14) begin
+      _zz_27 = AluSrc2_luc;
+    end
+    if(when_Decoder_l40_15) begin
+      _zz_27 = AluSrc2_luc;
+    end
   end
 
   always @(*) begin
@@ -364,6 +400,15 @@ module LAS32 (
     end
     if(when_Decoder_l40_8) begin
       _zz_26 = LucOp_si20;
+    end
+    if(when_Decoder_l40_13) begin
+      _zz_26 = LucOp_ui12;
+    end
+    if(when_Decoder_l40_14) begin
+      _zz_26 = LucOp_ui12;
+    end
+    if(when_Decoder_l40_15) begin
+      _zz_26 = LucOp_ui12;
     end
   end
 
@@ -412,6 +457,15 @@ module LAS32 (
     if(when_Decoder_l40_12) begin
       _zz_24 = 1'b1;
     end
+    if(when_Decoder_l40_13) begin
+      _zz_24 = 1'b1;
+    end
+    if(when_Decoder_l40_14) begin
+      _zz_24 = 1'b1;
+    end
+    if(when_Decoder_l40_15) begin
+      _zz_24 = 1'b1;
+    end
   end
 
   assign when_Decoder_l40 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00100000);
@@ -427,14 +481,20 @@ module LAS32 (
   assign when_Decoder_l40_10 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00150000);
   assign when_Decoder_l40_11 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00140000);
   assign when_Decoder_l40_12 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00158000);
+  assign when_Decoder_l40_13 = ((_zz_when_Decoder_l40_1 & 32'hffc00000) == 32'h03400000);
+  assign when_Decoder_l40_14 = ((_zz_when_Decoder_l40_1 & 32'hffc00000) == 32'h03800000);
+  assign when_Decoder_l40_15 = ((_zz_when_Decoder_l40_1 & 32'hffc00000) == 32'h03c00000);
   assign when_RegisterFile_l36 = (((_zz_when_RegisterFile_l36_7 && (_zz_when_RegisterFile_l36_6 != 5'h00)) && write_up_isFiring) && write_up_isValid);
   always @(*) begin
     case(_zz_26)
       LucOp_si12 : begin
         _zz_42 = _zz__zz_42;
       end
-      default : begin
+      LucOp_si20 : begin
         _zz_42 = {_zz_when_Decoder_l40_1[24 : 5],12'h000};
+      end
+      default : begin
+        _zz_42 = _zz__zz_42_2;
       end
     endcase
   end

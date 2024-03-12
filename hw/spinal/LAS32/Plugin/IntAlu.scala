@@ -7,7 +7,7 @@ import LAS32._
 class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
 
     object LucOp extends SpinalEnum {
-        val si12, si20 = newElement()
+        val si12, si20, ui12 = newElement()
     }
     val LUC_OP = Payload(LucOp()) // control signal
     val LUC_OUT = Payload(Bits(32 bits))
@@ -48,8 +48,16 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             WRITE_AT_ALU -> True
         )
 
-        val commonAluImmSignals = List(
+        val commonAluSi12Signals = List(
             LUC_OP -> LucOp.si12(),
+            ALU_SRC2 -> AluSrc2.luc(),
+            REGFILE_RJ_ENABLE -> True,
+            REGFILE_RD_ENABLE -> True,
+            WRITE_AT_ALU -> True
+        )
+
+        val commonAluUi12Signals = List(
+            LUC_OP -> LucOp.ui12(),
             ALU_SRC2 -> AluSrc2.luc(),
             REGFILE_RJ_ENABLE -> True,
             REGFILE_RD_ENABLE -> True,
@@ -73,7 +81,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         // ADDI.W
         decoderService.addInstruction(
             M"0000001010----------------------",
-            commonAluImmSignals
+            commonAluSi12Signals
         )
 
         // LU12I.W
@@ -101,13 +109,13 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         // SLTI
         decoderService.addInstruction(
             M"0000001000----------------------",
-            commonAluImmSignals :+ (ALU_OP -> AluOp.slt())
+            commonAluSi12Signals :+ (ALU_OP -> AluOp.slt())
         )
 
         // SLTUI
         decoderService.addInstruction(
             M"0000001001----------------------",
-            commonAluImmSignals :+ (ALU_OP -> AluOp.sltu())
+            commonAluSi12Signals :+ (ALU_OP -> AluOp.sltu())
         )
 
         // PCADDU12I
@@ -145,6 +153,24 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             M"00000000000101011---------------",
             commonAluSignals :+ (ALU_OP -> AluOp.xor())
         )
+
+        // ANDI
+        decoderService.addInstruction(
+            M"0000001101----------------------",
+            commonAluUi12Signals :+ (ALU_OP -> AluOp.and())
+        )
+
+        // ORI
+        decoderService.addInstruction(
+            M"0000001110----------------------",
+            commonAluUi12Signals :+ (ALU_OP -> AluOp.or())
+        )
+
+        // XORI
+        decoderService.addInstruction(
+            M"0000001111----------------------",
+            commonAluUi12Signals :+ (ALU_OP -> AluOp.xor())
+        )
     }
 
     override def build(pipeline: Pipeline) = {
@@ -158,7 +184,8 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         new lucStage.Area {
             LUC_OUT := LUC_OP.mux(
                 LucOp.si12 -> B(S(INSTRUCTION(21 downto 10), 32 bits)),
-                LucOp.si20 -> B(INSTRUCTION(24 downto 5) ## B(0, 12 bits))
+                LucOp.si20 -> B(INSTRUCTION(24 downto 5) ## B(0, 12 bits)),
+                LucOp.ui12 -> B(U(INSTRUCTION(21 downto 10), 32 bits))
             )
 
             when(WRITE_AT_LUC) {
