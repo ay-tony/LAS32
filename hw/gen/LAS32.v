@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : 940a7d24e9a6948ddf1afe875c4dade3ac9bad4f
+// Git hash  : c1c9eb624ee32a6344035abafb979041b9eebed2
 
 `timescale 1ns/1ps
 
@@ -94,6 +94,9 @@ module LAS32 (
   wire                when_Decoder_l40_7;
   wire                when_Decoder_l40_8;
   wire                when_Decoder_l40_9;
+  wire                when_Decoder_l40_10;
+  wire                when_Decoder_l40_11;
+  wire                when_Decoder_l40_12;
   wire                when_RegisterFile_l36;
   reg        [31:0]   _zz_42;
   wire       [31:0]   _zz_43;
@@ -280,6 +283,15 @@ module LAS32 (
     if(when_Decoder_l40_9) begin
       _zz_when_RegisterFile_l36_8 = 1'b1;
     end
+    if(when_Decoder_l40_10) begin
+      _zz_when_RegisterFile_l36_8 = 1'b1;
+    end
+    if(when_Decoder_l40_11) begin
+      _zz_when_RegisterFile_l36_8 = 1'b1;
+    end
+    if(when_Decoder_l40_12) begin
+      _zz_when_RegisterFile_l36_8 = 1'b1;
+    end
   end
 
   always @(*) begin
@@ -301,6 +313,15 @@ module LAS32 (
     end
     if(when_Decoder_l40_9) begin
       _zz_29 = AluOp_and_1;
+    end
+    if(when_Decoder_l40_10) begin
+      _zz_29 = AluOp_or_1;
+    end
+    if(when_Decoder_l40_11) begin
+      _zz_29 = AluOp_nor_1;
+    end
+    if(when_Decoder_l40_12) begin
+      _zz_29 = AluOp_xor_1;
     end
   end
 
@@ -382,6 +403,15 @@ module LAS32 (
     if(when_Decoder_l40_9) begin
       _zz_24 = 1'b1;
     end
+    if(when_Decoder_l40_10) begin
+      _zz_24 = 1'b1;
+    end
+    if(when_Decoder_l40_11) begin
+      _zz_24 = 1'b1;
+    end
+    if(when_Decoder_l40_12) begin
+      _zz_24 = 1'b1;
+    end
   end
 
   assign when_Decoder_l40 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00100000);
@@ -394,6 +424,9 @@ module LAS32 (
   assign when_Decoder_l40_7 = ((_zz_when_Decoder_l40_1 & 32'hffc00000) == 32'h02400000);
   assign when_Decoder_l40_8 = ((_zz_when_Decoder_l40_1 & 32'hfe000000) == 32'h1c000000);
   assign when_Decoder_l40_9 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00148000);
+  assign when_Decoder_l40_10 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00150000);
+  assign when_Decoder_l40_11 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00140000);
+  assign when_Decoder_l40_12 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00158000);
   assign when_RegisterFile_l36 = (((_zz_when_RegisterFile_l36_7 && (_zz_when_RegisterFile_l36_6 != 5'h00)) && write_up_isFiring) && write_up_isValid);
   always @(*) begin
     case(_zz_26)

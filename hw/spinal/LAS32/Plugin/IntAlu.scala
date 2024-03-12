@@ -128,6 +128,23 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             commonAluSignals :+ (ALU_OP -> AluOp.and())
         )
 
+        // OR
+        decoderService.addInstruction(
+            M"00000000000101010---------------",
+            commonAluSignals :+ (ALU_OP -> AluOp.or())
+        )
+
+        // NOR
+        decoderService.addInstruction(
+            M"00000000000101000---------------",
+            commonAluSignals :+ (ALU_OP -> AluOp.nor())
+        )
+
+        // XOR
+        decoderService.addInstruction(
+            M"00000000000101011---------------",
+            commonAluSignals :+ (ALU_OP -> AluOp.xor())
+        )
     }
 
     override def build(pipeline: Pipeline) = {
