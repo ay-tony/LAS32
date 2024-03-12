@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : e5a811ef0aa9e9647f43e9067bb6b2a6b257add8
+// Git hash  : 437890ce5c3115b1982c7bbf83e17dd5ac5b017a
 
 `timescale 1ns/1ps
 
@@ -22,7 +22,7 @@ module LAS32 (
   localparam AluOp_sltu = 2'd3;
   localparam LucOp_si12 = 2'd0;
   localparam LucOp_si20 = 2'd1;
-  localparam LucOp_lu12i = 2'd2;
+  localparam LucOp_u12i = 2'd2;
 
   wire       [31:0]   _zz__zz_31_port0;
   wire       [31:0]   _zz__zz_32_port1;
@@ -104,7 +104,7 @@ module LAS32 (
   reg [31:0] _zz_16_string;
   reg [23:0] _zz_17_string;
   reg [15:0] _zz_19_string;
-  reg [39:0] _zz_26_string;
+  reg [31:0] _zz_26_string;
   reg [23:0] _zz_27_string;
   reg [31:0] _zz_28_string;
   `endif
@@ -178,10 +178,10 @@ module LAS32 (
   end
   always @(*) begin
     case(_zz_26)
-      LucOp_si12 : _zz_26_string = "si12 ";
-      LucOp_si20 : _zz_26_string = "si20 ";
-      LucOp_lu12i : _zz_26_string = "lu12i";
-      default : _zz_26_string = "?????";
+      LucOp_si12 : _zz_26_string = "si12";
+      LucOp_si20 : _zz_26_string = "si20";
+      LucOp_u12i : _zz_26_string = "u12i";
+      default : _zz_26_string = "????";
     endcase
   end
   always @(*) begin
@@ -290,13 +290,13 @@ module LAS32 (
       _zz_26 = LucOp_si12;
     end
     if(when_Decoder_l40_3) begin
-      _zz_26 = LucOp_lu12i;
+      _zz_26 = LucOp_u12i;
     end
     if(when_Decoder_l40_6) begin
       _zz_26 = LucOp_si12;
     end
     if(when_Decoder_l40_7) begin
-      _zz_26 = LucOp_si12;
+      _zz_26 = LucOp_si20;
     end
   end
 

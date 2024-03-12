@@ -7,7 +7,7 @@ import LAS32._
 class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
 
     object LucOp extends SpinalEnum {
-        val si12, si20, lu12i = newElement()
+        val si12, si20, u12i = newElement()
     }
     val LUC_OP = Payload(LucOp()) // control signal
     val LUC_OUT = Payload(Bits(32 bits))
@@ -81,7 +81,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         decoderService.addInstruction(
             M"0001010-------------------------",
             List(
-                LUC_OP -> LucOp.lu12i(),
+                LUC_OP -> LucOp.u12i(),
                 REGFILE_RD_ENABLE -> True,
                 WRITE_AT_LUC -> True
             )
@@ -136,6 +136,18 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
                 WRITE_AT_ALU -> True
             )
         )
+
+        // PCADDU12I
+        decoderService.addInstruction(
+            M"0000001001----------------------",
+            List(
+                LUC_OP -> LucOp.si20(),
+                ALU_OP -> AluOp.sltu(),
+                ALU_SRC2 -> AluSrc2.luc(),
+                REGFILE_RD_ENABLE -> True,
+                WRITE_AT_ALU -> True
+            )
+        )
     }
 
     override def build(pipeline: Pipeline) = {
@@ -150,7 +162,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             LUC_OUT := LUC_OP.mux(
                 LucOp.si12 -> B(S(INSTRUCTION(21 downto 10), 32 bits)),
                 LucOp.si20 -> B(S(INSTRUCTION(24 downto 5), 32 bits)),
-                LucOp.lu12i -> B(INSTRUCTION(24 downto 5) ## B(0, 12 bits))
+                LucOp.u12i -> B(INSTRUCTION(24 downto 5) ## B(0, 12 bits))
             )
 
             when(WRITE_AT_LUC) {
