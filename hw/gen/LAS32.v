@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : e0d05901e7b58e1b983947cd45dab89e1a3f3662
+// Git hash  : c15da93c29016c6bb8bd34af3a9397239ae356bf
 
 `timescale 1ns/1ps
 
@@ -76,6 +76,8 @@ module LAS32 (
   wire                when_Decoder_l40_3;
   wire                when_Decoder_l40_4;
   wire                when_Decoder_l40_5;
+  wire                when_Decoder_l40_6;
+  wire                when_Decoder_l40_7;
   wire                when_RegisterFile_l36;
   wire       [31:0]   _zz_32;
   reg        [31:0]   _zz_33;
@@ -197,6 +199,12 @@ module LAS32 (
     if(when_Decoder_l40_5) begin
       _zz_when_RegisterFile_l36_8 = 1'b1;
     end
+    if(when_Decoder_l40_6) begin
+      _zz_when_RegisterFile_l36_8 = 1'b1;
+    end
+    if(when_Decoder_l40_7) begin
+      _zz_when_RegisterFile_l36_8 = 1'b1;
+    end
   end
 
   always @(*) begin
@@ -213,6 +221,12 @@ module LAS32 (
     if(when_Decoder_l40_5) begin
       _zz_19 = AluOp_sltu;
     end
+    if(when_Decoder_l40_6) begin
+      _zz_19 = AluOp_slt;
+    end
+    if(when_Decoder_l40_7) begin
+      _zz_19 = AluOp_sltu;
+    end
   end
 
   always @(*) begin
@@ -223,6 +237,12 @@ module LAS32 (
     if(when_Decoder_l40_3) begin
       _zz_18 = AluSrc2_si20;
     end
+    if(when_Decoder_l40_6) begin
+      _zz_18 = AluSrc2_si12;
+    end
+    if(when_Decoder_l40_7) begin
+      _zz_18 = AluSrc2_si12;
+    end
   end
 
   assign when_Decoder_l40 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00100000);
@@ -231,6 +251,8 @@ module LAS32 (
   assign when_Decoder_l40_3 = ((_zz_when_Decoder_l40_1 & 32'hfe000000) == 32'h14000000);
   assign when_Decoder_l40_4 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00120000);
   assign when_Decoder_l40_5 = ((_zz_when_Decoder_l40_1 & 32'hffff8000) == 32'h00128000);
+  assign when_Decoder_l40_6 = ((_zz_when_Decoder_l40_1 & 32'hffc00000) == 32'h02000000);
+  assign when_Decoder_l40_7 = ((_zz_when_Decoder_l40_1 & 32'hffc00000) == 32'h02400000);
   assign when_RegisterFile_l36 = (((_zz_when_RegisterFile_l36_7 && (_zz_when_RegisterFile_l36_6 != 5'h00)) && write_up_isFiring) && write_up_isValid);
   always @(*) begin
     case(_zz_15)

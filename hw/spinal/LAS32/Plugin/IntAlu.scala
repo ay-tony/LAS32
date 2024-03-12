@@ -89,6 +89,28 @@ class IntAlu(stageIndex: Int) extends Plugin {
                 REGFILE_RD_ENABLE -> True
             )
         )
+
+        // SLTI
+        decoderService.addInstruction(
+            M"0000001000----------------------",
+            List(
+                ALU_OP -> AluOp.slt(),
+                ALU_SRC2 -> AluSrc2.si12(),
+                REGFILE_RJ_ENABLE -> True,
+                REGFILE_RD_ENABLE -> True
+            )
+        )
+
+        // SLTUI
+        decoderService.addInstruction(
+            M"0000001001----------------------",
+            List(
+                ALU_OP -> AluOp.sltu(),
+                ALU_SRC2 -> AluSrc2.si12(),
+                REGFILE_RJ_ENABLE -> True,
+                REGFILE_RD_ENABLE -> True
+            )
+        )
     }
 
     override def build(pipeline: Pipeline) = {
