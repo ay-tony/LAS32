@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : 2868468e31dd7939d16f80960f7b88199de0833c
+// Git hash  : 940a7d24e9a6948ddf1afe875c4dade3ac9bad4f
 
 `timescale 1ns/1ps
 

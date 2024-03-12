@@ -48,6 +48,14 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             WRITE_AT_ALU -> True
         )
 
+        val commonAluImmSignals = List(
+            LUC_OP -> LucOp.si12(),
+            ALU_SRC2 -> AluSrc2.luc(),
+            REGFILE_RJ_ENABLE -> True,
+            REGFILE_RD_ENABLE -> True,
+            WRITE_AT_ALU -> True
+        )
+
         // ADD.W
         decoderService.addInstruction(
             M"00000000000100000---------------",
@@ -65,13 +73,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         // ADDI.W
         decoderService.addInstruction(
             M"0000001010----------------------",
-            List(
-                LUC_OP -> LucOp.si12(),
-                ALU_SRC2 -> AluSrc2.luc(),
-                REGFILE_RJ_ENABLE -> True,
-                REGFILE_RD_ENABLE -> True,
-                WRITE_AT_ALU -> True
-            )
+            commonAluImmSignals
         )
 
         // LU12I.W
@@ -87,51 +89,25 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         // SLT
         decoderService.addInstruction(
             M"00000000000100100---------------",
-            List(
-                ALU_OP -> AluOp.slt(),
-                REGFILE_RJ_ENABLE -> True,
-                REGFILE_RK_ENABLE -> True,
-                REGFILE_RD_ENABLE -> True,
-                WRITE_AT_ALU -> True
-            )
+            commonAluSignals :+ (ALU_OP -> AluOp.slt())
         )
 
         // SLTU
         decoderService.addInstruction(
             M"00000000000100101---------------",
-            List(
-                ALU_OP -> AluOp.sltu(),
-                REGFILE_RJ_ENABLE -> True,
-                REGFILE_RK_ENABLE -> True,
-                REGFILE_RD_ENABLE -> True,
-                WRITE_AT_ALU -> True
-            )
+            commonAluSignals :+ (ALU_OP -> AluOp.sltu())
         )
 
         // SLTI
         decoderService.addInstruction(
             M"0000001000----------------------",
-            List(
-                LUC_OP -> LucOp.si12(),
-                ALU_OP -> AluOp.slt(),
-                ALU_SRC2 -> AluSrc2.luc(),
-                REGFILE_RJ_ENABLE -> True,
-                REGFILE_RD_ENABLE -> True,
-                WRITE_AT_ALU -> True
-            )
+            commonAluImmSignals :+ (ALU_OP -> AluOp.slt())
         )
 
         // SLTUI
         decoderService.addInstruction(
             M"0000001001----------------------",
-            List(
-                LUC_OP -> LucOp.si12(),
-                ALU_OP -> AluOp.sltu(),
-                ALU_SRC2 -> AluSrc2.luc(),
-                REGFILE_RJ_ENABLE -> True,
-                REGFILE_RD_ENABLE -> True,
-                WRITE_AT_ALU -> True
-            )
+            commonAluImmSignals :+ (ALU_OP -> AluOp.sltu())
         )
 
         // PCADDU12I
@@ -149,13 +125,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         // AND
         decoderService.addInstruction(
             M"00000000000101001---------------",
-            List(
-                ALU_OP -> AluOp.and(),
-                REGFILE_RJ_ENABLE -> True,
-                REGFILE_RK_ENABLE -> True,
-                REGFILE_RD_ENABLE -> True,
-                WRITE_AT_ALU -> True
-            )
+            commonAluSignals :+ (ALU_OP -> AluOp.and())
         )
 
     }
