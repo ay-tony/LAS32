@@ -41,11 +41,15 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile.{REGFILE_RJ_ENABLE, REGFILE_RK_ENABLE, REGFILE_RD_ENABLE}
 
+        val bypass = pipeline.getPlugin(classOf[Bypass])
+        import bypass.{BYPASS_ENABLE_STAGE}
+
         val commonAluSignals = List(
             REGFILE_RJ_ENABLE -> True,
             REGFILE_RK_ENABLE -> True,
             REGFILE_RD_ENABLE -> True,
-            WRITE_AT_ALU -> True
+            WRITE_AT_ALU -> True,
+            BYPASS_ENABLE_STAGE -> U(aluStageIndex).resized
         )
 
         val commonAluSi12Signals = List(
@@ -53,7 +57,8 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             ALU_SRC2 -> AluSrc2.luc(),
             REGFILE_RJ_ENABLE -> True,
             REGFILE_RD_ENABLE -> True,
-            WRITE_AT_ALU -> True
+            WRITE_AT_ALU -> True,
+            BYPASS_ENABLE_STAGE -> U(aluStageIndex).resized
         )
 
         val commonAluUi12Signals = List(
@@ -61,7 +66,8 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             ALU_SRC2 -> AluSrc2.luc(),
             REGFILE_RJ_ENABLE -> True,
             REGFILE_RD_ENABLE -> True,
-            WRITE_AT_ALU -> True
+            WRITE_AT_ALU -> True,
+            BYPASS_ENABLE_STAGE -> U(aluStageIndex).resized
         )
 
         // ADD.W
@@ -90,7 +96,8 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             List(
                 LUC_OP -> LucOp.si20(),
                 REGFILE_RD_ENABLE -> True,
-                WRITE_AT_LUC -> True
+                WRITE_AT_LUC -> True,
+                BYPASS_ENABLE_STAGE -> U(lucStageIndex).resized
             )
         )
 
@@ -126,7 +133,8 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
                 ALU_SRC1 -> AluSrc1.pc(),
                 ALU_SRC2 -> AluSrc2.luc(),
                 REGFILE_RD_ENABLE -> True,
-                WRITE_AT_ALU -> True
+                WRITE_AT_ALU -> True,
+                BYPASS_ENABLE_STAGE -> U(aluStageIndex).resized
             )
         )
 

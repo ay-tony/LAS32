@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : 0c161fd4333e374c0560a31c999905c84b004fba
+// Git hash  : dad6f90288568e3a2b4d30cc24b7a293109a4420
 
 `timescale 1ns/1ps
 
@@ -50,10 +50,10 @@ module LAS32 (
   reg                 _zz_when_RegisterFile_l36_1;
   reg        [31:0]   _zz_1;
   reg        [31:0]   _zz_2;
-  reg        [4:0]    _zz_when_Bypass_l27;
+  reg        [4:0]    _zz_when_Bypass_l28;
   reg                 _zz_when_RegisterFile_l36_2;
-  reg        [4:0]    _zz_when_Bypass_l38;
-  reg        [4:0]    _zz_when_Bypass_l27_1;
+  reg        [4:0]    _zz_when_Bypass_l39;
+  reg        [4:0]    _zz_when_Bypass_l28_1;
   reg                 _zz_3;
   reg        [31:0]   _zz_4;
   reg        [31:0]   _zz_5;
@@ -63,10 +63,10 @@ module LAS32 (
   reg        [0:0]    _zz_8;
   reg        [0:0]    _zz_9;
   reg        [2:0]    _zz_10;
-  reg        [4:0]    _zz_when_Bypass_l27_2;
+  reg        [4:0]    _zz_when_Bypass_l28_2;
   reg                 _zz_when_RegisterFile_l36_3;
-  reg        [4:0]    _zz_when_Bypass_l38_1;
-  reg        [4:0]    _zz_when_Bypass_l27_3;
+  reg        [4:0]    _zz_when_Bypass_l39_1;
+  reg        [4:0]    _zz_when_Bypass_l28_3;
   reg                 _zz_11;
   reg        [31:0]   _zz_12;
   wire                execute_down_isReady;
@@ -87,37 +87,37 @@ module LAS32 (
   reg                 execute_up_ready;
   reg                 execute_down_ready;
   reg                 memory_up_ready;
-  reg                 _zz_memory_haltRequest_Bypass_l42;
-  reg                 _zz_execute_haltRequest_Bypass_l42;
-  reg                 _zz_execute_haltRequest_Bypass_l42_1;
-  reg                 _zz_memory_haltRequest_Bypass_l42_1;
-  reg                 _zz_execute_haltRequest_Bypass_l42_2;
-  reg                 _zz_execute_haltRequest_Bypass_l42_3;
-  reg                 _zz_memory_haltRequest_Bypass_l31;
-  reg                 _zz_memory_haltRequest_Bypass_l42_2;
-  wire       [4:0]    _zz_when_Bypass_l38_2;
-  reg                 _zz_execute_haltRequest_Bypass_l42_4;
-  reg                 _zz_execute_haltRequest_Bypass_l42_5;
   reg        [31:0]   _zz_14;
   reg        [31:0]   _zz_15;
-  wire       [4:0]    _zz_when_Bypass_l38_3;
-  reg                 _zz_execute_haltRequest_Bypass_l31;
-  reg                 _zz_execute_haltRequest_Bypass_l31_1;
-  wire       [31:0]   _zz_16;
-  reg        [31:0]   _zz_17;
-  reg        [31:0]   _zz_18;
-  wire                _zz_when_RegisterFile_l36_4;
-  wire       [4:0]    _zz_when_Bypass_l27_4;
-  wire       [4:0]    _zz_when_Bypass_l27_5;
-  wire                _zz_19;
+  wire       [2:0]    _zz_16;
+  wire       [0:0]    _zz_17;
+  wire       [31:0]   _zz_18;
+  wire       [0:0]    _zz_19;
   reg        [31:0]   _zz_20;
-  reg        [31:0]   _zz_21;
-  wire       [2:0]    _zz_22;
-  wire       [0:0]    _zz_23;
+  wire       [31:0]   _zz_21;
+  reg                 _zz_memory_haltRequest_Bypass_l43;
+  reg                 _zz_execute_haltRequest_Bypass_l43;
+  reg                 _zz_execute_haltRequest_Bypass_l43_1;
+  reg                 _zz_memory_haltRequest_Bypass_l43_1;
+  reg                 _zz_execute_haltRequest_Bypass_l43_2;
+  reg                 _zz_execute_haltRequest_Bypass_l43_3;
+  reg                 _zz_memory_haltRequest_Bypass_l32;
+  reg                 _zz_memory_haltRequest_Bypass_l43_2;
+  wire       [4:0]    _zz_when_Bypass_l39_2;
+  reg                 _zz_execute_haltRequest_Bypass_l43_4;
+  reg                 _zz_execute_haltRequest_Bypass_l43_5;
+  reg        [31:0]   _zz_22;
+  reg        [31:0]   _zz_23;
+  wire       [4:0]    _zz_when_Bypass_l39_3;
+  reg                 _zz_execute_haltRequest_Bypass_l32;
+  reg                 _zz_execute_haltRequest_Bypass_l32_1;
   wire       [31:0]   _zz_24;
-  wire       [0:0]    _zz_25;
+  reg        [31:0]   _zz_25;
   reg        [31:0]   _zz_26;
-  wire       [31:0]   _zz_27;
+  wire                _zz_when_RegisterFile_l36_4;
+  wire       [4:0]    _zz_when_Bypass_l28_4;
+  wire       [4:0]    _zz_when_Bypass_l28_5;
+  wire                _zz_27;
   reg                 _zz_28;
   wire       [31:0]   _zz_29;
   wire                write_up_isValid;
@@ -131,8 +131,8 @@ module LAS32 (
   reg        [0:0]    _zz_34;
   reg        [2:0]    _zz_35;
   reg                 _zz_when_RegisterFile_l36_7;
-  wire       [4:0]    _zz_when_Bypass_l38_4;
-  wire       [4:0]    _zz_when_Bypass_l27_6;
+  wire       [4:0]    _zz_when_Bypass_l39_4;
+  wire       [4:0]    _zz_when_Bypass_l28_6;
   wire       [31:0]   _zz_when_Decoder_l40_1;
   reg                 _zz_36;
   wire       [31:0]   _zz_when_Decoder_l40_2;
@@ -155,36 +155,36 @@ module LAS32 (
   wire                when_Decoder_l40_14;
   wire                when_Decoder_l40_15;
   wire                when_RegisterFile_l36;
+  wire                when_Bypass_l28;
+  wire                execute_haltRequest_Bypass_l32;
+  wire                when_Bypass_l28_1;
+  wire                execute_haltRequest_Bypass_l32_1;
+  wire                when_Bypass_l39;
+  wire                execute_haltRequest_Bypass_l43;
+  wire                when_Bypass_l39_1;
+  wire                execute_haltRequest_Bypass_l43_1;
+  wire                when_Bypass_l39_2;
+  wire                memory_haltRequest_Bypass_l43;
+  wire                when_Bypass_l28_2;
+  wire                memory_haltRequest_Bypass_l32;
+  wire                when_Bypass_l39_3;
+  wire                execute_haltRequest_Bypass_l43_2;
+  wire                when_Bypass_l39_4;
+  wire                execute_haltRequest_Bypass_l43_3;
+  wire                when_Bypass_l39_5;
+  wire                memory_haltRequest_Bypass_l43_1;
+  wire                when_Bypass_l39_6;
+  wire                execute_haltRequest_Bypass_l43_4;
+  wire                when_Bypass_l39_7;
+  wire                execute_haltRequest_Bypass_l43_5;
+  wire                when_Bypass_l39_8;
+  wire                memory_haltRequest_Bypass_l43_2;
   reg        [31:0]   _zz_47;
   wire       [31:0]   _zz_48;
   wire       [31:0]   _zz_49;
   reg        [31:0]   _zz_50;
   reg        [31:0]   _zz_51;
   reg        [31:0]   _zz_52;
-  wire                when_Bypass_l27;
-  wire                execute_haltRequest_Bypass_l31;
-  wire                when_Bypass_l27_1;
-  wire                execute_haltRequest_Bypass_l31_1;
-  wire                when_Bypass_l38;
-  wire                execute_haltRequest_Bypass_l42;
-  wire                when_Bypass_l38_1;
-  wire                execute_haltRequest_Bypass_l42_1;
-  wire                when_Bypass_l38_2;
-  wire                memory_haltRequest_Bypass_l42;
-  wire                when_Bypass_l27_2;
-  wire                memory_haltRequest_Bypass_l31;
-  wire                when_Bypass_l38_3;
-  wire                execute_haltRequest_Bypass_l42_2;
-  wire                when_Bypass_l38_4;
-  wire                execute_haltRequest_Bypass_l42_3;
-  wire                when_Bypass_l38_5;
-  wire                memory_haltRequest_Bypass_l42_1;
-  wire                when_Bypass_l38_6;
-  wire                execute_haltRequest_Bypass_l42_4;
-  wire                when_Bypass_l38_7;
-  wire                execute_haltRequest_Bypass_l42_5;
-  wire                when_Bypass_l38_8;
-  wire                memory_haltRequest_Bypass_l42_2;
   wire                when_CtrlLink_l151;
   wire                when_CtrlLink_l151_1;
   wire                when_StageLink_l67;
@@ -194,9 +194,9 @@ module LAS32 (
   reg [23:0] _zz_8_string;
   reg [15:0] _zz_9_string;
   reg [39:0] _zz_10_string;
-  reg [39:0] _zz_22_string;
-  reg [23:0] _zz_23_string;
-  reg [15:0] _zz_25_string;
+  reg [39:0] _zz_16_string;
+  reg [23:0] _zz_17_string;
+  reg [15:0] _zz_19_string;
   reg [31:0] _zz_32_string;
   reg [23:0] _zz_33_string;
   reg [15:0] _zz_34_string;
@@ -221,8 +221,8 @@ module LAS32 (
     end
   end
 
-  assign _zz__zz_38_port1 = _zz_38[_zz_when_Bypass_l27_6];
-  assign _zz__zz_38_port2 = _zz_38[_zz_when_Bypass_l38_4];
+  assign _zz__zz_38_port1 = _zz_38[_zz_when_Bypass_l28_6];
+  assign _zz__zz_38_port2 = _zz_38[_zz_when_Bypass_l39_4];
   `ifndef SYNTHESIS
   always @(*) begin
     case(_zz_8)
@@ -252,30 +252,30 @@ module LAS32 (
     endcase
   end
   always @(*) begin
-    case(_zz_22)
-      AluOp_add : _zz_22_string = "add  ";
-      AluOp_sub : _zz_22_string = "sub  ";
-      AluOp_slt : _zz_22_string = "slt  ";
-      AluOp_sltu : _zz_22_string = "sltu ";
-      AluOp_and_1 : _zz_22_string = "and_1";
-      AluOp_or_1 : _zz_22_string = "or_1 ";
-      AluOp_nor_1 : _zz_22_string = "nor_1";
-      AluOp_xor_1 : _zz_22_string = "xor_1";
-      default : _zz_22_string = "?????";
+    case(_zz_16)
+      AluOp_add : _zz_16_string = "add  ";
+      AluOp_sub : _zz_16_string = "sub  ";
+      AluOp_slt : _zz_16_string = "slt  ";
+      AluOp_sltu : _zz_16_string = "sltu ";
+      AluOp_and_1 : _zz_16_string = "and_1";
+      AluOp_or_1 : _zz_16_string = "or_1 ";
+      AluOp_nor_1 : _zz_16_string = "nor_1";
+      AluOp_xor_1 : _zz_16_string = "xor_1";
+      default : _zz_16_string = "?????";
     endcase
   end
   always @(*) begin
-    case(_zz_23)
-      AluSrc2_rk : _zz_23_string = "rk ";
-      AluSrc2_luc : _zz_23_string = "luc";
-      default : _zz_23_string = "???";
+    case(_zz_17)
+      AluSrc2_rk : _zz_17_string = "rk ";
+      AluSrc2_luc : _zz_17_string = "luc";
+      default : _zz_17_string = "???";
     endcase
   end
   always @(*) begin
-    case(_zz_25)
-      AluSrc1_rj : _zz_25_string = "rj";
-      AluSrc1_pc : _zz_25_string = "pc";
-      default : _zz_25_string = "??";
+    case(_zz_19)
+      AluSrc1_rj : _zz_19_string = "rj";
+      AluSrc1_pc : _zz_19_string = "pc";
+      default : _zz_19_string = "??";
     endcase
   end
   always @(*) begin
@@ -316,180 +316,180 @@ module LAS32 (
   `endif
 
   always @(*) begin
-    _zz_memory_haltRequest_Bypass_l42 = 1'b0;
-    if(when_Bypass_l38_8) begin
-      if(!_zz_when_RegisterFile_l36_6) begin
-        _zz_memory_haltRequest_Bypass_l42 = 1'b1;
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_execute_haltRequest_Bypass_l42 = 1'b0;
-    if(when_Bypass_l38_7) begin
-      if(!_zz_when_RegisterFile_l36_6) begin
-        _zz_execute_haltRequest_Bypass_l42 = 1'b1;
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_execute_haltRequest_Bypass_l42_1 = 1'b0;
-    if(when_Bypass_l38_6) begin
-      if(!_zz_when_RegisterFile_l36_4) begin
-        _zz_execute_haltRequest_Bypass_l42_1 = 1'b1;
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_memory_haltRequest_Bypass_l42_1 = 1'b0;
-    if(when_Bypass_l38_5) begin
-      if(!_zz_when_RegisterFile_l36_6) begin
-        _zz_memory_haltRequest_Bypass_l42_1 = 1'b1;
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_execute_haltRequest_Bypass_l42_2 = 1'b0;
-    if(when_Bypass_l38_4) begin
-      if(!_zz_when_RegisterFile_l36_6) begin
-        _zz_execute_haltRequest_Bypass_l42_2 = 1'b1;
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_execute_haltRequest_Bypass_l42_3 = 1'b0;
-    if(when_Bypass_l38_3) begin
-      if(!_zz_when_RegisterFile_l36_4) begin
-        _zz_execute_haltRequest_Bypass_l42_3 = 1'b1;
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_memory_haltRequest_Bypass_l31 = 1'b0;
-    if(_zz_3) begin
-      if(when_Bypass_l27_2) begin
-        if(!_zz_when_RegisterFile_l36_6) begin
-          _zz_memory_haltRequest_Bypass_l31 = 1'b1;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_memory_haltRequest_Bypass_l42_2 = 1'b0;
-    if(when_Bypass_l38_2) begin
-      if(!_zz_when_RegisterFile_l36_6) begin
-        _zz_memory_haltRequest_Bypass_l42_2 = 1'b1;
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_execute_haltRequest_Bypass_l42_4 = 1'b0;
-    if(when_Bypass_l38_1) begin
-      if(!_zz_when_RegisterFile_l36_6) begin
-        _zz_execute_haltRequest_Bypass_l42_4 = 1'b1;
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_execute_haltRequest_Bypass_l42_5 = 1'b0;
-    if(when_Bypass_l38) begin
-      if(!_zz_when_RegisterFile_l36_4) begin
-        _zz_execute_haltRequest_Bypass_l42_5 = 1'b1;
-      end
-    end
-  end
-
-  always @(*) begin
     _zz_15 = _zz_14;
-    if(when_Bypass_l38) begin
-      if(_zz_when_RegisterFile_l36_4) begin
-        _zz_15 = _zz_16;
-      end
-    end
-    if(when_Bypass_l38_1) begin
-      if(_zz_when_RegisterFile_l36_6) begin
-        _zz_15 = _zz_29;
-      end
-    end
-    if(when_Bypass_l38_3) begin
-      if(_zz_when_RegisterFile_l36_4) begin
-        _zz_15 = _zz_16;
-      end
-    end
-    if(when_Bypass_l38_4) begin
-      if(_zz_when_RegisterFile_l36_6) begin
-        _zz_15 = _zz_29;
-      end
-    end
-    if(when_Bypass_l38_6) begin
-      if(_zz_when_RegisterFile_l36_4) begin
-        _zz_15 = _zz_16;
-      end
-    end
-    if(when_Bypass_l38_7) begin
-      if(_zz_when_RegisterFile_l36_6) begin
-        _zz_15 = _zz_29;
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_execute_haltRequest_Bypass_l31 = 1'b0;
-    if(_zz_19) begin
-      if(when_Bypass_l27_1) begin
-        if(!_zz_when_RegisterFile_l36_6) begin
-          _zz_execute_haltRequest_Bypass_l31 = 1'b1;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_execute_haltRequest_Bypass_l31_1 = 1'b0;
-    if(_zz_19) begin
-      if(when_Bypass_l27) begin
-        if(!_zz_when_RegisterFile_l36_4) begin
-          _zz_execute_haltRequest_Bypass_l31_1 = 1'b1;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_18 = _zz_17;
-    if(_zz_19) begin
-      if(when_Bypass_l27) begin
-        if(_zz_when_RegisterFile_l36_4) begin
-          _zz_18 = _zz_16;
-        end
-      end
-      if(when_Bypass_l27_1) begin
-        if(_zz_when_RegisterFile_l36_6) begin
-          _zz_18 = _zz_29;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    _zz_21 = _zz_20;
     if(_zz_7) begin
-      _zz_21 = _zz_52;
+      _zz_15 = _zz_52;
     end
   end
 
   always @(*) begin
-    _zz_26 = 32'h00000000;
+    _zz_20 = 32'h00000000;
     if(_zz_31) begin
-      _zz_26 = _zz_27;
+      _zz_20 = _zz_21;
+    end
+  end
+
+  always @(*) begin
+    _zz_memory_haltRequest_Bypass_l43 = 1'b0;
+    if(when_Bypass_l39_8) begin
+      if(!_zz_when_RegisterFile_l36_6) begin
+        _zz_memory_haltRequest_Bypass_l43 = 1'b1;
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_execute_haltRequest_Bypass_l43 = 1'b0;
+    if(when_Bypass_l39_7) begin
+      if(!_zz_when_RegisterFile_l36_6) begin
+        _zz_execute_haltRequest_Bypass_l43 = 1'b1;
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_execute_haltRequest_Bypass_l43_1 = 1'b0;
+    if(when_Bypass_l39_6) begin
+      if(!_zz_when_RegisterFile_l36_4) begin
+        _zz_execute_haltRequest_Bypass_l43_1 = 1'b1;
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_memory_haltRequest_Bypass_l43_1 = 1'b0;
+    if(when_Bypass_l39_5) begin
+      if(!_zz_when_RegisterFile_l36_6) begin
+        _zz_memory_haltRequest_Bypass_l43_1 = 1'b1;
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_execute_haltRequest_Bypass_l43_2 = 1'b0;
+    if(when_Bypass_l39_4) begin
+      if(!_zz_when_RegisterFile_l36_6) begin
+        _zz_execute_haltRequest_Bypass_l43_2 = 1'b1;
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_execute_haltRequest_Bypass_l43_3 = 1'b0;
+    if(when_Bypass_l39_3) begin
+      if(!_zz_when_RegisterFile_l36_4) begin
+        _zz_execute_haltRequest_Bypass_l43_3 = 1'b1;
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_memory_haltRequest_Bypass_l32 = 1'b0;
+    if(_zz_3) begin
+      if(when_Bypass_l28_2) begin
+        if(!_zz_when_RegisterFile_l36_6) begin
+          _zz_memory_haltRequest_Bypass_l32 = 1'b1;
+        end
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_memory_haltRequest_Bypass_l43_2 = 1'b0;
+    if(when_Bypass_l39_2) begin
+      if(!_zz_when_RegisterFile_l36_6) begin
+        _zz_memory_haltRequest_Bypass_l43_2 = 1'b1;
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_execute_haltRequest_Bypass_l43_4 = 1'b0;
+    if(when_Bypass_l39_1) begin
+      if(!_zz_when_RegisterFile_l36_6) begin
+        _zz_execute_haltRequest_Bypass_l43_4 = 1'b1;
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_execute_haltRequest_Bypass_l43_5 = 1'b0;
+    if(when_Bypass_l39) begin
+      if(!_zz_when_RegisterFile_l36_4) begin
+        _zz_execute_haltRequest_Bypass_l43_5 = 1'b1;
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_23 = _zz_22;
+    if(when_Bypass_l39) begin
+      if(_zz_when_RegisterFile_l36_4) begin
+        _zz_23 = _zz_24;
+      end
+    end
+    if(when_Bypass_l39_1) begin
+      if(_zz_when_RegisterFile_l36_6) begin
+        _zz_23 = _zz_29;
+      end
+    end
+    if(when_Bypass_l39_3) begin
+      if(_zz_when_RegisterFile_l36_4) begin
+        _zz_23 = _zz_24;
+      end
+    end
+    if(when_Bypass_l39_4) begin
+      if(_zz_when_RegisterFile_l36_6) begin
+        _zz_23 = _zz_29;
+      end
+    end
+    if(when_Bypass_l39_6) begin
+      if(_zz_when_RegisterFile_l36_4) begin
+        _zz_23 = _zz_24;
+      end
+    end
+    if(when_Bypass_l39_7) begin
+      if(_zz_when_RegisterFile_l36_6) begin
+        _zz_23 = _zz_29;
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_execute_haltRequest_Bypass_l32 = 1'b0;
+    if(_zz_27) begin
+      if(when_Bypass_l28_1) begin
+        if(!_zz_when_RegisterFile_l36_6) begin
+          _zz_execute_haltRequest_Bypass_l32 = 1'b1;
+        end
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_execute_haltRequest_Bypass_l32_1 = 1'b0;
+    if(_zz_27) begin
+      if(when_Bypass_l28) begin
+        if(!_zz_when_RegisterFile_l36_4) begin
+          _zz_execute_haltRequest_Bypass_l32_1 = 1'b1;
+        end
+      end
+    end
+  end
+
+  always @(*) begin
+    _zz_26 = _zz_25;
+    if(_zz_27) begin
+      if(when_Bypass_l28) begin
+        if(_zz_when_RegisterFile_l36_4) begin
+          _zz_26 = _zz_24;
+        end
+      end
+      if(when_Bypass_l28_1) begin
+        if(_zz_when_RegisterFile_l36_6) begin
+          _zz_26 = _zz_29;
+        end
+      end
     end
   end
 
@@ -548,8 +548,8 @@ module LAS32 (
     end
   end
 
-  assign _zz_when_Bypass_l27_6 = _zz_when_Decoder_l40_1[9 : 5];
-  assign _zz_when_Bypass_l38_4 = _zz_when_Decoder_l40_1[14 : 10];
+  assign _zz_when_Bypass_l28_6 = _zz_when_Decoder_l40_1[9 : 5];
+  assign _zz_when_Bypass_l39_4 = _zz_when_Decoder_l40_1[14 : 10];
   always @(*) begin
     _zz_when_RegisterFile_l36_7 = 1'b0;
     if(when_Decoder_l40) begin
@@ -775,6 +775,30 @@ module LAS32 (
   assign when_Decoder_l40_14 = ((_zz_when_Decoder_l40_1 & 32'hffc00000) == 32'h03800000);
   assign when_Decoder_l40_15 = ((_zz_when_Decoder_l40_1 & 32'hffc00000) == 32'h03c00000);
   assign when_RegisterFile_l36 = (((_zz_when_RegisterFile_l36_6 && (_zz_when_RegisterFile_l36_5 != 5'h00)) && write_up_isFiring) && write_up_isValid);
+  assign when_Bypass_l28 = (_zz_when_Bypass_l28_5 == _zz_when_Bypass_l28_4);
+  assign execute_haltRequest_Bypass_l32 = _zz_execute_haltRequest_Bypass_l32_1;
+  assign when_Bypass_l28_1 = (_zz_when_Bypass_l28_5 == _zz_when_RegisterFile_l36_5);
+  assign execute_haltRequest_Bypass_l32_1 = _zz_execute_haltRequest_Bypass_l32;
+  assign when_Bypass_l39 = (_zz_when_Bypass_l39_3 == _zz_when_Bypass_l28_4);
+  assign execute_haltRequest_Bypass_l43 = _zz_execute_haltRequest_Bypass_l43_5;
+  assign when_Bypass_l39_1 = (_zz_when_Bypass_l39_3 == _zz_when_RegisterFile_l36_5);
+  assign execute_haltRequest_Bypass_l43_1 = _zz_execute_haltRequest_Bypass_l43_4;
+  assign when_Bypass_l39_2 = (_zz_when_Bypass_l39_2 == _zz_when_RegisterFile_l36_5);
+  assign memory_haltRequest_Bypass_l43 = _zz_memory_haltRequest_Bypass_l43_2;
+  assign when_Bypass_l28_2 = (_zz_when_Bypass_l28_1 == _zz_when_RegisterFile_l36_5);
+  assign memory_haltRequest_Bypass_l32 = _zz_memory_haltRequest_Bypass_l32;
+  assign when_Bypass_l39_3 = (_zz_when_Bypass_l39_3 == _zz_when_Bypass_l28_4);
+  assign execute_haltRequest_Bypass_l43_2 = _zz_execute_haltRequest_Bypass_l43_3;
+  assign when_Bypass_l39_4 = (_zz_when_Bypass_l39_3 == _zz_when_RegisterFile_l36_5);
+  assign execute_haltRequest_Bypass_l43_3 = _zz_execute_haltRequest_Bypass_l43_2;
+  assign when_Bypass_l39_5 = (_zz_when_Bypass_l39_2 == _zz_when_RegisterFile_l36_5);
+  assign memory_haltRequest_Bypass_l43_1 = _zz_memory_haltRequest_Bypass_l43_1;
+  assign when_Bypass_l39_6 = (_zz_when_Bypass_l39_3 == _zz_when_Bypass_l28_4);
+  assign execute_haltRequest_Bypass_l43_4 = _zz_execute_haltRequest_Bypass_l43_1;
+  assign when_Bypass_l39_7 = (_zz_when_Bypass_l39_3 == _zz_when_RegisterFile_l36_5);
+  assign execute_haltRequest_Bypass_l43_5 = _zz_execute_haltRequest_Bypass_l43;
+  assign when_Bypass_l39_8 = (_zz_when_Bypass_l39_2 == _zz_when_RegisterFile_l36_5);
+  assign memory_haltRequest_Bypass_l43_2 = _zz_memory_haltRequest_Bypass_l43;
   always @(*) begin
     case(_zz_32)
       LucOp_si12 : begin
@@ -789,23 +813,23 @@ module LAS32 (
     endcase
   end
 
-  assign _zz_27 = _zz_47;
+  assign _zz_21 = _zz_47;
   always @(*) begin
-    case(_zz_25)
+    case(_zz_19)
       AluSrc1_rj : begin
-        _zz_50 = _zz_18;
+        _zz_50 = _zz_26;
       end
       default : begin
-        _zz_50 = _zz_24;
+        _zz_50 = _zz_18;
       end
     endcase
   end
 
   assign _zz_48 = _zz_50;
   always @(*) begin
-    case(_zz_23)
+    case(_zz_17)
       AluSrc2_rk : begin
-        _zz_51 = _zz_15;
+        _zz_51 = _zz_23;
       end
       default : begin
         _zz_51 = _zz_6;
@@ -815,7 +839,7 @@ module LAS32 (
 
   assign _zz_49 = _zz_51;
   always @(*) begin
-    case(_zz_22)
+    case(_zz_16)
       AluOp_add : begin
         _zz_52 = _zz__zz_52;
       end
@@ -847,30 +871,6 @@ module LAS32 (
   assign _zz_40 = _zz_when_RegisterFile_l36_6;
   assign _zz_41 = _zz_when_RegisterFile_l36_5;
   assign _zz_42 = _zz_29;
-  assign when_Bypass_l27 = (_zz_when_Bypass_l27_5 == _zz_when_Bypass_l27_4);
-  assign execute_haltRequest_Bypass_l31 = _zz_execute_haltRequest_Bypass_l31_1;
-  assign when_Bypass_l27_1 = (_zz_when_Bypass_l27_5 == _zz_when_RegisterFile_l36_5);
-  assign execute_haltRequest_Bypass_l31_1 = _zz_execute_haltRequest_Bypass_l31;
-  assign when_Bypass_l38 = (_zz_when_Bypass_l38_3 == _zz_when_Bypass_l27_4);
-  assign execute_haltRequest_Bypass_l42 = _zz_execute_haltRequest_Bypass_l42_5;
-  assign when_Bypass_l38_1 = (_zz_when_Bypass_l38_3 == _zz_when_RegisterFile_l36_5);
-  assign execute_haltRequest_Bypass_l42_1 = _zz_execute_haltRequest_Bypass_l42_4;
-  assign when_Bypass_l38_2 = (_zz_when_Bypass_l38_2 == _zz_when_RegisterFile_l36_5);
-  assign memory_haltRequest_Bypass_l42 = _zz_memory_haltRequest_Bypass_l42_2;
-  assign when_Bypass_l27_2 = (_zz_when_Bypass_l27_1 == _zz_when_RegisterFile_l36_5);
-  assign memory_haltRequest_Bypass_l31 = _zz_memory_haltRequest_Bypass_l31;
-  assign when_Bypass_l38_3 = (_zz_when_Bypass_l38_3 == _zz_when_Bypass_l27_4);
-  assign execute_haltRequest_Bypass_l42_2 = _zz_execute_haltRequest_Bypass_l42_3;
-  assign when_Bypass_l38_4 = (_zz_when_Bypass_l38_3 == _zz_when_RegisterFile_l36_5);
-  assign execute_haltRequest_Bypass_l42_3 = _zz_execute_haltRequest_Bypass_l42_2;
-  assign when_Bypass_l38_5 = (_zz_when_Bypass_l38_2 == _zz_when_RegisterFile_l36_5);
-  assign memory_haltRequest_Bypass_l42_1 = _zz_memory_haltRequest_Bypass_l42_1;
-  assign when_Bypass_l38_6 = (_zz_when_Bypass_l38_3 == _zz_when_Bypass_l27_4);
-  assign execute_haltRequest_Bypass_l42_4 = _zz_execute_haltRequest_Bypass_l42_1;
-  assign when_Bypass_l38_7 = (_zz_when_Bypass_l38_3 == _zz_when_RegisterFile_l36_5);
-  assign execute_haltRequest_Bypass_l42_5 = _zz_execute_haltRequest_Bypass_l42;
-  assign when_Bypass_l38_8 = (_zz_when_Bypass_l38_2 == _zz_when_RegisterFile_l36_5);
-  assign memory_haltRequest_Bypass_l42_2 = _zz_memory_haltRequest_Bypass_l42;
   assign fetch_up_ready = fetch_down_isReady;
   assign decode_up_ready = decode_down_isReady;
   assign _zz_when_Decoder_l40_1 = _zz_when_Decoder_l40;
@@ -888,14 +888,14 @@ module LAS32 (
     end
   end
 
-  assign when_CtrlLink_l151 = (|{execute_haltRequest_Bypass_l42_5,{execute_haltRequest_Bypass_l42_4,{execute_haltRequest_Bypass_l42_3,{execute_haltRequest_Bypass_l42_2,{execute_haltRequest_Bypass_l42_1,{execute_haltRequest_Bypass_l42,{execute_haltRequest_Bypass_l31_1,execute_haltRequest_Bypass_l31}}}}}}});
-  assign _zz_24 = _zz_12;
-  assign _zz_19 = _zz_11;
-  assign _zz_when_Bypass_l27_5 = _zz_when_Bypass_l27_3;
-  assign _zz_when_Bypass_l38_3 = _zz_when_Bypass_l38_1;
-  assign _zz_22 = _zz_10;
-  assign _zz_25 = _zz_9;
-  assign _zz_23 = _zz_8;
+  assign when_CtrlLink_l151 = (|{execute_haltRequest_Bypass_l43_5,{execute_haltRequest_Bypass_l43_4,{execute_haltRequest_Bypass_l43_3,{execute_haltRequest_Bypass_l43_2,{execute_haltRequest_Bypass_l43_1,{execute_haltRequest_Bypass_l43,{execute_haltRequest_Bypass_l32_1,execute_haltRequest_Bypass_l32}}}}}}});
+  assign _zz_18 = _zz_12;
+  assign _zz_27 = _zz_11;
+  assign _zz_when_Bypass_l28_5 = _zz_when_Bypass_l28_3;
+  assign _zz_when_Bypass_l39_3 = _zz_when_Bypass_l39_1;
+  assign _zz_16 = _zz_10;
+  assign _zz_19 = _zz_9;
+  assign _zz_17 = _zz_8;
   always @(*) begin
     memory_down_valid = memory_up_valid;
     if(when_CtrlLink_l151_1) begin
@@ -910,11 +910,11 @@ module LAS32 (
     end
   end
 
-  assign when_CtrlLink_l151_1 = (|{memory_haltRequest_Bypass_l42_2,{memory_haltRequest_Bypass_l42_1,{memory_haltRequest_Bypass_l31,memory_haltRequest_Bypass_l42}}});
-  assign _zz_16 = _zz_4;
-  assign _zz_when_Bypass_l38_2 = _zz_when_Bypass_l38;
+  assign when_CtrlLink_l151_1 = (|{memory_haltRequest_Bypass_l43_2,{memory_haltRequest_Bypass_l43_1,{memory_haltRequest_Bypass_l32,memory_haltRequest_Bypass_l43}}});
+  assign _zz_24 = _zz_4;
+  assign _zz_when_Bypass_l39_2 = _zz_when_Bypass_l39;
   assign _zz_when_RegisterFile_l36_4 = _zz_when_RegisterFile_l36_2;
-  assign _zz_when_Bypass_l27_4 = _zz_when_Bypass_l27;
+  assign _zz_when_Bypass_l28_4 = _zz_when_Bypass_l28;
   assign write_down_valid = write_up_valid;
   assign _zz_29 = _zz_1;
   assign _zz_when_RegisterFile_l36_6 = _zz_when_RegisterFile_l36_1;
@@ -981,33 +981,33 @@ module LAS32 (
     end
     if(decode_down_isReady) begin
       _zz_12 <= _zz_13;
-      _zz_20 <= _zz_26;
+      _zz_14 <= _zz_20;
       _zz_11 <= _zz_36;
-      _zz_when_Bypass_l27_3 <= _zz_when_Bypass_l27_6;
-      _zz_when_Bypass_l38_1 <= _zz_when_Bypass_l38_4;
+      _zz_when_Bypass_l28_3 <= _zz_when_Bypass_l28_6;
+      _zz_when_Bypass_l39_1 <= _zz_when_Bypass_l39_4;
       _zz_when_RegisterFile_l36_3 <= _zz_when_RegisterFile_l36_7;
-      _zz_when_Bypass_l27_2 <= _zz_when_Decoder_l40_1[4 : 0];
+      _zz_when_Bypass_l28_2 <= _zz_when_Decoder_l40_1[4 : 0];
       _zz_10 <= _zz_35;
       _zz_9 <= _zz_34;
       _zz_8 <= _zz_33;
       _zz_7 <= _zz_30;
-      _zz_17 <= ((_zz_when_Bypass_l27_6 != 5'h00) ? ((_zz_when_Bypass_l27_6 == _zz_when_RegisterFile_l36_5) ? _zz_29 : _zz__zz_38_port1) : 32'h00000000);
-      _zz_14 <= ((_zz_when_Bypass_l38_4 != 5'h00) ? ((_zz_when_Bypass_l38_4 == _zz_when_RegisterFile_l36_5) ? _zz_29 : _zz__zz_38_port2) : 32'h00000000);
-      _zz_6 <= _zz_27;
+      _zz_25 <= ((_zz_when_Bypass_l28_6 != 5'h00) ? ((_zz_when_Bypass_l28_6 == _zz_when_RegisterFile_l36_5) ? _zz_29 : _zz__zz_38_port1) : 32'h00000000);
+      _zz_22 <= ((_zz_when_Bypass_l39_4 != 5'h00) ? ((_zz_when_Bypass_l39_4 == _zz_when_RegisterFile_l36_5) ? _zz_29 : _zz__zz_38_port2) : 32'h00000000);
+      _zz_6 <= _zz_21;
     end
     if(execute_down_isReady) begin
-      _zz_5 <= _zz_24;
-      _zz_4 <= _zz_21;
-      _zz_3 <= _zz_19;
-      _zz_when_Bypass_l27_1 <= _zz_when_Bypass_l27_5;
-      _zz_when_Bypass_l38 <= _zz_when_Bypass_l38_3;
+      _zz_5 <= _zz_18;
+      _zz_4 <= _zz_15;
+      _zz_3 <= _zz_27;
+      _zz_when_Bypass_l28_1 <= _zz_when_Bypass_l28_5;
+      _zz_when_Bypass_l39 <= _zz_when_Bypass_l39_3;
       _zz_when_RegisterFile_l36_2 <= _zz_when_RegisterFile_l36_3;
-      _zz_when_Bypass_l27 <= _zz_when_Bypass_l27_2;
+      _zz_when_Bypass_l28 <= _zz_when_Bypass_l28_2;
     end
     _zz_2 <= _zz_5;
-    _zz_1 <= _zz_16;
+    _zz_1 <= _zz_24;
     _zz_when_RegisterFile_l36_1 <= _zz_when_RegisterFile_l36_4;
-    _zz_when_RegisterFile_l36 <= _zz_when_Bypass_l27_4;
+    _zz_when_RegisterFile_l36 <= _zz_when_Bypass_l28_4;
   end
 
 
