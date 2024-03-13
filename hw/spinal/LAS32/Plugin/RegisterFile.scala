@@ -8,7 +8,7 @@ class RegisterFile(readStageIndex: Int, writeStageIndex: Int) extends Plugin {
 
     // regfile read
     val REGFILE_RJ_ENABLE, REGFILE_RK_ENABLE = Payload(Bool()) // control signal
-    val REGFILE_ADDR_RJ, REGFILE_ADDR_RK = Payload(UInt(5 bits)) // control signal
+    val REGFILE_RJ_ADDR, REGFILE_RK_ADDR = Payload(UInt(5 bits)) // control signal
     val REGFILE_RJ, REGFILE_RK = Payload(Bits(32 bits))
 
     // regfile write
@@ -23,8 +23,8 @@ class RegisterFile(readStageIndex: Int, writeStageIndex: Int) extends Plugin {
 
         decoderService.addSignal(REGFILE_RJ_ENABLE, False)
         decoderService.addSignal(REGFILE_RK_ENABLE, False)
-        decoderService.addSignal(REGFILE_ADDR_RJ, (INSTRUCTION: Bits) => U(INSTRUCTION(9 downto 5)))
-        decoderService.addSignal(REGFILE_ADDR_RK, (INSTRUCTION: Bits) => U(INSTRUCTION(14 downto 10)))
+        decoderService.addSignal(REGFILE_RJ_ADDR, (INSTRUCTION: Bits) => U(INSTRUCTION(9 downto 5)))
+        decoderService.addSignal(REGFILE_RK_ADDR, (INSTRUCTION: Bits) => U(INSTRUCTION(14 downto 10)))
         decoderService.addSignal(REGFILE_RD_ENABLE, False)
         decoderService.addSignal(REGFILE_RD_ADDR, (INSTRUCTION: Bits) => U(INSTRUCTION(4 downto 0)))
     }
@@ -40,19 +40,16 @@ class RegisterFile(readStageIndex: Int, writeStageIndex: Int) extends Plugin {
 
         val readStage = pipeline.stages(readStageIndex)
         new readStage.Area {
-            // TODO: move the follow assignment to forward Plugin
-            up(REGFILE_RD) := B(0)
-
             // inner regfile forward
-            REGFILE_RJ := (REGFILE_ADDR_RJ =/= 0) ?
-                ((REGFILE_ADDR_RJ === writeStage(REGFILE_RD_ADDR)) ?
+            REGFILE_RJ := (REGFILE_RJ_ADDR =/= 0) ?
+                ((REGFILE_RJ_ADDR === writeStage(REGFILE_RD_ADDR)) ?
                     writeStage(REGFILE_RD) |
-                    regfile(REGFILE_ADDR_RJ)) |
+                    regfile(REGFILE_RJ_ADDR)) |
                 B(0, 32 bits)
-            REGFILE_RK := (REGFILE_ADDR_RK =/= 0) ?
-                ((REGFILE_ADDR_RK === writeStage(REGFILE_RD_ADDR)) ?
+            REGFILE_RK := (REGFILE_RK_ADDR =/= 0) ?
+                ((REGFILE_RK_ADDR === writeStage(REGFILE_RD_ADDR)) ?
                     writeStage(REGFILE_RD) |
-                    regfile(REGFILE_ADDR_RK)) |
+                    regfile(REGFILE_RK_ADDR)) |
                 B(0, 32 bits)
         }
     }
