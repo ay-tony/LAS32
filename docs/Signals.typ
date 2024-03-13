@@ -20,5 +20,6 @@
     [ALU_SRC2], [IntAlu], [AluSrc2], [AluSrc2.rk()],
     [ALU_OUT], [IntAlu], [Bits(32 bits)], [],
     [WRITE_AT_ALU], [IntAlu], [Bool()], [False],
+    [BYPASS_ENABLE_STAGE], [Bypass], [UInt(stageCountBits)], [U(0)],
 )
 
