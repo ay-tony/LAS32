@@ -23,7 +23,8 @@ class LAS32 extends Component with Pipeline {
         new Bypass(getIndex(decode), 5),
         new IntAlu(getIndex(decode), getIndex(execute)),
         new DebugBus(getIndex(write)),
-        new Shifter(getIndex(execute))
+        new Shifter(getIndex(execute)),
+        new Comparer(getIndex(decode))
     )
 
     build()

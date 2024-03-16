@@ -14,7 +14,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
     val WRITE_AT_LUC = Payload(Bool()) // control signal
 
     object AluOp extends SpinalEnum {
-        val add, sub, slt, sltu, and, or, nor, xor = newElement()
+        val add, sub, and, or, nor, xor = newElement()
     }
     val ALU_OP = Payload(AluOp()) // control signal
     object AluSrc1 extends SpinalEnum {
@@ -99,30 +99,6 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
                 WRITE_AT_LUC -> True,
                 BYPASS_ENABLE_STAGE -> U(lucStageIndex).resized
             )
-        )
-
-        // SLT
-        decoderService.addInstruction(
-            M"00000000000100100---------------",
-            commonAluSignals :+ (ALU_OP -> AluOp.slt())
-        )
-
-        // SLTU
-        decoderService.addInstruction(
-            M"00000000000100101---------------",
-            commonAluSignals :+ (ALU_OP -> AluOp.sltu())
-        )
-
-        // SLTI
-        decoderService.addInstruction(
-            M"0000001000----------------------",
-            commonAluSi12Signals :+ (ALU_OP -> AluOp.slt())
-        )
-
-        // SLTUI
-        decoderService.addInstruction(
-            M"0000001001----------------------",
-            commonAluSi12Signals :+ (ALU_OP -> AluOp.sltu())
         )
 
         // PCADDU12I
@@ -216,8 +192,6 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             ALU_OUT := ALU_OP.mux(
                 AluOp.add -> B(U(src1) + U(src2)),
                 AluOp.sub -> B(U(src1) - U(src2)),
-                AluOp.slt -> B((S(src1) < S(src2)) ? U(1, 32 bits) | U(0, 32 bits)),
-                AluOp.sltu -> B((U(src1) < U(src2)) ? U(1, 32 bits) | U(0, 32 bits)),
                 AluOp.and -> (src1 & src2),
                 AluOp.or -> (src1 | src2),
                 AluOp.nor -> ~(src1 | src2),

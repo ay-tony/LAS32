@@ -20,8 +20,7 @@ class Bypass(beginBypassStageIndex: Int, stageCountBits: Int) extends Plugin {
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile._
 
-        stages(beginBypassStageIndex).up(REGFILE_RD) := B(0) // bypass begin signal, prevent latch
-
+        // TODO: fix the bug, iterate reversed
         for (curStage <- stages.filter(o => stages.indexOf(o) > beginBypassStageIndex)) {
             when(curStage(REGFILE_RJ_ENABLE)) {
                 for (bypassStage <- stages.filter(o => stages.indexOf(o) > stages.indexOf(curStage))) {

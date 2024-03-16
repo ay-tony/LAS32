@@ -14,7 +14,7 @@ class RegisterFile(readStageIndex: Int, writeStageIndex: Int) extends Plugin {
     // regfile write
     val REGFILE_RD_ENABLE = Payload(Bool()) // control signal
     val REGFILE_RD_ADDR = Payload(UInt(5 bits)) // control signal
-    val REGFILE_RD = Payload(Bits(32 bits))
+    val REGFILE_RD = Payload(Bits(32 bits).noCombLoopCheck)
 
     val regfile = Mem(Bits(32 bits), 32)
 
@@ -50,6 +50,14 @@ class RegisterFile(readStageIndex: Int, writeStageIndex: Int) extends Plugin {
                 ((REGFILE_RK_ADDR === writeStage(REGFILE_RD_ADDR)) ?
                     writeStage(REGFILE_RD) |
                     regfile(REGFILE_RK_ADDR)) |
+                B(0, 32 bits)
+
+            // REGFILE_RD may be written by other components
+            // hence init in up stage
+            up(REGFILE_RD) := (REGFILE_RD_ADDR =/= 0) ?
+                ((REGFILE_RD_ADDR === writeStage(REGFILE_RD_ADDR)) ?
+                    writeStage(REGFILE_RD) |
+                    regfile(REGFILE_RD_ADDR)) |
                 B(0, 32 bits)
         }
     }
