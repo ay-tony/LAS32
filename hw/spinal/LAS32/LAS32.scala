@@ -17,6 +17,7 @@ class LAS32 extends Component with Pipeline {
     def getIndex(stage: CtrlLink) = stages.indexOf(stage)
 
     plugins ++= Seq(
+        new Pc(getIndex(fetch), getIndex(decode)),
         new Fetcher(getIndex(fetch)),
         new Decoder(getIndex(decode)),
         new RegisterFile(getIndex(decode), getIndex(write)),
@@ -24,7 +25,7 @@ class LAS32 extends Component with Pipeline {
         new IntAlu(getIndex(decode), getIndex(execute)),
         new DebugBus(getIndex(write)),
         new Shifter(getIndex(execute)),
-        new Branch(getIndex(decode), getIndex(decode))
+        new Comparer(getIndex(decode))
     )
 
     build()

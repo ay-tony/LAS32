@@ -15,8 +15,8 @@ class DebugBus(stageIndex: Int) extends Plugin {
     override def register(pipeline: Pipeline): Unit = {}
 
     override def build(pipeline: Pipeline): Unit = {
-        val fetcher = pipeline.getPlugin(classOf[Fetcher])
-        import fetcher.PC
+        val pc = pipeline.getPlugin(classOf[Pc])
+        import pc.PC
 
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile.{REGFILE_WRITE_VAL_ENABLE, REGFILE_WRITE_VAL_ADDR, REGFILE_WRITE_VAL}

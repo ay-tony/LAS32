@@ -4,7 +4,7 @@ import spinal.core._
 import spinal.lib.misc.pipeline._
 import LAS32._
 
-class Branch(comparerStageIndex: Int, npcStageIndex: Int) extends Plugin {
+class Comparer(stageIndex: Int) extends Plugin {
     object ComparerOp extends SpinalEnum {
         val eq, ne, lt, ge, ltu, geu = newElement()
     }
@@ -16,12 +16,6 @@ class Branch(comparerStageIndex: Int, npcStageIndex: Int) extends Plugin {
     val COMPARER_OUT = Payload(Bool())
     val WRITE_AT_COMPARER = Payload(Bool()) // control signal
 
-    object NpcOp extends SpinalEnum {
-        val pc4, offs16 = newElement()
-    }
-    val NPC_OP = Payload(NpcOp()) // control signal
-    val NPC = Payload(UInt(32 bits))
-
     override def register(pipeline: Pipeline) = {
         // TODO: add branch instruction signals
         val decoderService = pipeline.getService(classOf[DecoderService])
@@ -29,8 +23,6 @@ class Branch(comparerStageIndex: Int, npcStageIndex: Int) extends Plugin {
         decoderService.addSignal(COMPARER_OP, ComparerOp.lt())
         decoderService.addSignal(COMPARER_SRC2, ComparerSrc2.registerVal2())
         decoderService.addSignal(WRITE_AT_COMPARER, False)
-
-        decoderService.addSignal(NPC_OP, NpcOp.pc4())
 
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile._
@@ -87,8 +79,8 @@ class Branch(comparerStageIndex: Int, npcStageIndex: Int) extends Plugin {
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile._
 
-        val comparerStage = pipeline.stages(comparerStageIndex)
-        new comparerStage.Area {
+        val stage = pipeline.stages(stageIndex)
+        new stage.Area {
             val src1, src2 = Bits(32 bits)
             src1 := B(REGFILE_VAL1)
             src2 := COMPARER_SRC2.mux(
@@ -111,16 +103,9 @@ class Branch(comparerStageIndex: Int, npcStageIndex: Int) extends Plugin {
             )
 
             when(WRITE_AT_COMPARER) {
-                comparerStage.bypass(REGFILE_WRITE_VAL) := B(COMPARER_OUT).resized
+                stage.bypass(REGFILE_WRITE_VAL) := B(COMPARER_OUT).resized
             }
         }
 
-        val npcStage = pipeline.stages(npcStageIndex)
-        new npcStage.Area {
-            NPC := NPC_OP.mux(
-                NpcOp.pc4 -> (PC + 4),
-                NpcOp.offs16 -> U(S(PC) + S(INSTRUCTION(25 downto 10) << 2).resized)
-            )
-        }
     }
 }

@@ -164,6 +164,9 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         val fetcher = pipeline.getPlugin(classOf[Fetcher])
         import fetcher._
 
+        val pc = pipeline.getPlugin(classOf[Pc])
+        import pc.PC
+
         val lucStage = pipeline.stages(lucStageIndex)
         new lucStage.Area {
             LUC_OUT := LUC_OP.mux(
