@@ -39,15 +39,15 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         decoderService.addSignal(WRITE_AT_ALU, False)
 
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
-        import registerFile.{REGFILE_RJ_ENABLE, REGFILE_RK_ENABLE, REGFILE_RD_ENABLE}
+        import registerFile.{REGFILE_VAL1_ENABLE, REGFILE_VAL2_ENABLE, REGFILE_WRITE_VAL_ENABLE}
 
         val bypass = pipeline.getPlugin(classOf[Bypass])
         import bypass.{BYPASS_ENABLE_STAGE}
 
         val commonAluSignals = List(
-            REGFILE_RJ_ENABLE -> True,
-            REGFILE_RK_ENABLE -> True,
-            REGFILE_RD_ENABLE -> True,
+            REGFILE_VAL1_ENABLE -> True,
+            REGFILE_VAL2_ENABLE -> True,
+            REGFILE_WRITE_VAL_ENABLE -> True,
             WRITE_AT_ALU -> True,
             BYPASS_ENABLE_STAGE -> U(aluStageIndex).resized
         )
@@ -55,8 +55,8 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         val commonAluSi12Signals = List(
             LUC_OP -> LucOp.si12(),
             ALU_SRC2 -> AluSrc2.luc(),
-            REGFILE_RJ_ENABLE -> True,
-            REGFILE_RD_ENABLE -> True,
+            REGFILE_VAL1_ENABLE -> True,
+            REGFILE_WRITE_VAL_ENABLE -> True,
             WRITE_AT_ALU -> True,
             BYPASS_ENABLE_STAGE -> U(aluStageIndex).resized
         )
@@ -64,8 +64,8 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         val commonAluUi12Signals = List(
             LUC_OP -> LucOp.ui12(),
             ALU_SRC2 -> AluSrc2.luc(),
-            REGFILE_RJ_ENABLE -> True,
-            REGFILE_RD_ENABLE -> True,
+            REGFILE_VAL1_ENABLE -> True,
+            REGFILE_WRITE_VAL_ENABLE -> True,
             WRITE_AT_ALU -> True,
             BYPASS_ENABLE_STAGE -> U(aluStageIndex).resized
         )
@@ -95,7 +95,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             M"0001010-------------------------",
             List(
                 LUC_OP -> LucOp.si20(),
-                REGFILE_RD_ENABLE -> True,
+                REGFILE_WRITE_VAL_ENABLE -> True,
                 WRITE_AT_LUC -> True,
                 BYPASS_ENABLE_STAGE -> U(lucStageIndex).resized
             )
@@ -108,7 +108,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
                 LUC_OP -> LucOp.si20(),
                 ALU_SRC1 -> AluSrc1.pc(),
                 ALU_SRC2 -> AluSrc2.luc(),
-                REGFILE_RD_ENABLE -> True,
+                REGFILE_WRITE_VAL_ENABLE -> True,
                 WRITE_AT_ALU -> True,
                 BYPASS_ENABLE_STAGE -> U(aluStageIndex).resized
             )
@@ -173,7 +173,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             )
 
             when(WRITE_AT_LUC) {
-                lucStage.bypass(REGFILE_RD) := LUC_OUT
+                lucStage.bypass(REGFILE_WRITE_VAL) := LUC_OUT
             }
         }
 
@@ -181,11 +181,11 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
         new aluStage.Area {
             val src1, src2 = Bits(32 bits)
             src1 := ALU_SRC1.mux(
-                AluSrc1.rj -> B(REGFILE_RJ),
+                AluSrc1.rj -> B(REGFILE_VAL1),
                 AluSrc1.pc -> B(PC)
             )
             src2 := ALU_SRC2.mux(
-                AluSrc2.rk -> B(REGFILE_RK),
+                AluSrc2.rk -> B(REGFILE_VAL2),
                 AluSrc2.luc -> B(LUC_OUT)
             )
 
@@ -199,7 +199,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
             )
 
             when(WRITE_AT_ALU) {
-                aluStage.bypass(REGFILE_RD) := ALU_OUT
+                aluStage.bypass(REGFILE_WRITE_VAL) := ALU_OUT
             }
         }
     }

@@ -25,22 +25,22 @@ class Shifter(stageIndex: Int) extends Plugin {
         decoderService.addSignal(WRITE_AT_SHIFTER, False)
 
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
-        import registerFile.{REGFILE_RJ_ENABLE, REGFILE_RK_ENABLE, REGFILE_RD_ENABLE}
+        import registerFile.{REGFILE_VAL1_ENABLE, REGFILE_VAL2_ENABLE, REGFILE_WRITE_VAL_ENABLE}
 
         val bypass = pipeline.getPlugin(classOf[Bypass])
         import bypass.{BYPASS_ENABLE_STAGE}
 
         val commonSignals = List(
-            REGFILE_RJ_ENABLE -> True,
-            REGFILE_RK_ENABLE -> True,
-            REGFILE_RD_ENABLE -> True,
+            REGFILE_VAL1_ENABLE -> True,
+            REGFILE_VAL2_ENABLE -> True,
+            REGFILE_WRITE_VAL_ENABLE -> True,
             WRITE_AT_SHIFTER -> True,
             BYPASS_ENABLE_STAGE -> U(stageIndex).resized
         )
 
         val ui5Signals = List(
-            REGFILE_RJ_ENABLE -> True,
-            REGFILE_RD_ENABLE -> True,
+            REGFILE_VAL1_ENABLE -> True,
+            REGFILE_WRITE_VAL_ENABLE -> True,
             WRITE_AT_SHIFTER -> True,
             SHIFTER_SRC2 -> ShifterSrc2.ui5(),
             BYPASS_ENABLE_STAGE -> U(stageIndex).resized
@@ -91,10 +91,10 @@ class Shifter(stageIndex: Int) extends Plugin {
         new stage.Area {
             val src1 = Bits(32 bits)
             val src2 = UInt(5 bits)
-            src1 := REGFILE_RJ
+            src1 := REGFILE_VAL1
             src2 := SHIFTER_SRC2.mux(
-                ShifterSrc2.rk -> U(REGFILE_RK(4 downto 0)),
-                ShifterSrc2.ui5 -> stage(REGFILE_RK_ADDR)
+                ShifterSrc2.rk -> U(REGFILE_VAL2(4 downto 0)),
+                ShifterSrc2.ui5 -> stage(REGFILE_VAL2_ADDR)
             )
 
             val reversed = SHIFTER_OP.mux(
@@ -110,7 +110,7 @@ class Shifter(stageIndex: Int) extends Plugin {
             )
 
             when(WRITE_AT_SHIFTER) {
-                stage.bypass(REGFILE_RD) := SHIFTER_OUT
+                stage.bypass(REGFILE_WRITE_VAL) := SHIFTER_OUT
             }
         }
     }

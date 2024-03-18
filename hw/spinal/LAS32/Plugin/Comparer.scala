@@ -4,40 +4,55 @@ import spinal.core._
 import spinal.lib.misc.pipeline._
 import LAS32._
 
-class Comparer(stageIndex: Int) extends Plugin {
+class Branch(comparerStageIndex: Int, npcStageIndex: Int) extends Plugin {
     object ComparerOp extends SpinalEnum {
         val eq, ne, lt, ge, ltu, geu = newElement()
     }
     val COMPARER_OP = Payload(ComparerOp()) // control signal
     object ComparerSrc2 extends SpinalEnum {
-        val rk, rd, si12 = newElement()
+        val registerVal2, si12 = newElement()
     }
     val COMPARER_SRC2 = Payload(ComparerSrc2()) // control signal
     val COMPARER_OUT = Payload(Bool())
     val WRITE_AT_COMPARER = Payload(Bool()) // control signal
 
+    object NpcOp extends SpinalEnum {
+        val pc4, offs16 = newElement()
+    }
+    val NPC_OP = Payload(NpcOp()) // control signal
+    val NPC = Payload(UInt(32 bits))
+
     override def register(pipeline: Pipeline) = {
+        // TODO: add branch instruction signals
         val decoderService = pipeline.getService(classOf[DecoderService])
 
         decoderService.addSignal(COMPARER_OP, ComparerOp.lt())
-        decoderService.addSignal(COMPARER_SRC2, ComparerSrc2.rk())
+        decoderService.addSignal(COMPARER_SRC2, ComparerSrc2.registerVal2())
         decoderService.addSignal(WRITE_AT_COMPARER, False)
+
+        decoderService.addSignal(NPC_OP, NpcOp.pc4())
 
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile._
 
         val sltSignals = List(
-            REGFILE_RJ_ENABLE -> True,
-            REGFILE_RK_ENABLE -> True,
-            REGFILE_RD_ENABLE -> True,
+            REGFILE_VAL1_ENABLE -> True,
+            REGFILE_VAL2_ENABLE -> True,
+            REGFILE_WRITE_VAL_ENABLE -> True,
             WRITE_AT_COMPARER -> True
         )
 
         val sltImmSignals = List(
-            REGFILE_RJ_ENABLE -> True,
-            REGFILE_RD_ENABLE -> True,
+            REGFILE_VAL1_ENABLE -> True,
+            REGFILE_WRITE_VAL_ENABLE -> True,
             COMPARER_SRC2 -> ComparerSrc2.si12(),
             WRITE_AT_COMPARER -> True
+        )
+
+        val branchSignals = List(
+            REGFILE_VAL1_ENABLE -> True,
+            REGFILE_VAL2_ENABLE -> True,
+            REGFILE_VAL2_ADDR -> ((INSTRUCTION: Bits) => U(INSTRUCTION(4 downto 0)))
         )
 
         // SLT
@@ -72,13 +87,12 @@ class Comparer(stageIndex: Int) extends Plugin {
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile._
 
-        val stage = pipeline.stages(stageIndex)
-        new stage.Area {
+        val comparerStage = pipeline.stages(comparerStageIndex)
+        new comparerStage.Area {
             val src1, src2 = Bits(32 bits)
-            src1 := B(REGFILE_RJ)
+            src1 := B(REGFILE_VAL1)
             src2 := COMPARER_SRC2.mux(
-                ComparerSrc2.rk -> B(REGFILE_RK),
-                ComparerSrc2.rd -> B(REGFILE_RD),
+                ComparerSrc2.registerVal2 -> B(REGFILE_VAL2),
                 ComparerSrc2.si12 -> B(INSTRUCTION(21 downto 10)).resized
             )
 
@@ -97,8 +111,16 @@ class Comparer(stageIndex: Int) extends Plugin {
             )
 
             when(WRITE_AT_COMPARER) {
-                stage.bypass(REGFILE_RD) := B(COMPARER_OUT).resized
+                comparerStage.bypass(REGFILE_WRITE_VAL) := B(COMPARER_OUT).resized
             }
+        }
+
+        val npcStage = pipeline.stages(npcStageIndex)
+        new npcStage.Area {
+            NPC := NPC_OP.mux(
+                NpcOp.pc4 -> (PC + 4),
+                NpcOp.offs16 -> U(S(PC) + S(INSTRUCTION(25 downto 10) << 2).resized)
+            )
         }
     }
 }
