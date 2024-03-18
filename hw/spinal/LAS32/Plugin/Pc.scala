@@ -14,6 +14,7 @@ class Pc(pcStageIndex: Int, npcStageIndex: Int) extends Plugin {
     val NPC = Payload(UInt(32 bits))
     val IS_BRANCH_SIGNAL = Payload(Bool()) // control signal
     val FORCE_BRANCH = Payload(Bool()) // control signal
+    val WRITE_AT_NPC = Payload(Bool()) // control signal
 
     val pc = Reg(PC) init (0x3000)
 
@@ -23,6 +24,7 @@ class Pc(pcStageIndex: Int, npcStageIndex: Int) extends Plugin {
         decoderService.addSignal(NPC_OP, NpcOp.pc4())
         decoderService.addSignal(IS_BRANCH_SIGNAL, False)
         decoderService.addSignal(FORCE_BRANCH, False)
+        decoderService.addSignal(WRITE_AT_NPC, False)
 
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile._
@@ -82,6 +84,29 @@ class Pc(pcStageIndex: Int, npcStageIndex: Int) extends Plugin {
                 NPC_OP -> NpcOp.offs26()
             )
         )
+
+        // BL
+        decoderService.addInstruction(
+            M"010101--------------------------",
+            List(
+                IS_BRANCH_SIGNAL -> True,
+                FORCE_BRANCH -> True,
+                NPC_OP -> NpcOp.offs26(),
+                WRITE_AT_NPC -> True,
+                REGFILE_WRITE_VAL_ADDR -> U(1).resized
+            )
+        )
+
+        // JIRL
+        decoderService.addInstruction(
+            M"010011--------------------------",
+            List(
+                IS_BRANCH_SIGNAL -> True,
+                FORCE_BRANCH -> True,
+                NPC_OP -> NpcOp.offs16(),
+                WRITE_AT_NPC -> True
+            )
+        )
     }
 
     override def build(pipeline: Pipeline): Unit = {
@@ -99,6 +124,9 @@ class Pc(pcStageIndex: Int, npcStageIndex: Int) extends Plugin {
         val comparer = pipeline.getPlugin(classOf[Comparer])
         import comparer._
 
+        val registerFile = pipeline.getPlugin(classOf[RegisterFile])
+        import registerFile._
+
         new npcStage.Area {
             NPC := pcStage(PC) + 4
 
@@ -110,6 +138,10 @@ class Pc(pcStageIndex: Int, npcStageIndex: Int) extends Plugin {
                         S(PC) + S(INSTRUCTION(9 downto 0) ## INSTRUCTION(25 downto 10) ## B(0, 2 bits)).resized
                     )
                 )
+            }
+
+            when(WRITE_AT_NPC) {
+                npcStage.bypass(REGFILE_WRITE_VAL) := B(PC + 4)
             }
         }
     }
