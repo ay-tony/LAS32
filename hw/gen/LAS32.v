@@ -1,14 +1,14 @@
 // Generator : SpinalHDL v1.10.1    git head : 2527c7c6b0fb0f95e5e1a5722a0be732b364ce43
 // Component : LAS32
-// Git hash  : 2ddd4166b0cecbdb0c5f481ee3968f783a339d2d
+// Git hash  : 5fb07180dc215c293a0136bf87a261e05d376841
 
 `timescale 1ns/1ps
 
 module LAS32 (
-  output wire [31:0]   _zz_31,
-  output wire          _zz_32,
-  output wire [4:0]    _zz_33,
-  output wire [31:0]   _zz_34,
+  output wire [31:0]   _zz_32,
+  output wire          _zz_33,
+  output wire [4:0]    _zz_34,
+  output wire [31:0]   _zz_35,
   input  wire          clk,
   input  wire          reset
 );
@@ -38,32 +38,36 @@ module LAS32 (
   localparam LucOp_si12 = 2'd0;
   localparam LucOp_si20 = 2'd1;
   localparam LucOp_ui12 = 2'd2;
-  localparam NpcOp_pc4 = 1'd0;
-  localparam NpcOp_offs16 = 1'd1;
+  localparam NpcOp_pc4 = 2'd0;
+  localparam NpcOp_offs16 = 2'd1;
+  localparam NpcOp_offs26 = 2'd2;
 
-  wire       [31:0]   _zz__zz_29_port0;
-  wire       [31:0]   _zz__zz_30_port1;
-  wire       [31:0]   _zz__zz_30_port2;
-  wire       [31:0]   _zz__zz_30_port3;
-  wire       [0:0]    _zz_40;
+  wire       [31:0]   _zz__zz_30_port0;
+  wire       [31:0]   _zz__zz_31_port1;
+  wire       [31:0]   _zz__zz_31_port2;
+  wire       [31:0]   _zz__zz_31_port3;
   wire       [31:0]   _zz__zz_when_Decoder_l41_7;
   wire       [31:0]   _zz__zz_when_Decoder_l41_7_1;
   wire       [31:0]   _zz__zz_when_Decoder_l41_7_2;
   wire       [17:0]   _zz__zz_when_Decoder_l41_7_3;
   wire       [17:0]   _zz__zz_when_Decoder_l41_7_4;
-  wire       [31:0]   _zz__zz_when_Pc_l93_24;
-  wire       [11:0]   _zz__zz_when_Pc_l93_24_1;
-  wire       [31:0]   _zz__zz_when_Pc_l93_24_2;
-  wire       [11:0]   _zz__zz_when_Pc_l93_24_3;
-  wire       [31:0]   _zz__zz_when_Pc_l93_29;
-  wire       [31:0]   _zz__zz_when_Pc_l93_29_1;
-  wire       [32:0]   _zz__zz_when_Pc_l93_34;
-  wire       [32:0]   _zz__zz_when_Pc_l93_34_1;
-  wire       [32:0]   _zz__zz_when_Pc_l93_34_2;
-  wire       [11:0]   _zz__zz_when_Pc_l93_39;
-  wire       [31:0]   _zz__zz_when_Pc_l93_41;
-  wire       [31:0]   _zz__zz_when_Pc_l93_41_1;
-  wire       [0:0]    _zz__zz_when_Pc_l93_11;
+  wire       [31:0]   _zz__zz_when_Decoder_l41_7_5;
+  wire       [31:0]   _zz__zz_when_Decoder_l41_7_6;
+  wire       [31:0]   _zz__zz_when_Decoder_l41_7_7;
+  wire       [27:0]   _zz__zz_when_Decoder_l41_7_8;
+  wire       [31:0]   _zz__zz_when_Pc_l105_25;
+  wire       [11:0]   _zz__zz_when_Pc_l105_25_1;
+  wire       [31:0]   _zz__zz_when_Pc_l105_25_2;
+  wire       [11:0]   _zz__zz_when_Pc_l105_25_3;
+  wire       [31:0]   _zz__zz_when_Pc_l105_30;
+  wire       [31:0]   _zz__zz_when_Pc_l105_30_1;
+  wire       [32:0]   _zz__zz_when_Pc_l105_35;
+  wire       [32:0]   _zz__zz_when_Pc_l105_35_1;
+  wire       [32:0]   _zz__zz_when_Pc_l105_35_2;
+  wire       [11:0]   _zz__zz_when_Pc_l105_40;
+  wire       [31:0]   _zz__zz_when_Pc_l105_42;
+  wire       [31:0]   _zz__zz_when_Pc_l105_42_1;
+  wire       [0:0]    _zz__zz_when_Pc_l105_11;
   wire                write_up_isReady;
   wire                memory_down_isValid;
   wire                memory_up_isValid;
@@ -73,20 +77,20 @@ module LAS32 (
   wire                decode_up_isValid;
   reg        [4:0]    _zz_when_RegisterFile_l36;
   reg                 _zz_when_RegisterFile_l36_1;
-  reg        [31:0]   _zz_when_Pc_l93;
+  reg        [31:0]   _zz_when_Pc_l105;
   reg        [31:0]   _zz_1;
   reg        [4:0]    _zz_when_Bypass_l27;
   reg                 _zz_when_RegisterFile_l36_2;
   reg        [4:0]    _zz_when_Bypass_l38;
   reg        [4:0]    _zz_when_Bypass_l27_1;
   reg                 _zz_2;
-  reg        [31:0]   _zz_when_Pc_l93_1;
+  reg        [31:0]   _zz_when_Pc_l105_1;
   reg        [31:0]   _zz_3;
   wire                memory_down_isReady;
-  reg        [31:0]   _zz_when_Pc_l93_2;
+  reg        [31:0]   _zz_when_Pc_l105_2;
   reg                 _zz_4;
   reg        [0:0]    _zz_5;
-  reg        [1:0]    _zz_when_Pc_l93_3;
+  reg        [1:0]    _zz_when_Pc_l105_3;
   reg                 _zz_6;
   reg        [0:0]    _zz_7;
   reg        [0:0]    _zz_8;
@@ -96,7 +100,7 @@ module LAS32 (
   reg        [4:0]    _zz_when_Bypass_l38_1;
   reg        [4:0]    _zz_when_Bypass_l27_3;
   reg                 _zz_10;
-  reg        [31:0]   _zz_when_Pc_l93_4;
+  reg        [31:0]   _zz_when_Pc_l105_4;
   wire                execute_down_isReady;
   reg                 execute_up_valid;
   reg        [31:0]   _zz_when_Decoder_l41;
@@ -115,18 +119,18 @@ module LAS32 (
   reg                 execute_up_ready;
   reg                 execute_down_ready;
   reg                 memory_up_ready;
-  wire       [31:0]   _zz_when_Pc_l93_5;
-  wire       [31:0]   _zz_when_Pc_l93_6;
-  wire       [1:0]    _zz_when_Pc_l93_7;
+  wire       [31:0]   _zz_when_Pc_l105_5;
+  wire       [31:0]   _zz_when_Pc_l105_6;
+  wire       [1:0]    _zz_when_Pc_l105_7;
   wire       [0:0]    _zz_11;
-  reg        [31:0]   _zz_when_Pc_l93_8;
-  reg        [31:0]   _zz_when_Pc_l93_9;
+  reg        [31:0]   _zz_when_Pc_l105_8;
+  reg        [31:0]   _zz_when_Pc_l105_9;
   wire       [2:0]    _zz_12;
   wire       [0:0]    _zz_13;
-  wire       [31:0]   _zz_when_Pc_l93_10;
+  wire       [31:0]   _zz_when_Pc_l105_10;
   wire       [0:0]    _zz_14;
-  reg        [31:0]   _zz_when_Pc_l93_11;
-  wire       [31:0]   _zz_when_Pc_l93_12;
+  reg        [31:0]   _zz_when_Pc_l105_11;
+  wire       [31:0]   _zz_when_Pc_l105_12;
   reg                 _zz_memory_haltRequest_Bypass_l42;
   reg                 _zz_execute_haltRequest_Bypass_l42;
   reg                 _zz_execute_haltRequest_Bypass_l42_1;
@@ -138,22 +142,22 @@ module LAS32 (
   wire       [4:0]    _zz_when_Bypass_l38_2;
   reg                 _zz_execute_haltRequest_Bypass_l42_4;
   reg                 _zz_execute_haltRequest_Bypass_l42_5;
-  reg        [31:0]   _zz_when_Pc_l93_13;
-  wire       [31:0]   _zz_when_Pc_l93_14;
-  reg        [31:0]   _zz_when_Pc_l93_15;
+  reg        [31:0]   _zz_when_Pc_l105_13;
+  wire       [31:0]   _zz_when_Pc_l105_14;
+  reg        [31:0]   _zz_when_Pc_l105_15;
   wire       [4:0]    _zz_when_Bypass_l38_3;
   reg                 _zz_execute_haltRequest_Bypass_l31;
   reg                 _zz_execute_haltRequest_Bypass_l31_1;
-  wire       [31:0]   _zz_when_Pc_l93_16;
-  reg        [31:0]   _zz_when_Pc_l93_17;
-  wire       [31:0]   _zz_when_Pc_l93_18;
-  reg        [31:0]   _zz_when_Pc_l93_19;
+  wire       [31:0]   _zz_when_Pc_l105_16;
+  reg        [31:0]   _zz_when_Pc_l105_17;
+  wire       [31:0]   _zz_when_Pc_l105_18;
+  reg        [31:0]   _zz_when_Pc_l105_19;
   wire                _zz_when_RegisterFile_l36_4;
   wire       [4:0]    _zz_when_Bypass_l27_4;
   wire       [4:0]    _zz_when_Bypass_l27_5;
   wire                _zz_15;
   reg                 _zz_16;
-  wire       [31:0]   _zz_when_Pc_l93_20;
+  wire       [31:0]   _zz_when_Pc_l105_20;
   wire                write_up_isValid;
   wire                write_up_isFiring;
   wire       [4:0]    _zz_when_RegisterFile_l36_5;
@@ -163,7 +167,7 @@ module LAS32 (
   reg        [2:0]    _zz_19;
   reg                 _zz_20;
   reg        [0:0]    _zz_21;
-  reg        [1:0]    _zz_when_Pc_l93_21;
+  reg        [1:0]    _zz_when_Pc_l105_21;
   reg                 _zz_22;
   reg                 _zz_23;
   reg        [1:0]    _zz_24;
@@ -177,12 +181,14 @@ module LAS32 (
   reg                 _zz_28;
   wire       [31:0]   _zz_when_Decoder_l41_2;
   wire       [31:0]   _zz_when_Decoder_l41_3;
-  wire                _zz_when_Pc_l93_22;
-  reg                 _zz_when_Pc_l93_23;
+  reg        [1:0]    _zz_29;
+  reg                 _zz_when_Pc_l105_22;
+  wire                _zz_when_Pc_l105_23;
+  reg                 _zz_when_Pc_l105_24;
   wire       [31:0]   _zz_when_Decoder_l41_4;
   reg        [31:0]   _zz_when_Decoder_l41_5;
   reg        [31:0]   _zz_when_Decoder_l41_6;
-  wire                when_Pc_l93;
+  wire                when_Pc_l105;
   reg        [31:0]   _zz_when_Decoder_l41_7;
   wire       [14:0]   _zz_when_Decoder_l41_8;
   wire                when_Decoder_l41;
@@ -213,6 +219,7 @@ module LAS32 (
   wire                when_Decoder_l41_25;
   wire                when_Decoder_l41_26;
   wire                when_Decoder_l41_27;
+  wire                when_Decoder_l41_28;
   wire                when_RegisterFile_l36;
   wire                when_Bypass_l27;
   wire                execute_haltRequest_Bypass_l31;
@@ -238,26 +245,26 @@ module LAS32 (
   wire                execute_haltRequest_Bypass_l42_5;
   wire                when_Bypass_l38_8;
   wire                memory_haltRequest_Bypass_l42_2;
-  reg        [31:0]   _zz_when_Pc_l93_24;
-  wire       [31:0]   _zz_when_Pc_l93_25;
-  wire       [31:0]   _zz_when_Pc_l93_26;
-  reg        [31:0]   _zz_when_Pc_l93_27;
-  reg        [31:0]   _zz_when_Pc_l93_28;
-  reg        [31:0]   _zz_when_Pc_l93_29;
-  wire       [31:0]   _zz_when_Pc_l93_30;
-  reg        [4:0]    _zz_when_Pc_l93_31;
-  reg        [31:0]   _zz_when_Pc_l93_32;
-  reg        [31:0]   _zz_when_Pc_l93_33;
-  wire       [31:0]   _zz_when_Pc_l93_34;
-  reg        [31:0]   _zz_when_Pc_l93_35;
-  reg        [31:0]   _zz_when_Pc_l93_36;
-  wire       [31:0]   _zz_when_Pc_l93_37;
-  wire       [31:0]   _zz_when_Pc_l93_38;
-  reg        [31:0]   _zz_when_Pc_l93_39;
-  wire                _zz_when_Pc_l93_40;
-  wire                _zz_when_Pc_l93_41;
-  wire                _zz_when_Pc_l93_42;
-  reg                 _zz_when_Pc_l93_43;
+  reg        [31:0]   _zz_when_Pc_l105_25;
+  wire       [31:0]   _zz_when_Pc_l105_26;
+  wire       [31:0]   _zz_when_Pc_l105_27;
+  reg        [31:0]   _zz_when_Pc_l105_28;
+  reg        [31:0]   _zz_when_Pc_l105_29;
+  reg        [31:0]   _zz_when_Pc_l105_30;
+  wire       [31:0]   _zz_when_Pc_l105_31;
+  reg        [4:0]    _zz_when_Pc_l105_32;
+  reg        [31:0]   _zz_when_Pc_l105_33;
+  reg        [31:0]   _zz_when_Pc_l105_34;
+  wire       [31:0]   _zz_when_Pc_l105_35;
+  reg        [31:0]   _zz_when_Pc_l105_36;
+  reg        [31:0]   _zz_when_Pc_l105_37;
+  wire       [31:0]   _zz_when_Pc_l105_38;
+  wire       [31:0]   _zz_when_Pc_l105_39;
+  reg        [31:0]   _zz_when_Pc_l105_40;
+  wire                _zz_when_Pc_l105_41;
+  wire                _zz_when_Pc_l105_42;
+  wire                _zz_when_Pc_l105_43;
+  reg                 _zz_when_Pc_l105_44;
   wire                when_CtrlLink_l151;
   wire                when_CtrlLink_l151_1;
   wire                when_StageLink_l67;
@@ -265,11 +272,11 @@ module LAS32 (
   wire                when_StageLink_l67_2;
   `ifndef SYNTHESIS
   reg [23:0] _zz_5_string;
-  reg [39:0] _zz_when_Pc_l93_3_string;
+  reg [39:0] _zz_when_Pc_l105_3_string;
   reg [23:0] _zz_7_string;
   reg [15:0] _zz_8_string;
   reg [39:0] _zz_9_string;
-  reg [39:0] _zz_when_Pc_l93_7_string;
+  reg [39:0] _zz_when_Pc_l105_7_string;
   reg [23:0] _zz_11_string;
   reg [39:0] _zz_12_string;
   reg [23:0] _zz_13_string;
@@ -277,45 +284,49 @@ module LAS32 (
   reg [95:0] _zz_18_string;
   reg [23:0] _zz_19_string;
   reg [23:0] _zz_21_string;
-  reg [39:0] _zz_when_Pc_l93_21_string;
+  reg [39:0] _zz_when_Pc_l105_21_string;
   reg [31:0] _zz_24_string;
   reg [23:0] _zz_25_string;
   reg [15:0] _zz_26_string;
   reg [39:0] _zz_27_string;
+  reg [47:0] _zz_29_string;
   `endif
 
-  reg [31:0] _zz_29 [0:32767];
-  (* ram_style = "distributed" *) reg [31:0] _zz_30 [0:31];
+  reg [31:0] _zz_30 [0:32767];
+  (* ram_style = "distributed" *) reg [31:0] _zz_31 [0:31];
 
-  assign _zz_40 = NpcOp_pc4;
   assign _zz__zz_when_Decoder_l41_7 = ($signed(_zz__zz_when_Decoder_l41_7_1) + $signed(_zz__zz_when_Decoder_l41_7_2));
   assign _zz__zz_when_Decoder_l41_7_1 = _zz_when_Decoder_l41_3;
   assign _zz__zz_when_Decoder_l41_7_3 = _zz__zz_when_Decoder_l41_7_4;
   assign _zz__zz_when_Decoder_l41_7_2 = {{14{_zz__zz_when_Decoder_l41_7_3[17]}}, _zz__zz_when_Decoder_l41_7_3};
   assign _zz__zz_when_Decoder_l41_7_4 = ({2'd0,_zz_when_Decoder_l41_2[25 : 10]} <<< 2'd2);
-  assign _zz__zz_when_Pc_l93_24_1 = _zz_when_Decoder_l41_2[21 : 10];
-  assign _zz__zz_when_Pc_l93_24 = {{20{_zz__zz_when_Pc_l93_24_1[11]}}, _zz__zz_when_Pc_l93_24_1};
-  assign _zz__zz_when_Pc_l93_24_3 = _zz_when_Decoder_l41_2[21 : 10];
-  assign _zz__zz_when_Pc_l93_24_2 = {20'd0, _zz__zz_when_Pc_l93_24_3};
-  assign _zz__zz_when_Pc_l93_29 = (_zz_when_Pc_l93_25 + _zz_when_Pc_l93_26);
-  assign _zz__zz_when_Pc_l93_29_1 = (_zz_when_Pc_l93_25 - _zz_when_Pc_l93_26);
-  assign _zz__zz_when_Pc_l93_34 = _zz__zz_when_Pc_l93_34_1;
-  assign _zz__zz_when_Pc_l93_34_1 = ($signed(_zz__zz_when_Pc_l93_34_2) >>> _zz_when_Pc_l93_31);
-  assign _zz__zz_when_Pc_l93_34_2 = {((_zz_when_Pc_l93_7 == ShifterOp_sra_1) && _zz_when_Pc_l93_33[31]),_zz_when_Pc_l93_33};
-  assign _zz__zz_when_Pc_l93_39 = _zz_when_Decoder_l41_2[21 : 10];
-  assign _zz__zz_when_Pc_l93_41 = _zz_when_Pc_l93_37;
-  assign _zz__zz_when_Pc_l93_41_1 = _zz_when_Pc_l93_38;
-  assign _zz__zz_when_Pc_l93_11 = _zz_when_Pc_l93_22;
-  assign _zz__zz_29_port0 = _zz_29[_zz_when_Decoder_l41_8];
+  assign _zz__zz_when_Decoder_l41_7_5 = ($signed(_zz__zz_when_Decoder_l41_7_6) + $signed(_zz__zz_when_Decoder_l41_7_7));
+  assign _zz__zz_when_Decoder_l41_7_6 = _zz_when_Decoder_l41_3;
+  assign _zz__zz_when_Decoder_l41_7_8 = {{_zz_when_Decoder_l41_2[9 : 0],_zz_when_Decoder_l41_2[25 : 10]},2'b00};
+  assign _zz__zz_when_Decoder_l41_7_7 = {{4{_zz__zz_when_Decoder_l41_7_8[27]}}, _zz__zz_when_Decoder_l41_7_8};
+  assign _zz__zz_when_Pc_l105_25_1 = _zz_when_Decoder_l41_2[21 : 10];
+  assign _zz__zz_when_Pc_l105_25 = {{20{_zz__zz_when_Pc_l105_25_1[11]}}, _zz__zz_when_Pc_l105_25_1};
+  assign _zz__zz_when_Pc_l105_25_3 = _zz_when_Decoder_l41_2[21 : 10];
+  assign _zz__zz_when_Pc_l105_25_2 = {20'd0, _zz__zz_when_Pc_l105_25_3};
+  assign _zz__zz_when_Pc_l105_30 = (_zz_when_Pc_l105_26 + _zz_when_Pc_l105_27);
+  assign _zz__zz_when_Pc_l105_30_1 = (_zz_when_Pc_l105_26 - _zz_when_Pc_l105_27);
+  assign _zz__zz_when_Pc_l105_35 = _zz__zz_when_Pc_l105_35_1;
+  assign _zz__zz_when_Pc_l105_35_1 = ($signed(_zz__zz_when_Pc_l105_35_2) >>> _zz_when_Pc_l105_32);
+  assign _zz__zz_when_Pc_l105_35_2 = {((_zz_when_Pc_l105_7 == ShifterOp_sra_1) && _zz_when_Pc_l105_34[31]),_zz_when_Pc_l105_34};
+  assign _zz__zz_when_Pc_l105_40 = _zz_when_Decoder_l41_2[21 : 10];
+  assign _zz__zz_when_Pc_l105_42 = _zz_when_Pc_l105_38;
+  assign _zz__zz_when_Pc_l105_42_1 = _zz_when_Pc_l105_39;
+  assign _zz__zz_when_Pc_l105_11 = _zz_when_Pc_l105_23;
+  assign _zz__zz_30_port0 = _zz_30[_zz_when_Decoder_l41_8];
   always @(posedge clk) begin
     if(_zz_16) begin
-      _zz_30[_zz_when_RegisterFile_l36_5] <= _zz_when_Pc_l93_20;
+      _zz_31[_zz_when_RegisterFile_l36_5] <= _zz_when_Pc_l105_20;
     end
   end
 
-  assign _zz__zz_30_port1 = _zz_30[_zz_when_Bypass_l27_7];
-  assign _zz__zz_30_port2 = _zz_30[_zz_when_Bypass_l38_4];
-  assign _zz__zz_30_port3 = _zz_30[_zz_when_Bypass_l27_6];
+  assign _zz__zz_31_port1 = _zz_31[_zz_when_Bypass_l27_7];
+  assign _zz__zz_31_port2 = _zz_31[_zz_when_Bypass_l38_4];
+  assign _zz__zz_31_port3 = _zz_31[_zz_when_Bypass_l27_6];
   `ifndef SYNTHESIS
   always @(*) begin
     case(_zz_5)
@@ -325,11 +336,11 @@ module LAS32 (
     endcase
   end
   always @(*) begin
-    case(_zz_when_Pc_l93_3)
-      ShifterOp_sll_1 : _zz_when_Pc_l93_3_string = "sll_1";
-      ShifterOp_srl_1 : _zz_when_Pc_l93_3_string = "srl_1";
-      ShifterOp_sra_1 : _zz_when_Pc_l93_3_string = "sra_1";
-      default : _zz_when_Pc_l93_3_string = "?????";
+    case(_zz_when_Pc_l105_3)
+      ShifterOp_sll_1 : _zz_when_Pc_l105_3_string = "sll_1";
+      ShifterOp_srl_1 : _zz_when_Pc_l105_3_string = "srl_1";
+      ShifterOp_sra_1 : _zz_when_Pc_l105_3_string = "sra_1";
+      default : _zz_when_Pc_l105_3_string = "?????";
     endcase
   end
   always @(*) begin
@@ -358,11 +369,11 @@ module LAS32 (
     endcase
   end
   always @(*) begin
-    case(_zz_when_Pc_l93_7)
-      ShifterOp_sll_1 : _zz_when_Pc_l93_7_string = "sll_1";
-      ShifterOp_srl_1 : _zz_when_Pc_l93_7_string = "srl_1";
-      ShifterOp_sra_1 : _zz_when_Pc_l93_7_string = "sra_1";
-      default : _zz_when_Pc_l93_7_string = "?????";
+    case(_zz_when_Pc_l105_7)
+      ShifterOp_sll_1 : _zz_when_Pc_l105_7_string = "sll_1";
+      ShifterOp_srl_1 : _zz_when_Pc_l105_7_string = "srl_1";
+      ShifterOp_sra_1 : _zz_when_Pc_l105_7_string = "sra_1";
+      default : _zz_when_Pc_l105_7_string = "?????";
     endcase
   end
   always @(*) begin
@@ -423,11 +434,11 @@ module LAS32 (
     endcase
   end
   always @(*) begin
-    case(_zz_when_Pc_l93_21)
-      ShifterOp_sll_1 : _zz_when_Pc_l93_21_string = "sll_1";
-      ShifterOp_srl_1 : _zz_when_Pc_l93_21_string = "srl_1";
-      ShifterOp_sra_1 : _zz_when_Pc_l93_21_string = "sra_1";
-      default : _zz_when_Pc_l93_21_string = "?????";
+    case(_zz_when_Pc_l105_21)
+      ShifterOp_sll_1 : _zz_when_Pc_l105_21_string = "sll_1";
+      ShifterOp_srl_1 : _zz_when_Pc_l105_21_string = "srl_1";
+      ShifterOp_sra_1 : _zz_when_Pc_l105_21_string = "sra_1";
+      default : _zz_when_Pc_l105_21_string = "?????";
     endcase
   end
   always @(*) begin
@@ -463,25 +474,33 @@ module LAS32 (
       default : _zz_27_string = "?????";
     endcase
   end
+  always @(*) begin
+    case(_zz_29)
+      NpcOp_pc4 : _zz_29_string = "pc4   ";
+      NpcOp_offs16 : _zz_29_string = "offs16";
+      NpcOp_offs26 : _zz_29_string = "offs26";
+      default : _zz_29_string = "??????";
+    endcase
+  end
   `endif
 
   always @(*) begin
-    _zz_when_Pc_l93_9 = _zz_when_Pc_l93_8;
+    _zz_when_Pc_l105_9 = _zz_when_Pc_l105_8;
     if(_zz_6) begin
-      _zz_when_Pc_l93_9 = _zz_when_Pc_l93_29;
+      _zz_when_Pc_l105_9 = _zz_when_Pc_l105_30;
     end
     if(_zz_4) begin
-      _zz_when_Pc_l93_9 = _zz_when_Pc_l93_36;
+      _zz_when_Pc_l105_9 = _zz_when_Pc_l105_37;
     end
   end
 
   always @(*) begin
-    _zz_when_Pc_l93_11 = ((_zz_when_Bypass_l27_6 != 5'h00) ? ((_zz_when_Bypass_l27_6 == _zz_when_RegisterFile_l36_5) ? _zz_when_Pc_l93_20 : _zz__zz_30_port3) : 32'h00000000);
+    _zz_when_Pc_l105_11 = ((_zz_when_Bypass_l27_6 != 5'h00) ? ((_zz_when_Bypass_l27_6 == _zz_when_RegisterFile_l36_5) ? _zz_when_Pc_l105_20 : _zz__zz_31_port3) : 32'h00000000);
     if(_zz_23) begin
-      _zz_when_Pc_l93_11 = _zz_when_Pc_l93_12;
+      _zz_when_Pc_l105_11 = _zz_when_Pc_l105_12;
     end
     if(_zz_17) begin
-      _zz_when_Pc_l93_11 = {31'd0, _zz__zz_when_Pc_l93_11};
+      _zz_when_Pc_l105_11 = {31'd0, _zz__zz_when_Pc_l105_11};
     end
   end
 
@@ -577,37 +596,37 @@ module LAS32 (
     end
   end
 
-  assign _zz_when_Pc_l93_14 = _zz_when_Pc_l93_15;
+  assign _zz_when_Pc_l105_14 = _zz_when_Pc_l105_15;
   always @(*) begin
-    _zz_when_Pc_l93_15 = _zz_when_Pc_l93_13;
+    _zz_when_Pc_l105_15 = _zz_when_Pc_l105_13;
     if(when_Bypass_l38) begin
       if(_zz_when_RegisterFile_l36_4) begin
-        _zz_when_Pc_l93_15 = _zz_when_Pc_l93_16;
+        _zz_when_Pc_l105_15 = _zz_when_Pc_l105_16;
       end
     end
     if(when_Bypass_l38_1) begin
       if(_zz_when_RegisterFile_l36_6) begin
-        _zz_when_Pc_l93_15 = _zz_when_Pc_l93_20;
+        _zz_when_Pc_l105_15 = _zz_when_Pc_l105_20;
       end
     end
     if(when_Bypass_l38_3) begin
       if(_zz_when_RegisterFile_l36_4) begin
-        _zz_when_Pc_l93_15 = _zz_when_Pc_l93_16;
+        _zz_when_Pc_l105_15 = _zz_when_Pc_l105_16;
       end
     end
     if(when_Bypass_l38_4) begin
       if(_zz_when_RegisterFile_l36_6) begin
-        _zz_when_Pc_l93_15 = _zz_when_Pc_l93_20;
+        _zz_when_Pc_l105_15 = _zz_when_Pc_l105_20;
       end
     end
     if(when_Bypass_l38_6) begin
       if(_zz_when_RegisterFile_l36_4) begin
-        _zz_when_Pc_l93_15 = _zz_when_Pc_l93_16;
+        _zz_when_Pc_l105_15 = _zz_when_Pc_l105_16;
       end
     end
     if(when_Bypass_l38_7) begin
       if(_zz_when_RegisterFile_l36_6) begin
-        _zz_when_Pc_l93_15 = _zz_when_Pc_l93_20;
+        _zz_when_Pc_l105_15 = _zz_when_Pc_l105_20;
       end
     end
   end
@@ -634,18 +653,18 @@ module LAS32 (
     end
   end
 
-  assign _zz_when_Pc_l93_18 = _zz_when_Pc_l93_19;
+  assign _zz_when_Pc_l105_18 = _zz_when_Pc_l105_19;
   always @(*) begin
-    _zz_when_Pc_l93_19 = _zz_when_Pc_l93_17;
+    _zz_when_Pc_l105_19 = _zz_when_Pc_l105_17;
     if(_zz_15) begin
       if(when_Bypass_l27) begin
         if(_zz_when_RegisterFile_l36_4) begin
-          _zz_when_Pc_l93_19 = _zz_when_Pc_l93_16;
+          _zz_when_Pc_l105_19 = _zz_when_Pc_l105_16;
         end
       end
       if(when_Bypass_l27_1) begin
         if(_zz_when_RegisterFile_l36_6) begin
-          _zz_when_Pc_l93_19 = _zz_when_Pc_l93_20;
+          _zz_when_Pc_l105_19 = _zz_when_Pc_l105_20;
         end
       end
     end
@@ -661,43 +680,63 @@ module LAS32 (
   assign _zz_when_Decoder_l41_4 = _zz_when_Decoder_l41_6;
   always @(*) begin
     _zz_when_Decoder_l41_5 = (_zz_when_Decoder_l41_4 + 32'h00000004);
-    if(when_Pc_l93) begin
+    if(when_Pc_l105) begin
       _zz_when_Decoder_l41_5 = _zz_when_Decoder_l41_7;
     end
   end
 
-  assign when_Pc_l93 = (_zz_when_Pc_l93_23 && _zz_when_Pc_l93_22);
+  assign when_Pc_l105 = (_zz_when_Pc_l105_24 && (_zz_when_Pc_l105_23 || _zz_when_Pc_l105_22));
   always @(*) begin
-    case(_zz_40)
+    case(_zz_29)
       NpcOp_pc4 : begin
         _zz_when_Decoder_l41_7 = (_zz_when_Decoder_l41_4 + 32'h00000004);
       end
-      default : begin
+      NpcOp_offs16 : begin
         _zz_when_Decoder_l41_7 = _zz__zz_when_Decoder_l41_7;
+      end
+      default : begin
+        _zz_when_Decoder_l41_7 = _zz__zz_when_Decoder_l41_7_5;
       end
     endcase
   end
 
   assign _zz_when_Decoder_l41_8 = _zz_when_Decoder_l41_4[16 : 2];
   always @(*) begin
-    _zz_when_Pc_l93_23 = 1'b0;
+    _zz_29 = NpcOp_pc4;
+    if(when_Decoder_l41_6) begin
+      _zz_29 = NpcOp_offs26;
+    end
+  end
+
+  always @(*) begin
+    _zz_when_Pc_l105_24 = 1'b0;
     if(when_Decoder_l41) begin
-      _zz_when_Pc_l93_23 = 1'b1;
+      _zz_when_Pc_l105_24 = 1'b1;
     end
     if(when_Decoder_l41_1) begin
-      _zz_when_Pc_l93_23 = 1'b1;
+      _zz_when_Pc_l105_24 = 1'b1;
     end
     if(when_Decoder_l41_2) begin
-      _zz_when_Pc_l93_23 = 1'b1;
+      _zz_when_Pc_l105_24 = 1'b1;
     end
     if(when_Decoder_l41_3) begin
-      _zz_when_Pc_l93_23 = 1'b1;
+      _zz_when_Pc_l105_24 = 1'b1;
     end
     if(when_Decoder_l41_4) begin
-      _zz_when_Pc_l93_23 = 1'b1;
+      _zz_when_Pc_l105_24 = 1'b1;
     end
     if(when_Decoder_l41_5) begin
-      _zz_when_Pc_l93_23 = 1'b1;
+      _zz_when_Pc_l105_24 = 1'b1;
+    end
+    if(when_Decoder_l41_6) begin
+      _zz_when_Pc_l105_24 = 1'b1;
+    end
+  end
+
+  always @(*) begin
+    _zz_when_Pc_l105_22 = 1'b0;
+    if(when_Decoder_l41_6) begin
+      _zz_when_Pc_l105_22 = 1'b1;
     end
   end
 
@@ -721,16 +760,13 @@ module LAS32 (
     if(when_Decoder_l41_5) begin
       _zz_28 = 1'b1;
     end
-    if(when_Decoder_l41_6) begin
-      _zz_28 = 1'b1;
-    end
     if(when_Decoder_l41_7) begin
       _zz_28 = 1'b1;
     end
     if(when_Decoder_l41_8) begin
       _zz_28 = 1'b1;
     end
-    if(when_Decoder_l41_11) begin
+    if(when_Decoder_l41_9) begin
       _zz_28 = 1'b1;
     end
     if(when_Decoder_l41_12) begin
@@ -779,6 +815,9 @@ module LAS32 (
       _zz_28 = 1'b1;
     end
     if(when_Decoder_l41_27) begin
+      _zz_28 = 1'b1;
+    end
+    if(when_Decoder_l41_28) begin
       _zz_28 = 1'b1;
     end
   end
@@ -808,9 +847,6 @@ module LAS32 (
 
   always @(*) begin
     _zz_when_RegisterFile_l36_7 = 1'b0;
-    if(when_Decoder_l41_6) begin
-      _zz_when_RegisterFile_l36_7 = 1'b1;
-    end
     if(when_Decoder_l41_7) begin
       _zz_when_RegisterFile_l36_7 = 1'b1;
     end
@@ -874,76 +910,76 @@ module LAS32 (
     if(when_Decoder_l41_27) begin
       _zz_when_RegisterFile_l36_7 = 1'b1;
     end
+    if(when_Decoder_l41_28) begin
+      _zz_when_RegisterFile_l36_7 = 1'b1;
+    end
   end
 
   assign _zz_when_Bypass_l27_6 = _zz_when_Decoder_l41_2[4 : 0];
   always @(*) begin
     _zz_27 = AluOp_add;
-    if(when_Decoder_l41_7) begin
+    if(when_Decoder_l41_8) begin
       _zz_27 = AluOp_sub;
     end
-    if(when_Decoder_l41_11) begin
-      _zz_27 = AluOp_and_1;
-    end
     if(when_Decoder_l41_12) begin
-      _zz_27 = AluOp_or_1;
+      _zz_27 = AluOp_and_1;
     end
     if(when_Decoder_l41_13) begin
-      _zz_27 = AluOp_nor_1;
-    end
-    if(when_Decoder_l41_14) begin
-      _zz_27 = AluOp_xor_1;
-    end
-    if(when_Decoder_l41_15) begin
-      _zz_27 = AluOp_and_1;
-    end
-    if(when_Decoder_l41_16) begin
       _zz_27 = AluOp_or_1;
     end
+    if(when_Decoder_l41_14) begin
+      _zz_27 = AluOp_nor_1;
+    end
+    if(when_Decoder_l41_15) begin
+      _zz_27 = AluOp_xor_1;
+    end
+    if(when_Decoder_l41_16) begin
+      _zz_27 = AluOp_and_1;
+    end
     if(when_Decoder_l41_17) begin
+      _zz_27 = AluOp_or_1;
+    end
+    if(when_Decoder_l41_18) begin
       _zz_27 = AluOp_xor_1;
     end
   end
 
   always @(*) begin
     _zz_26 = AluSrc1_rj;
-    if(when_Decoder_l41_10) begin
+    if(when_Decoder_l41_11) begin
       _zz_26 = AluSrc1_pc;
     end
   end
 
   always @(*) begin
     _zz_25 = AluSrc2_rk;
-    if(when_Decoder_l41_8) begin
+    if(when_Decoder_l41_9) begin
       _zz_25 = AluSrc2_luc;
     end
-    if(when_Decoder_l41_10) begin
-      _zz_25 = AluSrc2_luc;
-    end
-    if(when_Decoder_l41_15) begin
+    if(when_Decoder_l41_11) begin
       _zz_25 = AluSrc2_luc;
     end
     if(when_Decoder_l41_16) begin
       _zz_25 = AluSrc2_luc;
     end
     if(when_Decoder_l41_17) begin
+      _zz_25 = AluSrc2_luc;
+    end
+    if(when_Decoder_l41_18) begin
       _zz_25 = AluSrc2_luc;
     end
   end
 
   always @(*) begin
     _zz_24 = LucOp_si12;
-    if(when_Decoder_l41_8) begin
-      _zz_24 = LucOp_si12;
-    end
     if(when_Decoder_l41_9) begin
-      _zz_24 = LucOp_si20;
+      _zz_24 = LucOp_si12;
     end
     if(when_Decoder_l41_10) begin
       _zz_24 = LucOp_si20;
     end
-    if(when_Decoder_l41_15) begin
-      _zz_24 = LucOp_ui12;
+    if(when_Decoder_l41_11) begin
+      _zz_24 = LucOp_si20;
     end
     if(when_Decoder_l41_16) begin
       _zz_24 = LucOp_ui12;
@@ -951,27 +987,27 @@ module LAS32 (
     if(when_Decoder_l41_17) begin
       _zz_24 = LucOp_ui12;
     end
+    if(when_Decoder_l41_18) begin
+      _zz_24 = LucOp_ui12;
+    end
   end
 
   always @(*) begin
     _zz_23 = 1'b0;
-    if(when_Decoder_l41_9) begin
+    if(when_Decoder_l41_10) begin
       _zz_23 = 1'b1;
     end
   end
 
   always @(*) begin
     _zz_22 = 1'b0;
-    if(when_Decoder_l41_6) begin
-      _zz_22 = 1'b1;
-    end
     if(when_Decoder_l41_7) begin
       _zz_22 = 1'b1;
     end
     if(when_Decoder_l41_8) begin
       _zz_22 = 1'b1;
     end
-    if(when_Decoder_l41_10) begin
+    if(when_Decoder_l41_9) begin
       _zz_22 = 1'b1;
     end
     if(when_Decoder_l41_11) begin
@@ -995,42 +1031,42 @@ module LAS32 (
     if(when_Decoder_l41_17) begin
       _zz_22 = 1'b1;
     end
+    if(when_Decoder_l41_18) begin
+      _zz_22 = 1'b1;
+    end
   end
 
   always @(*) begin
-    _zz_when_Pc_l93_21 = ShifterOp_sll_1;
-    if(when_Decoder_l41_19) begin
-      _zz_when_Pc_l93_21 = ShifterOp_srl_1;
-    end
+    _zz_when_Pc_l105_21 = ShifterOp_sll_1;
     if(when_Decoder_l41_20) begin
-      _zz_when_Pc_l93_21 = ShifterOp_sra_1;
+      _zz_when_Pc_l105_21 = ShifterOp_srl_1;
     end
-    if(when_Decoder_l41_22) begin
-      _zz_when_Pc_l93_21 = ShifterOp_srl_1;
+    if(when_Decoder_l41_21) begin
+      _zz_when_Pc_l105_21 = ShifterOp_sra_1;
     end
     if(when_Decoder_l41_23) begin
-      _zz_when_Pc_l93_21 = ShifterOp_sra_1;
+      _zz_when_Pc_l105_21 = ShifterOp_srl_1;
+    end
+    if(when_Decoder_l41_24) begin
+      _zz_when_Pc_l105_21 = ShifterOp_sra_1;
     end
   end
 
   always @(*) begin
     _zz_21 = ShifterSrc2_rk;
-    if(when_Decoder_l41_21) begin
-      _zz_21 = ShifterSrc2_ui5;
-    end
     if(when_Decoder_l41_22) begin
       _zz_21 = ShifterSrc2_ui5;
     end
     if(when_Decoder_l41_23) begin
+      _zz_21 = ShifterSrc2_ui5;
+    end
+    if(when_Decoder_l41_24) begin
       _zz_21 = ShifterSrc2_ui5;
     end
   end
 
   always @(*) begin
     _zz_20 = 1'b0;
-    if(when_Decoder_l41_18) begin
-      _zz_20 = 1'b1;
-    end
     if(when_Decoder_l41_19) begin
       _zz_20 = 1'b1;
     end
@@ -1044,6 +1080,9 @@ module LAS32 (
       _zz_20 = 1'b1;
     end
     if(when_Decoder_l41_23) begin
+      _zz_20 = 1'b1;
+    end
+    if(when_Decoder_l41_24) begin
       _zz_20 = 1'b1;
     end
   end
@@ -1068,35 +1107,32 @@ module LAS32 (
     if(when_Decoder_l41_5) begin
       _zz_19 = ComparerOp_geu;
     end
-    if(when_Decoder_l41_24) begin
-      _zz_19 = ComparerOp_lt;
-    end
     if(when_Decoder_l41_25) begin
-      _zz_19 = ComparerOp_ltu;
+      _zz_19 = ComparerOp_lt;
     end
     if(when_Decoder_l41_26) begin
-      _zz_19 = ComparerOp_lt;
+      _zz_19 = ComparerOp_ltu;
     end
     if(when_Decoder_l41_27) begin
+      _zz_19 = ComparerOp_lt;
+    end
+    if(when_Decoder_l41_28) begin
       _zz_19 = ComparerOp_ltu;
     end
   end
 
   always @(*) begin
     _zz_18 = ComparerSrc2_registerVal2;
-    if(when_Decoder_l41_26) begin
+    if(when_Decoder_l41_27) begin
       _zz_18 = ComparerSrc2_si12;
     end
-    if(when_Decoder_l41_27) begin
+    if(when_Decoder_l41_28) begin
       _zz_18 = ComparerSrc2_si12;
     end
   end
 
   always @(*) begin
     _zz_17 = 1'b0;
-    if(when_Decoder_l41_24) begin
-      _zz_17 = 1'b1;
-    end
     if(when_Decoder_l41_25) begin
       _zz_17 = 1'b1;
     end
@@ -1104,6 +1140,9 @@ module LAS32 (
       _zz_17 = 1'b1;
     end
     if(when_Decoder_l41_27) begin
+      _zz_17 = 1'b1;
+    end
+    if(when_Decoder_l41_28) begin
       _zz_17 = 1'b1;
     end
   end
@@ -1114,28 +1153,29 @@ module LAS32 (
   assign when_Decoder_l41_3 = ((_zz_when_Decoder_l41_2 & 32'hfc000000) == 32'h64000000);
   assign when_Decoder_l41_4 = ((_zz_when_Decoder_l41_2 & 32'hfc000000) == 32'h68000000);
   assign when_Decoder_l41_5 = ((_zz_when_Decoder_l41_2 & 32'hfc000000) == 32'h6c000000);
-  assign when_Decoder_l41_6 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00100000);
-  assign when_Decoder_l41_7 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00110000);
-  assign when_Decoder_l41_8 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h02800000);
-  assign when_Decoder_l41_9 = ((_zz_when_Decoder_l41_2 & 32'hfe000000) == 32'h14000000);
-  assign when_Decoder_l41_10 = ((_zz_when_Decoder_l41_2 & 32'hfe000000) == 32'h1c000000);
-  assign when_Decoder_l41_11 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00148000);
-  assign when_Decoder_l41_12 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00150000);
-  assign when_Decoder_l41_13 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00140000);
-  assign when_Decoder_l41_14 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00158000);
-  assign when_Decoder_l41_15 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h03400000);
-  assign when_Decoder_l41_16 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h03800000);
-  assign when_Decoder_l41_17 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h03c00000);
-  assign when_Decoder_l41_18 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00170000);
-  assign when_Decoder_l41_19 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00178000);
-  assign when_Decoder_l41_20 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00180000);
-  assign when_Decoder_l41_21 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00408000);
-  assign when_Decoder_l41_22 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00448000);
-  assign when_Decoder_l41_23 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00488000);
-  assign when_Decoder_l41_24 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00120000);
-  assign when_Decoder_l41_25 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00128000);
-  assign when_Decoder_l41_26 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h02000000);
-  assign when_Decoder_l41_27 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h02400000);
+  assign when_Decoder_l41_6 = ((_zz_when_Decoder_l41_2 & 32'hfc000000) == 32'h50000000);
+  assign when_Decoder_l41_7 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00100000);
+  assign when_Decoder_l41_8 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00110000);
+  assign when_Decoder_l41_9 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h02800000);
+  assign when_Decoder_l41_10 = ((_zz_when_Decoder_l41_2 & 32'hfe000000) == 32'h14000000);
+  assign when_Decoder_l41_11 = ((_zz_when_Decoder_l41_2 & 32'hfe000000) == 32'h1c000000);
+  assign when_Decoder_l41_12 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00148000);
+  assign when_Decoder_l41_13 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00150000);
+  assign when_Decoder_l41_14 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00140000);
+  assign when_Decoder_l41_15 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00158000);
+  assign when_Decoder_l41_16 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h03400000);
+  assign when_Decoder_l41_17 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h03800000);
+  assign when_Decoder_l41_18 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h03c00000);
+  assign when_Decoder_l41_19 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00170000);
+  assign when_Decoder_l41_20 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00178000);
+  assign when_Decoder_l41_21 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00180000);
+  assign when_Decoder_l41_22 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00408000);
+  assign when_Decoder_l41_23 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00448000);
+  assign when_Decoder_l41_24 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00488000);
+  assign when_Decoder_l41_25 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00120000);
+  assign when_Decoder_l41_26 = ((_zz_when_Decoder_l41_2 & 32'hffff8000) == 32'h00128000);
+  assign when_Decoder_l41_27 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h02000000);
+  assign when_Decoder_l41_28 = ((_zz_when_Decoder_l41_2 & 32'hffc00000) == 32'h02400000);
   assign when_RegisterFile_l36 = (((_zz_when_RegisterFile_l36_6 && (_zz_when_RegisterFile_l36_5 != 5'h00)) && write_up_isFiring) && write_up_isValid);
   assign when_Bypass_l27 = (_zz_when_Bypass_l27_5 == _zz_when_Bypass_l27_4);
   assign execute_haltRequest_Bypass_l31 = _zz_execute_haltRequest_Bypass_l31_1;
@@ -1164,220 +1204,220 @@ module LAS32 (
   always @(*) begin
     case(_zz_24)
       LucOp_si12 : begin
-        _zz_when_Pc_l93_24 = _zz__zz_when_Pc_l93_24;
+        _zz_when_Pc_l105_25 = _zz__zz_when_Pc_l105_25;
       end
       LucOp_si20 : begin
-        _zz_when_Pc_l93_24 = {_zz_when_Decoder_l41_2[24 : 5],12'h000};
+        _zz_when_Pc_l105_25 = {_zz_when_Decoder_l41_2[24 : 5],12'h000};
       end
       default : begin
-        _zz_when_Pc_l93_24 = _zz__zz_when_Pc_l93_24_2;
+        _zz_when_Pc_l105_25 = _zz__zz_when_Pc_l105_25_2;
       end
     endcase
   end
 
-  assign _zz_when_Pc_l93_12 = _zz_when_Pc_l93_24;
+  assign _zz_when_Pc_l105_12 = _zz_when_Pc_l105_25;
   always @(*) begin
     case(_zz_14)
       AluSrc1_rj : begin
-        _zz_when_Pc_l93_27 = _zz_when_Pc_l93_18;
+        _zz_when_Pc_l105_28 = _zz_when_Pc_l105_18;
       end
       default : begin
-        _zz_when_Pc_l93_27 = _zz_when_Pc_l93_10;
+        _zz_when_Pc_l105_28 = _zz_when_Pc_l105_10;
       end
     endcase
   end
 
-  assign _zz_when_Pc_l93_25 = _zz_when_Pc_l93_27;
+  assign _zz_when_Pc_l105_26 = _zz_when_Pc_l105_28;
   always @(*) begin
     case(_zz_13)
       AluSrc2_rk : begin
-        _zz_when_Pc_l93_28 = _zz_when_Pc_l93_14;
+        _zz_when_Pc_l105_29 = _zz_when_Pc_l105_14;
       end
       default : begin
-        _zz_when_Pc_l93_28 = _zz_when_Pc_l93_2;
+        _zz_when_Pc_l105_29 = _zz_when_Pc_l105_2;
       end
     endcase
   end
 
-  assign _zz_when_Pc_l93_26 = _zz_when_Pc_l93_28;
+  assign _zz_when_Pc_l105_27 = _zz_when_Pc_l105_29;
   always @(*) begin
     case(_zz_12)
       AluOp_add : begin
-        _zz_when_Pc_l93_29 = _zz__zz_when_Pc_l93_29;
+        _zz_when_Pc_l105_30 = _zz__zz_when_Pc_l105_30;
       end
       AluOp_sub : begin
-        _zz_when_Pc_l93_29 = _zz__zz_when_Pc_l93_29_1;
+        _zz_when_Pc_l105_30 = _zz__zz_when_Pc_l105_30_1;
       end
       AluOp_and_1 : begin
-        _zz_when_Pc_l93_29 = (_zz_when_Pc_l93_25 & _zz_when_Pc_l93_26);
+        _zz_when_Pc_l105_30 = (_zz_when_Pc_l105_26 & _zz_when_Pc_l105_27);
       end
       AluOp_or_1 : begin
-        _zz_when_Pc_l93_29 = (_zz_when_Pc_l93_25 | _zz_when_Pc_l93_26);
+        _zz_when_Pc_l105_30 = (_zz_when_Pc_l105_26 | _zz_when_Pc_l105_27);
       end
       AluOp_nor_1 : begin
-        _zz_when_Pc_l93_29 = (~ (_zz_when_Pc_l93_25 | _zz_when_Pc_l93_26));
+        _zz_when_Pc_l105_30 = (~ (_zz_when_Pc_l105_26 | _zz_when_Pc_l105_27));
       end
       default : begin
-        _zz_when_Pc_l93_29 = (_zz_when_Pc_l93_25 ^ _zz_when_Pc_l93_26);
+        _zz_when_Pc_l105_30 = (_zz_when_Pc_l105_26 ^ _zz_when_Pc_l105_27);
       end
     endcase
   end
 
-  assign _zz_31 = _zz_1;
-  assign _zz_32 = _zz_when_RegisterFile_l36_6;
-  assign _zz_33 = _zz_when_RegisterFile_l36_5;
-  assign _zz_34 = _zz_when_Pc_l93_20;
-  assign _zz_when_Pc_l93_30 = _zz_when_Pc_l93_18;
+  assign _zz_32 = _zz_1;
+  assign _zz_33 = _zz_when_RegisterFile_l36_6;
+  assign _zz_34 = _zz_when_RegisterFile_l36_5;
+  assign _zz_35 = _zz_when_Pc_l105_20;
+  assign _zz_when_Pc_l105_31 = _zz_when_Pc_l105_18;
   always @(*) begin
     case(_zz_11)
       ShifterSrc2_rk : begin
-        _zz_when_Pc_l93_31 = _zz_when_Pc_l93_14[4 : 0];
+        _zz_when_Pc_l105_32 = _zz_when_Pc_l105_14[4 : 0];
       end
       default : begin
-        _zz_when_Pc_l93_31 = _zz_when_Bypass_l38_3;
+        _zz_when_Pc_l105_32 = _zz_when_Bypass_l38_3;
       end
     endcase
   end
 
   always @(*) begin
-    _zz_when_Pc_l93_32[0] = _zz_when_Pc_l93_30[31];
-    _zz_when_Pc_l93_32[1] = _zz_when_Pc_l93_30[30];
-    _zz_when_Pc_l93_32[2] = _zz_when_Pc_l93_30[29];
-    _zz_when_Pc_l93_32[3] = _zz_when_Pc_l93_30[28];
-    _zz_when_Pc_l93_32[4] = _zz_when_Pc_l93_30[27];
-    _zz_when_Pc_l93_32[5] = _zz_when_Pc_l93_30[26];
-    _zz_when_Pc_l93_32[6] = _zz_when_Pc_l93_30[25];
-    _zz_when_Pc_l93_32[7] = _zz_when_Pc_l93_30[24];
-    _zz_when_Pc_l93_32[8] = _zz_when_Pc_l93_30[23];
-    _zz_when_Pc_l93_32[9] = _zz_when_Pc_l93_30[22];
-    _zz_when_Pc_l93_32[10] = _zz_when_Pc_l93_30[21];
-    _zz_when_Pc_l93_32[11] = _zz_when_Pc_l93_30[20];
-    _zz_when_Pc_l93_32[12] = _zz_when_Pc_l93_30[19];
-    _zz_when_Pc_l93_32[13] = _zz_when_Pc_l93_30[18];
-    _zz_when_Pc_l93_32[14] = _zz_when_Pc_l93_30[17];
-    _zz_when_Pc_l93_32[15] = _zz_when_Pc_l93_30[16];
-    _zz_when_Pc_l93_32[16] = _zz_when_Pc_l93_30[15];
-    _zz_when_Pc_l93_32[17] = _zz_when_Pc_l93_30[14];
-    _zz_when_Pc_l93_32[18] = _zz_when_Pc_l93_30[13];
-    _zz_when_Pc_l93_32[19] = _zz_when_Pc_l93_30[12];
-    _zz_when_Pc_l93_32[20] = _zz_when_Pc_l93_30[11];
-    _zz_when_Pc_l93_32[21] = _zz_when_Pc_l93_30[10];
-    _zz_when_Pc_l93_32[22] = _zz_when_Pc_l93_30[9];
-    _zz_when_Pc_l93_32[23] = _zz_when_Pc_l93_30[8];
-    _zz_when_Pc_l93_32[24] = _zz_when_Pc_l93_30[7];
-    _zz_when_Pc_l93_32[25] = _zz_when_Pc_l93_30[6];
-    _zz_when_Pc_l93_32[26] = _zz_when_Pc_l93_30[5];
-    _zz_when_Pc_l93_32[27] = _zz_when_Pc_l93_30[4];
-    _zz_when_Pc_l93_32[28] = _zz_when_Pc_l93_30[3];
-    _zz_when_Pc_l93_32[29] = _zz_when_Pc_l93_30[2];
-    _zz_when_Pc_l93_32[30] = _zz_when_Pc_l93_30[1];
-    _zz_when_Pc_l93_32[31] = _zz_when_Pc_l93_30[0];
+    _zz_when_Pc_l105_33[0] = _zz_when_Pc_l105_31[31];
+    _zz_when_Pc_l105_33[1] = _zz_when_Pc_l105_31[30];
+    _zz_when_Pc_l105_33[2] = _zz_when_Pc_l105_31[29];
+    _zz_when_Pc_l105_33[3] = _zz_when_Pc_l105_31[28];
+    _zz_when_Pc_l105_33[4] = _zz_when_Pc_l105_31[27];
+    _zz_when_Pc_l105_33[5] = _zz_when_Pc_l105_31[26];
+    _zz_when_Pc_l105_33[6] = _zz_when_Pc_l105_31[25];
+    _zz_when_Pc_l105_33[7] = _zz_when_Pc_l105_31[24];
+    _zz_when_Pc_l105_33[8] = _zz_when_Pc_l105_31[23];
+    _zz_when_Pc_l105_33[9] = _zz_when_Pc_l105_31[22];
+    _zz_when_Pc_l105_33[10] = _zz_when_Pc_l105_31[21];
+    _zz_when_Pc_l105_33[11] = _zz_when_Pc_l105_31[20];
+    _zz_when_Pc_l105_33[12] = _zz_when_Pc_l105_31[19];
+    _zz_when_Pc_l105_33[13] = _zz_when_Pc_l105_31[18];
+    _zz_when_Pc_l105_33[14] = _zz_when_Pc_l105_31[17];
+    _zz_when_Pc_l105_33[15] = _zz_when_Pc_l105_31[16];
+    _zz_when_Pc_l105_33[16] = _zz_when_Pc_l105_31[15];
+    _zz_when_Pc_l105_33[17] = _zz_when_Pc_l105_31[14];
+    _zz_when_Pc_l105_33[18] = _zz_when_Pc_l105_31[13];
+    _zz_when_Pc_l105_33[19] = _zz_when_Pc_l105_31[12];
+    _zz_when_Pc_l105_33[20] = _zz_when_Pc_l105_31[11];
+    _zz_when_Pc_l105_33[21] = _zz_when_Pc_l105_31[10];
+    _zz_when_Pc_l105_33[22] = _zz_when_Pc_l105_31[9];
+    _zz_when_Pc_l105_33[23] = _zz_when_Pc_l105_31[8];
+    _zz_when_Pc_l105_33[24] = _zz_when_Pc_l105_31[7];
+    _zz_when_Pc_l105_33[25] = _zz_when_Pc_l105_31[6];
+    _zz_when_Pc_l105_33[26] = _zz_when_Pc_l105_31[5];
+    _zz_when_Pc_l105_33[27] = _zz_when_Pc_l105_31[4];
+    _zz_when_Pc_l105_33[28] = _zz_when_Pc_l105_31[3];
+    _zz_when_Pc_l105_33[29] = _zz_when_Pc_l105_31[2];
+    _zz_when_Pc_l105_33[30] = _zz_when_Pc_l105_31[1];
+    _zz_when_Pc_l105_33[31] = _zz_when_Pc_l105_31[0];
   end
 
   always @(*) begin
-    case(_zz_when_Pc_l93_7)
+    case(_zz_when_Pc_l105_7)
       ShifterOp_sll_1 : begin
-        _zz_when_Pc_l93_33 = _zz_when_Pc_l93_32;
+        _zz_when_Pc_l105_34 = _zz_when_Pc_l105_33;
       end
       default : begin
-        _zz_when_Pc_l93_33 = _zz_when_Pc_l93_30;
+        _zz_when_Pc_l105_34 = _zz_when_Pc_l105_31;
       end
     endcase
   end
 
-  assign _zz_when_Pc_l93_34 = _zz__zz_when_Pc_l93_34[31 : 0];
+  assign _zz_when_Pc_l105_35 = _zz__zz_when_Pc_l105_35[31 : 0];
   always @(*) begin
-    _zz_when_Pc_l93_35[0] = _zz_when_Pc_l93_34[31];
-    _zz_when_Pc_l93_35[1] = _zz_when_Pc_l93_34[30];
-    _zz_when_Pc_l93_35[2] = _zz_when_Pc_l93_34[29];
-    _zz_when_Pc_l93_35[3] = _zz_when_Pc_l93_34[28];
-    _zz_when_Pc_l93_35[4] = _zz_when_Pc_l93_34[27];
-    _zz_when_Pc_l93_35[5] = _zz_when_Pc_l93_34[26];
-    _zz_when_Pc_l93_35[6] = _zz_when_Pc_l93_34[25];
-    _zz_when_Pc_l93_35[7] = _zz_when_Pc_l93_34[24];
-    _zz_when_Pc_l93_35[8] = _zz_when_Pc_l93_34[23];
-    _zz_when_Pc_l93_35[9] = _zz_when_Pc_l93_34[22];
-    _zz_when_Pc_l93_35[10] = _zz_when_Pc_l93_34[21];
-    _zz_when_Pc_l93_35[11] = _zz_when_Pc_l93_34[20];
-    _zz_when_Pc_l93_35[12] = _zz_when_Pc_l93_34[19];
-    _zz_when_Pc_l93_35[13] = _zz_when_Pc_l93_34[18];
-    _zz_when_Pc_l93_35[14] = _zz_when_Pc_l93_34[17];
-    _zz_when_Pc_l93_35[15] = _zz_when_Pc_l93_34[16];
-    _zz_when_Pc_l93_35[16] = _zz_when_Pc_l93_34[15];
-    _zz_when_Pc_l93_35[17] = _zz_when_Pc_l93_34[14];
-    _zz_when_Pc_l93_35[18] = _zz_when_Pc_l93_34[13];
-    _zz_when_Pc_l93_35[19] = _zz_when_Pc_l93_34[12];
-    _zz_when_Pc_l93_35[20] = _zz_when_Pc_l93_34[11];
-    _zz_when_Pc_l93_35[21] = _zz_when_Pc_l93_34[10];
-    _zz_when_Pc_l93_35[22] = _zz_when_Pc_l93_34[9];
-    _zz_when_Pc_l93_35[23] = _zz_when_Pc_l93_34[8];
-    _zz_when_Pc_l93_35[24] = _zz_when_Pc_l93_34[7];
-    _zz_when_Pc_l93_35[25] = _zz_when_Pc_l93_34[6];
-    _zz_when_Pc_l93_35[26] = _zz_when_Pc_l93_34[5];
-    _zz_when_Pc_l93_35[27] = _zz_when_Pc_l93_34[4];
-    _zz_when_Pc_l93_35[28] = _zz_when_Pc_l93_34[3];
-    _zz_when_Pc_l93_35[29] = _zz_when_Pc_l93_34[2];
-    _zz_when_Pc_l93_35[30] = _zz_when_Pc_l93_34[1];
-    _zz_when_Pc_l93_35[31] = _zz_when_Pc_l93_34[0];
+    _zz_when_Pc_l105_36[0] = _zz_when_Pc_l105_35[31];
+    _zz_when_Pc_l105_36[1] = _zz_when_Pc_l105_35[30];
+    _zz_when_Pc_l105_36[2] = _zz_when_Pc_l105_35[29];
+    _zz_when_Pc_l105_36[3] = _zz_when_Pc_l105_35[28];
+    _zz_when_Pc_l105_36[4] = _zz_when_Pc_l105_35[27];
+    _zz_when_Pc_l105_36[5] = _zz_when_Pc_l105_35[26];
+    _zz_when_Pc_l105_36[6] = _zz_when_Pc_l105_35[25];
+    _zz_when_Pc_l105_36[7] = _zz_when_Pc_l105_35[24];
+    _zz_when_Pc_l105_36[8] = _zz_when_Pc_l105_35[23];
+    _zz_when_Pc_l105_36[9] = _zz_when_Pc_l105_35[22];
+    _zz_when_Pc_l105_36[10] = _zz_when_Pc_l105_35[21];
+    _zz_when_Pc_l105_36[11] = _zz_when_Pc_l105_35[20];
+    _zz_when_Pc_l105_36[12] = _zz_when_Pc_l105_35[19];
+    _zz_when_Pc_l105_36[13] = _zz_when_Pc_l105_35[18];
+    _zz_when_Pc_l105_36[14] = _zz_when_Pc_l105_35[17];
+    _zz_when_Pc_l105_36[15] = _zz_when_Pc_l105_35[16];
+    _zz_when_Pc_l105_36[16] = _zz_when_Pc_l105_35[15];
+    _zz_when_Pc_l105_36[17] = _zz_when_Pc_l105_35[14];
+    _zz_when_Pc_l105_36[18] = _zz_when_Pc_l105_35[13];
+    _zz_when_Pc_l105_36[19] = _zz_when_Pc_l105_35[12];
+    _zz_when_Pc_l105_36[20] = _zz_when_Pc_l105_35[11];
+    _zz_when_Pc_l105_36[21] = _zz_when_Pc_l105_35[10];
+    _zz_when_Pc_l105_36[22] = _zz_when_Pc_l105_35[9];
+    _zz_when_Pc_l105_36[23] = _zz_when_Pc_l105_35[8];
+    _zz_when_Pc_l105_36[24] = _zz_when_Pc_l105_35[7];
+    _zz_when_Pc_l105_36[25] = _zz_when_Pc_l105_35[6];
+    _zz_when_Pc_l105_36[26] = _zz_when_Pc_l105_35[5];
+    _zz_when_Pc_l105_36[27] = _zz_when_Pc_l105_35[4];
+    _zz_when_Pc_l105_36[28] = _zz_when_Pc_l105_35[3];
+    _zz_when_Pc_l105_36[29] = _zz_when_Pc_l105_35[2];
+    _zz_when_Pc_l105_36[30] = _zz_when_Pc_l105_35[1];
+    _zz_when_Pc_l105_36[31] = _zz_when_Pc_l105_35[0];
   end
 
   always @(*) begin
-    case(_zz_when_Pc_l93_7)
+    case(_zz_when_Pc_l105_7)
       ShifterOp_sll_1 : begin
-        _zz_when_Pc_l93_36 = _zz_when_Pc_l93_35;
+        _zz_when_Pc_l105_37 = _zz_when_Pc_l105_36;
       end
       default : begin
-        _zz_when_Pc_l93_36 = _zz_when_Pc_l93_34;
+        _zz_when_Pc_l105_37 = _zz_when_Pc_l105_35;
       end
     endcase
   end
 
-  assign _zz_when_Pc_l93_37 = _zz_when_Pc_l93_6;
+  assign _zz_when_Pc_l105_38 = _zz_when_Pc_l105_6;
   always @(*) begin
     case(_zz_18)
       ComparerSrc2_registerVal2 : begin
-        _zz_when_Pc_l93_39 = _zz_when_Pc_l93_5;
+        _zz_when_Pc_l105_40 = _zz_when_Pc_l105_5;
       end
       default : begin
-        _zz_when_Pc_l93_39 = {20'd0, _zz__zz_when_Pc_l93_39};
+        _zz_when_Pc_l105_40 = {20'd0, _zz__zz_when_Pc_l105_40};
       end
     endcase
   end
 
-  assign _zz_when_Pc_l93_38 = _zz_when_Pc_l93_39;
-  assign _zz_when_Pc_l93_40 = (_zz_when_Pc_l93_37 == _zz_when_Pc_l93_38);
-  assign _zz_when_Pc_l93_41 = ($signed(_zz__zz_when_Pc_l93_41) < $signed(_zz__zz_when_Pc_l93_41_1));
-  assign _zz_when_Pc_l93_42 = (_zz_when_Pc_l93_37 < _zz_when_Pc_l93_38);
+  assign _zz_when_Pc_l105_39 = _zz_when_Pc_l105_40;
+  assign _zz_when_Pc_l105_41 = (_zz_when_Pc_l105_38 == _zz_when_Pc_l105_39);
+  assign _zz_when_Pc_l105_42 = ($signed(_zz__zz_when_Pc_l105_42) < $signed(_zz__zz_when_Pc_l105_42_1));
+  assign _zz_when_Pc_l105_43 = (_zz_when_Pc_l105_38 < _zz_when_Pc_l105_39);
   always @(*) begin
     case(_zz_19)
       ComparerOp_eq : begin
-        _zz_when_Pc_l93_43 = _zz_when_Pc_l93_40;
+        _zz_when_Pc_l105_44 = _zz_when_Pc_l105_41;
       end
       ComparerOp_ne : begin
-        _zz_when_Pc_l93_43 = (! _zz_when_Pc_l93_40);
+        _zz_when_Pc_l105_44 = (! _zz_when_Pc_l105_41);
       end
       ComparerOp_lt : begin
-        _zz_when_Pc_l93_43 = _zz_when_Pc_l93_41;
+        _zz_when_Pc_l105_44 = _zz_when_Pc_l105_42;
       end
       ComparerOp_ge : begin
-        _zz_when_Pc_l93_43 = (! _zz_when_Pc_l93_41);
+        _zz_when_Pc_l105_44 = (! _zz_when_Pc_l105_42);
       end
       ComparerOp_ltu : begin
-        _zz_when_Pc_l93_43 = _zz_when_Pc_l93_42;
+        _zz_when_Pc_l105_44 = _zz_when_Pc_l105_43;
       end
       default : begin
-        _zz_when_Pc_l93_43 = (! _zz_when_Pc_l93_42);
+        _zz_when_Pc_l105_44 = (! _zz_when_Pc_l105_43);
       end
     endcase
   end
 
-  assign _zz_when_Pc_l93_22 = _zz_when_Pc_l93_43;
+  assign _zz_when_Pc_l105_23 = _zz_when_Pc_l105_44;
   assign fetch_up_ready = fetch_down_isReady;
   assign decode_up_ready = decode_down_isReady;
   assign _zz_when_Decoder_l41_3 = _zz_when_Decoder_l41_1;
   assign _zz_when_Decoder_l41_2 = _zz_when_Decoder_l41;
-  assign _zz_when_Pc_l93_6 = ((_zz_when_Bypass_l27_7 != 5'h00) ? ((_zz_when_Bypass_l27_7 == _zz_when_RegisterFile_l36_5) ? _zz_when_Pc_l93_20 : _zz__zz_30_port1) : 32'h00000000);
-  assign _zz_when_Pc_l93_5 = ((_zz_when_Bypass_l38_4 != 5'h00) ? ((_zz_when_Bypass_l38_4 == _zz_when_RegisterFile_l36_5) ? _zz_when_Pc_l93_20 : _zz__zz_30_port2) : 32'h00000000);
+  assign _zz_when_Pc_l105_6 = ((_zz_when_Bypass_l27_7 != 5'h00) ? ((_zz_when_Bypass_l27_7 == _zz_when_RegisterFile_l36_5) ? _zz_when_Pc_l105_20 : _zz__zz_31_port1) : 32'h00000000);
+  assign _zz_when_Pc_l105_5 = ((_zz_when_Bypass_l38_4 != 5'h00) ? ((_zz_when_Bypass_l38_4 == _zz_when_RegisterFile_l36_5) ? _zz_when_Pc_l105_20 : _zz__zz_31_port2) : 32'h00000000);
   always @(*) begin
     execute_down_valid = execute_up_valid;
     if(when_CtrlLink_l151) begin
@@ -1393,14 +1433,14 @@ module LAS32 (
   end
 
   assign when_CtrlLink_l151 = (|{execute_haltRequest_Bypass_l42_5,{execute_haltRequest_Bypass_l42_4,{execute_haltRequest_Bypass_l42_3,{execute_haltRequest_Bypass_l42_2,{execute_haltRequest_Bypass_l42_1,{execute_haltRequest_Bypass_l42,{execute_haltRequest_Bypass_l31_1,execute_haltRequest_Bypass_l31}}}}}}});
-  assign _zz_when_Pc_l93_10 = _zz_when_Pc_l93_4;
+  assign _zz_when_Pc_l105_10 = _zz_when_Pc_l105_4;
   assign _zz_15 = _zz_10;
   assign _zz_when_Bypass_l27_5 = _zz_when_Bypass_l27_3;
   assign _zz_when_Bypass_l38_3 = _zz_when_Bypass_l38_1;
   assign _zz_12 = _zz_9;
   assign _zz_14 = _zz_8;
   assign _zz_13 = _zz_7;
-  assign _zz_when_Pc_l93_7 = _zz_when_Pc_l93_3;
+  assign _zz_when_Pc_l105_7 = _zz_when_Pc_l105_3;
   assign _zz_11 = _zz_5;
   always @(*) begin
     memory_down_valid = memory_up_valid;
@@ -1417,12 +1457,12 @@ module LAS32 (
   end
 
   assign when_CtrlLink_l151_1 = (|{memory_haltRequest_Bypass_l42_2,{memory_haltRequest_Bypass_l42_1,{memory_haltRequest_Bypass_l31,memory_haltRequest_Bypass_l42}}});
-  assign _zz_when_Pc_l93_16 = _zz_when_Pc_l93_1;
+  assign _zz_when_Pc_l105_16 = _zz_when_Pc_l105_1;
   assign _zz_when_Bypass_l38_2 = _zz_when_Bypass_l38;
   assign _zz_when_RegisterFile_l36_4 = _zz_when_RegisterFile_l36_2;
   assign _zz_when_Bypass_l27_4 = _zz_when_Bypass_l27;
   assign write_down_valid = write_up_valid;
-  assign _zz_when_Pc_l93_20 = _zz_when_Pc_l93;
+  assign _zz_when_Pc_l105_20 = _zz_when_Pc_l105;
   assign _zz_when_RegisterFile_l36_6 = _zz_when_RegisterFile_l36_1;
   assign _zz_when_RegisterFile_l36_5 = _zz_when_RegisterFile_l36;
   always @(*) begin
@@ -1483,13 +1523,13 @@ module LAS32 (
   always @(posedge clk) begin
     if(fetch_down_isReady) begin
       _zz_when_Decoder_l41_1 <= _zz_when_Decoder_l41_4;
-      _zz_when_Decoder_l41 <= _zz__zz_29_port0;
+      _zz_when_Decoder_l41 <= _zz__zz_30_port0;
     end
     if(decode_down_isReady) begin
-      _zz_when_Pc_l93_4 <= _zz_when_Decoder_l41_3;
-      _zz_when_Pc_l93_17 <= _zz_when_Pc_l93_6;
-      _zz_when_Pc_l93_13 <= _zz_when_Pc_l93_5;
-      _zz_when_Pc_l93_8 <= _zz_when_Pc_l93_11;
+      _zz_when_Pc_l105_4 <= _zz_when_Decoder_l41_3;
+      _zz_when_Pc_l105_17 <= _zz_when_Pc_l105_6;
+      _zz_when_Pc_l105_13 <= _zz_when_Pc_l105_5;
+      _zz_when_Pc_l105_8 <= _zz_when_Pc_l105_11;
       _zz_10 <= _zz_28;
       _zz_when_Bypass_l27_3 <= _zz_when_Bypass_l27_7;
       _zz_when_Bypass_l38_1 <= _zz_when_Bypass_l38_4;
@@ -1499,14 +1539,14 @@ module LAS32 (
       _zz_8 <= _zz_26;
       _zz_7 <= _zz_25;
       _zz_6 <= _zz_22;
-      _zz_when_Pc_l93_3 <= _zz_when_Pc_l93_21;
+      _zz_when_Pc_l105_3 <= _zz_when_Pc_l105_21;
       _zz_5 <= _zz_21;
       _zz_4 <= _zz_20;
-      _zz_when_Pc_l93_2 <= _zz_when_Pc_l93_12;
+      _zz_when_Pc_l105_2 <= _zz_when_Pc_l105_12;
     end
     if(execute_down_isReady) begin
-      _zz_3 <= _zz_when_Pc_l93_10;
-      _zz_when_Pc_l93_1 <= _zz_when_Pc_l93_9;
+      _zz_3 <= _zz_when_Pc_l105_10;
+      _zz_when_Pc_l105_1 <= _zz_when_Pc_l105_9;
       _zz_2 <= _zz_15;
       _zz_when_Bypass_l27_1 <= _zz_when_Bypass_l27_5;
       _zz_when_Bypass_l38 <= _zz_when_Bypass_l38_3;
@@ -1514,7 +1554,7 @@ module LAS32 (
       _zz_when_Bypass_l27 <= _zz_when_Bypass_l27_2;
     end
     _zz_1 <= _zz_3;
-    _zz_when_Pc_l93 <= _zz_when_Pc_l93_16;
+    _zz_when_Pc_l105 <= _zz_when_Pc_l105_16;
     _zz_when_RegisterFile_l36_1 <= _zz_when_RegisterFile_l36_4;
     _zz_when_RegisterFile_l36 <= _zz_when_Bypass_l27_4;
   end

@@ -8,11 +8,12 @@ class Pc(pcStageIndex: Int, npcStageIndex: Int) extends Plugin {
     val PC = Payload(UInt(32 bits))
 
     object NpcOp extends SpinalEnum {
-        val pc4, offs16 = newElement()
+        val pc4, offs16, offs26 = newElement()
     }
     val NPC_OP = Payload(NpcOp()) // control signal
     val NPC = Payload(UInt(32 bits))
     val IS_BRANCH_SIGNAL = Payload(Bool()) // control signal
+    val FORCE_BRANCH = Payload(Bool()) // control signal
 
     val pc = Reg(PC) init (0x3000)
 
@@ -21,6 +22,7 @@ class Pc(pcStageIndex: Int, npcStageIndex: Int) extends Plugin {
 
         decoderService.addSignal(NPC_OP, NpcOp.pc4())
         decoderService.addSignal(IS_BRANCH_SIGNAL, False)
+        decoderService.addSignal(FORCE_BRANCH, False)
 
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile._
@@ -70,6 +72,16 @@ class Pc(pcStageIndex: Int, npcStageIndex: Int) extends Plugin {
             M"011011--------------------------",
             signal :+ (COMPARER_OP -> ComparerOp.geu())
         )
+
+        // B
+        decoderService.addInstruction(
+            M"010100--------------------------",
+            List(
+                IS_BRANCH_SIGNAL -> True,
+                FORCE_BRANCH -> True,
+                NPC_OP -> NpcOp.offs26()
+            )
+        )
     }
 
     override def build(pipeline: Pipeline): Unit = {
@@ -90,10 +102,13 @@ class Pc(pcStageIndex: Int, npcStageIndex: Int) extends Plugin {
         new npcStage.Area {
             NPC := pcStage(PC) + 4
 
-            when(IS_BRANCH_SIGNAL && COMPARER_OUT) {
+            when(IS_BRANCH_SIGNAL && (COMPARER_OUT || FORCE_BRANCH)) {
                 NPC := NPC_OP.mux(
                     NpcOp.pc4 -> (pcStage(PC) + 4),
-                    NpcOp.offs16 -> U(S(PC) + S(INSTRUCTION(25 downto 10) << 2).resized)
+                    NpcOp.offs16 -> U(S(PC) + S(INSTRUCTION(25 downto 10) << 2).resized),
+                    NpcOp.offs26 -> U(
+                        S(PC) + S(INSTRUCTION(9 downto 0) ## INSTRUCTION(25 downto 10) ## B(0, 2 bits)).resized
+                    )
                 )
             }
         }
