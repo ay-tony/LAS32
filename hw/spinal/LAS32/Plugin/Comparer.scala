@@ -41,12 +41,6 @@ class Comparer(stageIndex: Int) extends Plugin {
             WRITE_AT_COMPARER -> True
         )
 
-        val branchSignals = List(
-            REGFILE_VAL1_ENABLE -> True,
-            REGFILE_VAL2_ENABLE -> True,
-            REGFILE_VAL2_ADDR -> ((INSTRUCTION: Bits) => U(INSTRUCTION(4 downto 0)))
-        )
-
         // SLT
         decoderService.addInstruction(
             M"00000000000100100---------------",
@@ -85,6 +79,7 @@ class Comparer(stageIndex: Int) extends Plugin {
             src1 := B(REGFILE_VAL1)
             src2 := COMPARER_SRC2.mux(
                 ComparerSrc2.registerVal2 -> B(REGFILE_VAL2),
+                // TODO: fix si12 that no signed extend
                 ComparerSrc2.si12 -> B(INSTRUCTION(21 downto 10)).resized
             )
 

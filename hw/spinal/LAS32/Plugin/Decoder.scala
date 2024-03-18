@@ -34,6 +34,7 @@ class Decoder(stageIndex: Int) extends Plugin with DecoderService {
                     case e: BaseType               => e
                     case e: (BaseType => BaseType) => e(INSTRUCTION)
                 }
+                // TODO: change sign -> up(sig)
                 signal.assignFrom(value)
             }
             for ((instruction, signals) <- instructionSignals) {
