@@ -14,7 +14,7 @@ object TestLAS32 extends App {
         .doSim { dut =>
             def addw(rd: Int, rj: Int, rk: Int) = BigInt((0x20 << 15) | (rk << 10) | (rj << 5) | rd)
             def nop() = addw(0, 0, 0)
-            // def addi(rt: Int, rs: Int, imm: Int) = BigInt((0x8 << 26) | (rs << 21) | (rt << 16) | imm)
+            def addi(rd: Int, rj: Int, imm: Int) = BigInt((0x00a << 22) | (imm << 10) | (rj << 5) | rd)
             // def sub(rd: Int, rs: Int, rt: Int) = BigInt((0 << 26) | (rs << 21) | (rt << 16) | (rd << 11) | 0x22)
             // def ori(rt: Int, rs: Int, imm: Int) = BigInt((0x0d << 26) | (rs << 21) | (rt << 16) | imm)
             // def lui(rt: Int, imm: Int) = BigInt((0x0f << 26) | (rt << 16) | imm)
@@ -28,16 +28,8 @@ object TestLAS32 extends App {
             val instructions = List(
                 nop(),
                 nop(),
-                nop(),
-                nop(),
-                nop(),
-                nop(),
-                nop(),
-                nop(),
-                nop(),
-                nop(),
-                nop(),
-                addw(1, 0, 1),
+                addi(1, 0, 1),
+                addw(1, 1, 1),
                 addw(1, 1, 1),
                 addw(1, 1, 1),
                 nop(),
@@ -62,7 +54,7 @@ object TestLAS32 extends App {
             dut.clockDomain.deassertReset()
 
             val bus = dut.getPlugin(classOf[DebugBus]).debugBus
-            for (t <- 0 until 64) {
+            for (t <- 0 until 16) {
                 dut.clockDomain.waitRisingEdge()
                 val pc = bus.pc.toLong
                 val en = bus.regfileWriteEnable.toBoolean

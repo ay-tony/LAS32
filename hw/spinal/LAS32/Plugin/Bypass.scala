@@ -20,9 +20,9 @@ class Bypass(beginBypassStageIndex: Int, stageCountBits: Int) extends Plugin {
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile._
 
-        for (curStage <- stages.filter(o => stages.indexOf(o) > beginBypassStageIndex).reverse) {
+        for (curStage <- stages.filter(o => stages.indexOf(o) > beginBypassStageIndex)) {
             when(curStage(REGFILE_VAL1_ENABLE)) {
-                for (bypassStage <- stages.filter(o => stages.indexOf(o) > stages.indexOf(curStage))) {
+                for (bypassStage <- stages.filter(o => stages.indexOf(o) > stages.indexOf(curStage)).reverse) {
                     when(curStage(REGFILE_VAL1_ADDR) === bypassStage(REGFILE_WRITE_VAL_ADDR)) {
                         when(bypassStage(REGFILE_WRITE_VAL_ENABLE)) {
                             curStage.bypass(REGFILE_VAL1) := bypassStage(REGFILE_WRITE_VAL)
@@ -32,8 +32,10 @@ class Bypass(beginBypassStageIndex: Int, stageCountBits: Int) extends Plugin {
                     }
                 }
             }
-            for (curStage <- stages.filter(o => stages.indexOf(o) > beginBypassStageIndex).reverse) {
-                for (bypassStage <- stages.filter(o => stages.indexOf(o) > stages.indexOf(curStage))) {
+        }
+        for (curStage <- stages.filter(o => stages.indexOf(o) > beginBypassStageIndex)) {
+            when(curStage(REGFILE_VAL2_ENABLE)) {
+                for (bypassStage <- stages.filter(o => stages.indexOf(o) > stages.indexOf(curStage)).reverse) {
                     when(curStage(REGFILE_VAL2_ADDR) === bypassStage(REGFILE_WRITE_VAL_ADDR)) {
                         when(bypassStage(REGFILE_WRITE_VAL_ENABLE)) {
                             curStage.bypass(REGFILE_VAL2) := bypassStage(REGFILE_WRITE_VAL)
