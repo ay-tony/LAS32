@@ -12,8 +12,8 @@ object TestLAS32 extends App {
             d
         }
         .doSim { dut =>
-            def nop() = BigInt(0)
             def addw(rd: Int, rj: Int, rk: Int) = BigInt((0x20 << 15) | (rk << 10) | (rj << 5) | rd)
+            def nop() = addw(0, 0, 0)
             // def addi(rt: Int, rs: Int, imm: Int) = BigInt((0x8 << 26) | (rs << 21) | (rt << 16) | imm)
             // def sub(rd: Int, rs: Int, rt: Int) = BigInt((0 << 26) | (rs << 21) | (rt << 16) | (rd << 11) | 0x22)
             // def ori(rt: Int, rs: Int, imm: Int) = BigInt((0x0d << 26) | (rs << 21) | (rt << 16) | imm)
@@ -38,8 +38,8 @@ object TestLAS32 extends App {
                 nop(),
                 nop(),
                 addw(1, 0, 1),
-                addw(1, 0, 1),
-                addw(1, 0, 1),
+                addw(1, 1, 1),
+                addw(1, 1, 1),
                 nop(),
                 nop(),
                 nop()
