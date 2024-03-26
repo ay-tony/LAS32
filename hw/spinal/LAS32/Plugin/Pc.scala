@@ -4,6 +4,7 @@ import spinal.core._
 import spinal.lib.misc.pipeline._
 import LAS32._
 
+// TODO: flush stages after branching
 class Pc(pcStageIndex: Int, npcStageIndex: Int) extends Plugin {
     val PC = Payload(UInt(32 bits))
 
