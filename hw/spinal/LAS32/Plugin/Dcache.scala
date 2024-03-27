@@ -86,6 +86,34 @@ class Dcache(stageIndex: Int) extends Plugin {
                 DCACHE_READ_TYPE -> DcacheReadType.w()
             )
         )
+
+        val commonStoreSignals = List(
+            REGFILE_VAL1_ENABLE -> True,
+            REGFILE_VAL2_ENABLE -> True,
+            REGFILE_VAL2_ADDR -> ((INSTRUCTION: Bits) => U(INSTRUCTION(14 downto 10), 5 bits)),
+            LUC_OP -> LucOp.si12(),
+            ALU_OP -> AluOp.add(),
+            ALU_SRC2 -> AluSrc2.luc(),
+            DCACHE_WRITE_ENABLE -> True
+        )
+
+        // ST.B
+        decoderService.addInstruction(
+            M"0010100010----------------------",
+            commonStoreSignals ++ List(DCACHE_STORE_TYPE -> DcacheStoreType.b())
+        )
+
+        // ST.H
+        decoderService.addInstruction(
+            M"0010100010----------------------",
+            commonStoreSignals ++ List(DCACHE_STORE_TYPE -> DcacheStoreType.h())
+        )
+
+        // ST.W
+        decoderService.addInstruction(
+            M"0010100010----------------------",
+            commonStoreSignals ++ List(DCACHE_STORE_TYPE -> DcacheStoreType.w())
+        )
     }
 
     override def build(pipeline: Pipeline): Unit = {
