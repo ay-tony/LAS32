@@ -8,22 +8,24 @@ class Dcache(stageIndex: Int) extends Plugin {
     val dcache = Mem(Bits(32 bits), 0x8000)
 
     val DCACHE_WRITE_MASK = Payload(Bits(4 bits))
-    val DCACHE_WRITE_ENABLE = Payload(Bool())
+    val DCACHE_WRITE_ENABLE = Payload(Bool()) // control signal
     val DCACHE_WRITE_VAL, DCACHE_READ_VAL = Payload(Bits(32 bits))
     object DcacheStoreType extends SpinalEnum {
         val b, h, w = newElement()
     }
-    val DCACHE_STORE_TYPE = Payload(DcacheStoreType())
+    val DCACHE_STORE_TYPE = Payload(DcacheStoreType()) // control signal
     object DcacheReadType extends SpinalEnum {
-        val b, bu, h, hw, w = newElement()
+        val b, bu, h, hu, w = newElement()
     }
-    val DCACHE_READ_TYPE = Payload(DcacheReadType())
-    val WRITE_AT_DCACHE = Payload(Bool())
+    val DCACHE_READ_TYPE = Payload(DcacheReadType()) // control signal
+    val WRITE_AT_DCACHE = Payload(Bool()) // control signal
 
     override def register(pipeline: Pipeline): Unit = {
         val decoderService = pipeline.getService(classOf[DecoderService])
 
         decoderService.addSignal(DCACHE_WRITE_ENABLE, False)
+        decoderService.addSignal(DCACHE_STORE_TYPE, DcacheStoreType.w())
+        decoderService.addSignal(DCACHE_READ_TYPE, DcacheReadType.w())
         decoderService.addSignal(WRITE_AT_DCACHE, False)
     }
 
@@ -58,7 +60,7 @@ class Dcache(stageIndex: Int) extends Plugin {
                 default -> B(0)
             )
 
-            when(stage.isFiring && DCACHE_WRITE_ENABLE) {
+            when(stage.up.isFiring && DCACHE_WRITE_ENABLE) {
                 dcache.write(
                     U(ALU_OUT(31 downto 2)).resized,
                     DCACHE_WRITE_VAL,
