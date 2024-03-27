@@ -23,10 +23,69 @@ class Dcache(stageIndex: Int) extends Plugin {
     override def register(pipeline: Pipeline): Unit = {
         val decoderService = pipeline.getService(classOf[DecoderService])
 
+        val bypass = pipeline.getPlugin(classOf[Bypass])
+        import bypass._
+
+        val intAlu = pipeline.getPlugin(classOf[IntAlu])
+        import intAlu._
+
+        val registerFile = pipeline.getPlugin(classOf[RegisterFile])
+        import registerFile._
+
         decoderService.addSignal(DCACHE_WRITE_ENABLE, False)
         decoderService.addSignal(DCACHE_STORE_TYPE, DcacheStoreType.w())
         decoderService.addSignal(DCACHE_READ_TYPE, DcacheReadType.w())
         decoderService.addSignal(WRITE_AT_DCACHE, False)
+
+        val commonLoadSignals = List(
+            REGFILE_VAL1_ENABLE -> True,
+            REGFILE_WRITE_VAL_ENABLE -> True,
+            LUC_OP -> LucOp.si12(),
+            ALU_OP -> AluOp.add(),
+            ALU_SRC2 -> AluSrc2.luc(),
+            WRITE_AT_DCACHE -> True,
+            BYPASS_ENABLE_STAGE -> U(stageIndex).resized
+        )
+
+        // LD.B
+        decoderService.addInstruction(
+            M"0010100000----------------------",
+            commonLoadSignals ++ List(
+                DCACHE_READ_TYPE -> DcacheReadType.b()
+            )
+        )
+
+        // LD.BU
+        decoderService.addInstruction(
+            M"0010101000----------------------",
+            commonLoadSignals ++ List(
+                DCACHE_READ_TYPE -> DcacheReadType.bu()
+            )
+        )
+
+        // LD.H
+        decoderService.addInstruction(
+            M"0010100001----------------------",
+            commonLoadSignals ++ List(
+                DCACHE_READ_TYPE -> DcacheReadType.h()
+            )
+        )
+
+        // LD.HU
+        decoderService.addInstruction(
+            M"0010101001----------------------",
+            commonLoadSignals ++ List(
+                DCACHE_READ_TYPE -> DcacheReadType.hu()
+            )
+        )
+
+        // LD.W
+        decoderService.addInstruction(
+            M"0010100010----------------------",
+            commonLoadSignals ++ List(
+                DCACHE_READ_TYPE -> DcacheReadType.w()
+            )
+        )
     }
 
     override def build(pipeline: Pipeline): Unit = {
@@ -87,12 +146,12 @@ class Dcache(stageIndex: Int) extends Plugin {
                     B(3) -> B(U(rawDcacheVal(31 downto 24)))
                 ),
                 DcacheReadType.h -> offset(1).mux(
-                    B(0) -> B(U(rawDcacheVal(15 downto 0))),
-                    B(1) -> B(U(rawDcacheVal(31 downto 15)))
-                ),
-                DcacheReadType.hu -> offset(1).mux(
                     B(0) -> B(S(rawDcacheVal(15 downto 0))),
                     B(1) -> B(S(rawDcacheVal(31 downto 15)))
+                ),
+                DcacheReadType.hu -> offset(1).mux(
+                    B(0) -> B(U(rawDcacheVal(15 downto 0))),
+                    B(1) -> B(U(rawDcacheVal(31 downto 15)))
                 ),
                 DcacheStoreType.w -> rawDcacheVal
             )
