@@ -18,6 +18,7 @@ object Arithmetic extends App {
             def addiw(rd: Int, rj: Int, si12: Int) = BigInt((0xa << 22) | ((si12 & 0xfff) << 10) | (rj << 5) | rd)
             def lu12iw(rd: Int, si20: Int) = BigInt((0xa << 25) | ((si20 & 0xfffff) << 5) | rd)
             def slt(rd: Int, rj: Int, rk: Int) = BigInt((0x24 << 15) | (rk << 10) | (rj << 5) | rd)
+            def sltu(rd: Int, rj: Int, rk: Int) = BigInt((0x25 << 15) | (rk << 10) | (rj << 5) | rd)
             // def ori(rt: Int, rs: Int, imm: Int) = BigInt((0x0d << 26) | (rs << 21) | (rt << 16) | imm)
             // def beq(rs: Int, rt: Int, imm: Int) = BigInt((0x04 << 26) | (rs << 21) | (rt << 16) | imm)
             // def j(imm: Int) = BigInt((0x02 << 26) | imm)
@@ -74,6 +75,21 @@ object Arithmetic extends App {
                 addiw(2, 0, -2),
                 slt(3, 1, 2),
                 slt(4, 2, 1)
+            )
+
+            val sltu_test = List(
+                addiw(1, 0, 1),
+                addiw(2, 0, 2),
+                sltu(3, 1, 2),
+                sltu(4, 2, 1),
+                addiw(1, 0, -1),
+                addiw(2, 0, -2),
+                sltu(3, 1, 2),
+                sltu(4, 2, 1),
+                addiw(1, 0, 1),
+                addiw(2, 0, -2),
+                sltu(3, 1, 2),
+                sltu(4, 2, 1)
             )
 
             val instructions = slt_test
