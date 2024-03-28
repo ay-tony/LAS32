@@ -21,7 +21,7 @@ object Arithmetic extends App {
             def sltu(rd: Int, rj: Int, rk: Int) = BigInt((0x25 << 15) | (rk << 10) | (rj << 5) | rd)
             def slti(rd: Int, rj: Int, si12: Int) = BigInt((0x8 << 22) | ((si12 & 0xfff) << 10) | (rj << 5) | rd)
             def sltui(rd: Int, rj: Int, si12: Int) = BigInt((0x9 << 22) | ((si12 & 0xfff) << 10) | (rj << 5) | rd)
-            def pcaddu12i(rd: Int, si20: Int) = BigInt((0x14 << 25) | ((si20 & 0xfffff) << 5) | rd)
+            def pcaddu12i(rd: Int, si20: Int) = BigInt((0xe << 25) | ((si20 & 0xfffff) << 5) | rd)
             def nop() = addw(0, 0, 0)
 
             val reset = for (i <- 1 to 31) yield lu12iw(i, 0)
@@ -116,15 +116,15 @@ object Arithmetic extends App {
 
             val pcaddu12i_test = List(
                 pcaddu12i(1, 0),
-                pcaddu12i(1, 0),
-                pcaddu12i(1, 0),
-                pcaddu12i(1, 0),
-                pcaddu12i(1, 0),
-                pcaddu12i(1, 0),
-                pcaddu12i(1, 0),
-                pcaddu12i(1, 0),
-                pcaddu12i(1, 0),
-                pcaddu12i(1, 0)
+                pcaddu12i(1, 1),
+                pcaddu12i(1, 2),
+                pcaddu12i(1, 3),
+                pcaddu12i(1, 4),
+                pcaddu12i(1, 5),
+                pcaddu12i(1, 6),
+                pcaddu12i(1, 7),
+                pcaddu12i(1, 8),
+                pcaddu12i(1, 9)
             )
 
             val instructions = pcaddu12i_test
