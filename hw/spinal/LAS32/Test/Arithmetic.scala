@@ -21,6 +21,7 @@ object Arithmetic extends App {
             def sltu(rd: Int, rj: Int, rk: Int) = BigInt((0x25 << 15) | (rk << 10) | (rj << 5) | rd)
             def slti(rd: Int, rj: Int, si12: Int) = BigInt((0x8 << 22) | ((si12 & 0xfff) << 10) | (rj << 5) | rd)
             def sltui(rd: Int, rj: Int, si12: Int) = BigInt((0x9 << 22) | ((si12 & 0xfff) << 10) | (rj << 5) | rd)
+            def pcaddu12i(rd: Int, si20: Int) = BigInt((0x14 << 25) | ((si20 & 0xfffff) << 5) | rd)
             def nop() = addw(0, 0, 0)
 
             val reset = for (i <- 1 to 31) yield lu12iw(i, 0)
@@ -113,7 +114,20 @@ object Arithmetic extends App {
                 sltui(4, 1, 1)
             )
 
-            val instructions = sltui_test
+            val pcaddu12i_test = List(
+                pcaddu12i(1, 0),
+                pcaddu12i(1, 0),
+                pcaddu12i(1, 0),
+                pcaddu12i(1, 0),
+                pcaddu12i(1, 0),
+                pcaddu12i(1, 0),
+                pcaddu12i(1, 0),
+                pcaddu12i(1, 0),
+                pcaddu12i(1, 0),
+                pcaddu12i(1, 0)
+            )
+
+            val instructions = pcaddu12i_test
 
             val mem = dut.getPlugin(classOf[Fetcher]).icache
             var addr: Long = 0x3000
