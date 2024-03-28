@@ -27,6 +27,8 @@ class RegisterFile(readStageIndex: Int, writeStageIndex: Int) extends Plugin {
         decoderService.addSignal(REGFILE_VAL2_ADDR, (INSTRUCTION: Bits) => U(INSTRUCTION(14 downto 10)))
         decoderService.addSignal(REGFILE_WRITE_VAL_ENABLE, False)
         decoderService.addSignal(REGFILE_WRITE_VAL_ADDR, (INSTRUCTION: Bits) => U(INSTRUCTION(4 downto 0)))
+
+        decoderService.addSignal(REGFILE_WRITE_VAL, B(0x12345678)) // init at beginning, bypass when needed
     }
 
     override def build(pipeline: Pipeline): Unit = {
@@ -50,14 +52,6 @@ class RegisterFile(readStageIndex: Int, writeStageIndex: Int) extends Plugin {
                 ((REGFILE_VAL2_ADDR === writeStage(REGFILE_WRITE_VAL_ADDR)) ?
                     writeStage(REGFILE_WRITE_VAL) |
                     regfile(REGFILE_VAL2_ADDR)) |
-                B(0, 32 bits)
-
-            // REGFILE_WRITE_VAL may be written by other components
-            // hence init in up stage
-            up(REGFILE_WRITE_VAL) := (REGFILE_WRITE_VAL_ADDR =/= 0) ?
-                ((REGFILE_WRITE_VAL_ADDR === writeStage(REGFILE_WRITE_VAL_ADDR)) ?
-                    writeStage(REGFILE_WRITE_VAL) |
-                    regfile(REGFILE_WRITE_VAL_ADDR)) |
                 B(0, 32 bits)
         }
     }
