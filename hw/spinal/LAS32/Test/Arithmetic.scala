@@ -69,6 +69,10 @@ object Arithmetic extends App {
                 addiw(1, 0, -1),
                 addiw(2, 0, -2),
                 slt(3, 1, 2),
+                slt(4, 2, 1),
+                addiw(1, 0, 1),
+                addiw(2, 0, -2),
+                slt(3, 1, 2),
                 slt(4, 2, 1)
             )
 
