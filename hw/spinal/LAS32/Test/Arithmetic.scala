@@ -109,8 +109,8 @@ object Arithmetic extends App {
                 addiw(1, 0, -1),
                 sltui(3, 1, -2),
                 sltui(4, 1, -1),
-                slti(4, 1, 0),
-                slti(4, 1, 1)
+                sltui(4, 1, 0),
+                sltui(4, 1, 1)
             )
 
             val instructions = sltui_test
