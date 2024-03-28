@@ -175,7 +175,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
                 LucOp.ui12 -> B(U(INSTRUCTION(21 downto 10), 32 bits))
             )
 
-            when(WRITE_AT_LUC) {
+            when(WRITE_AT_LUC && up.isFiring) {
                 lucStage.bypass(REGFILE_WRITE_VAL) := LUC_OUT
             }
         }
@@ -201,7 +201,7 @@ class IntAlu(lucStageIndex: Int, aluStageIndex: Int) extends Plugin {
                 AluOp.xor -> (src1 ^ src2)
             )
 
-            when(WRITE_AT_ALU) {
+            when(WRITE_AT_ALU && up.isFiring) {
                 aluStage.bypass(REGFILE_WRITE_VAL) := ALU_OUT
             }
         }

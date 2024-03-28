@@ -27,18 +27,23 @@ class Comparer(stageIndex: Int) extends Plugin {
         val registerFile = pipeline.getPlugin(classOf[RegisterFile])
         import registerFile._
 
+        val bypass = pipeline.getPlugin(classOf[Bypass])
+        import bypass._
+
         val sltSignals = List(
             REGFILE_VAL1_ENABLE -> True,
             REGFILE_VAL2_ENABLE -> True,
             REGFILE_WRITE_VAL_ENABLE -> True,
-            WRITE_AT_COMPARER -> True
+            WRITE_AT_COMPARER -> True,
+            BYPASS_ENABLE_STAGE -> U(stageIndex).resized
         )
 
         val sltImmSignals = List(
             REGFILE_VAL1_ENABLE -> True,
             REGFILE_WRITE_VAL_ENABLE -> True,
             COMPARER_SRC2 -> ComparerSrc2.si12(),
-            WRITE_AT_COMPARER -> True
+            WRITE_AT_COMPARER -> True,
+            BYPASS_ENABLE_STAGE -> U(stageIndex).resized
         )
 
         // SLT
@@ -79,8 +84,7 @@ class Comparer(stageIndex: Int) extends Plugin {
             src1 := B(REGFILE_VAL1)
             src2 := COMPARER_SRC2.mux(
                 ComparerSrc2.registerVal2 -> B(REGFILE_VAL2),
-                // TODO: fix si12 that no signed extend
-                ComparerSrc2.si12 -> B(INSTRUCTION(21 downto 10)).resized
+                ComparerSrc2.si12 -> INSTRUCTION(21 downto 10).asSInt.resize(32).asBits
             )
 
             val EQ, LTS, LTU = Bool()
@@ -97,7 +101,7 @@ class Comparer(stageIndex: Int) extends Plugin {
                 ComparerOp.geu -> !LTU
             )
 
-            when(WRITE_AT_COMPARER) {
+            when(WRITE_AT_COMPARER && up.isFiring) {
                 stage.bypass(REGFILE_WRITE_VAL) := B(COMPARER_OUT).resized
             }
         }

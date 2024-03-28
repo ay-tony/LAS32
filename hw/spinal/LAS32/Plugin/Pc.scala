@@ -115,7 +115,7 @@ class Pc(pcStageIndex: Int, npcStageIndex: Int) extends Plugin {
         val npcStage = pipeline.stages(npcStageIndex)
 
         new pcStage.Area {
-            pc := npcStage(NPC)
+            pc := up.isFiring ? npcStage(NPC) | pc
             PC := pc
         }
 
