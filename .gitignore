@@ -3,7 +3,13 @@
 target/
 tmp/
 simWorkspace/
+
+# auto-generated docs
+docs/*.pdf
+
+# auto-generated verilogs
 hw/gen/*
+
 
 # nodes
 node_modules/
