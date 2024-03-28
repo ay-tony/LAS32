@@ -128,22 +128,22 @@ class Dcache(stageIndex: Int) extends Plugin {
         new stage.Area {
             stage.bypass(DCACHE_WRITE_MASK) := DCACHE_STORE_TYPE.mux(
                 DcacheStoreType.b -> ALU_OUT(1 downto 0).mux(
-                    B(0) -> B("4'b0001"),
-                    B(1) -> B("4'b0010"),
-                    B(2) -> B("4'b0100"),
-                    B(3) -> B("4'b1000")
+                    0 -> B("4'b0001"),
+                    1 -> B("4'b0010"),
+                    2 -> B("4'b0100"),
+                    3 -> B("4'b1000")
                 ),
-                DcacheStoreType.h -> ALU_OUT(1).mux(
-                    B(0) -> B("4'b0011"),
-                    B(1) -> B("4'b1100")
+                DcacheStoreType.h -> ALU_OUT(1 downto 1).mux(
+                    0 -> B("4'b0011"),
+                    1 -> B("4'b1100")
                 ),
                 DcacheStoreType.w -> B("4'b1111")
             )
             stage.bypass(DCACHE_WRITE_VAL) := DCACHE_WRITE_MASK.mux(
                 M"---1" -> stage(REGFILE_VAL2),
-                M"--10" -> (REGFILE_VAL2 << 8).resized,
-                M"-100" -> (REGFILE_VAL2 << 16).resized,
-                M"1000" -> (REGFILE_VAL2 << 24).resized,
+                M"--10" -> (REGFILE_VAL2 << 8).resize(32),
+                M"-100" -> (REGFILE_VAL2 << 16).resize(32),
+                M"1000" -> (REGFILE_VAL2 << 24).resize(32),
                 default -> B(0)
             )
 
@@ -157,35 +157,35 @@ class Dcache(stageIndex: Int) extends Plugin {
         }
 
         new stage.Area {
-            val rawDcacheVal = dcache(U(ALU_OUT(31 downto 2)).resized)
+            val rawDcacheVal = dcache(U(ALU_OUT(31 downto 2)).resize(15))
             val offset = ALU_OUT(1 downto 0)
 
-            stage.bypass(DCACHE_READ_VAL) := DCACHE_STORE_TYPE.mux(
+            DCACHE_READ_VAL := DCACHE_READ_TYPE.mux(
                 DcacheReadType.b -> offset.mux(
-                    B(0) -> B(S(rawDcacheVal(7 downto 0))),
-                    B(1) -> B(S(rawDcacheVal(15 downto 8))),
-                    B(2) -> B(S(rawDcacheVal(23 downto 16))),
-                    B(3) -> B(S(rawDcacheVal(31 downto 24)))
+                    0 -> rawDcacheVal(7 downto 0).asSInt.resize(32).asBits,
+                    1 -> rawDcacheVal(15 downto 8).asSInt.resize(32).asBits,
+                    2 -> rawDcacheVal(23 downto 16).asSInt.resize(32).asBits,
+                    3 -> rawDcacheVal(31 downto 24).asSInt.resize(32).asBits
                 ),
                 DcacheReadType.bu -> offset.mux(
-                    B(0) -> B(U(rawDcacheVal(7 downto 0))),
-                    B(1) -> B(U(rawDcacheVal(15 downto 8))),
-                    B(2) -> B(U(rawDcacheVal(23 downto 16))),
-                    B(3) -> B(U(rawDcacheVal(31 downto 24)))
+                    0 -> rawDcacheVal(7 downto 0).resize(32),
+                    1 -> rawDcacheVal(15 downto 8).resize(32),
+                    2 -> rawDcacheVal(23 downto 16).resize(32),
+                    3 -> rawDcacheVal(31 downto 24).resize(32)
                 ),
-                DcacheReadType.h -> offset(1).mux(
-                    B(0) -> B(S(rawDcacheVal(15 downto 0))),
-                    B(1) -> B(S(rawDcacheVal(31 downto 15)))
+                DcacheReadType.h -> offset(1 downto 1).mux(
+                    0 -> rawDcacheVal(15 downto 0).asSInt.resize(32).asBits,
+                    1 -> rawDcacheVal(31 downto 15).asSInt.resize(32).asBits
                 ),
-                DcacheReadType.hu -> offset(1).mux(
-                    B(0) -> B(U(rawDcacheVal(15 downto 0))),
-                    B(1) -> B(U(rawDcacheVal(31 downto 15)))
+                DcacheReadType.hu -> offset(1 downto 1).mux(
+                    0 -> rawDcacheVal(15 downto 0).resize(32),
+                    1 -> rawDcacheVal(31 downto 15).resize(32)
                 ),
-                DcacheStoreType.w -> rawDcacheVal
+                DcacheReadType.w -> rawDcacheVal
             )
 
             when(up.isFiring && WRITE_AT_DCACHE) {
-                bypass(REGFILE_WRITE_VAL) := DCACHE_READ_VAL
+                stage.bypass(REGFILE_WRITE_VAL) := DCACHE_READ_VAL
             }
         }
     }
