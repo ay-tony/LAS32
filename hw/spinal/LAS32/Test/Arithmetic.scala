@@ -92,7 +92,7 @@ object Arithmetic extends App {
                 sltu(4, 2, 1)
             )
 
-            val instructions = slt_test
+            val instructions = sltu_test
 
             val mem = dut.getPlugin(classOf[Fetcher]).icache
             var addr: Long = 0x3000
