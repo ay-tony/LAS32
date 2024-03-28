@@ -19,13 +19,7 @@ object Arithmetic extends App {
             def lu12iw(rd: Int, si20: Int) = BigInt((0xa << 25) | ((si20 & 0xfffff) << 5) | rd)
             def slt(rd: Int, rj: Int, rk: Int) = BigInt((0x24 << 15) | (rk << 10) | (rj << 5) | rd)
             def sltu(rd: Int, rj: Int, rk: Int) = BigInt((0x25 << 15) | (rk << 10) | (rj << 5) | rd)
-            // def ori(rt: Int, rs: Int, imm: Int) = BigInt((0x0d << 26) | (rs << 21) | (rt << 16) | imm)
-            // def beq(rs: Int, rt: Int, imm: Int) = BigInt((0x04 << 26) | (rs << 21) | (rt << 16) | imm)
-            // def j(imm: Int) = BigInt((0x02 << 26) | imm)
-            // def jal(imm: Int) = BigInt((0x03 << 26) | imm)
-            // def jr(rs: Int) = BigInt(rs << 21 | 0x08)
-            // def lw(rt: Int, offset: Int, base: Int) = BigInt((0x23L << 26) | (base << 21) | (rt << 16) | offset)
-            // def sw(rt: Int, offset: Int, base: Int) = BigInt((0x2bL << 26) | (base << 21) | (rt << 16) | offset)
+            def slti(rd: Int, rj: Int, si12: Int) = BigInt((0x8 << 22) | ((si12 & 0xfff) << 10) | (rj << 5) | rd)
             def nop() = addw(0, 0, 0)
 
             val reset = for (i <- 1 to 31) yield lu12iw(i, 0)
@@ -92,7 +86,20 @@ object Arithmetic extends App {
                 sltu(4, 2, 1)
             )
 
-            val instructions = sltu_test
+            val slti_test = List(
+                addiw(1, 0, 1),
+                slti(3, 1, 2),
+                slti(4, 1, 1),
+                slti(4, 1, 0),
+                slti(4, 1, -1),
+                addiw(1, 0, -1),
+                slti(3, 1, -2),
+                slti(4, 2, -1),
+                slti(4, 2, 0),
+                slti(4, 2, 1)
+            )
+
+            val instructions = slti_test
 
             val mem = dut.getPlugin(classOf[Fetcher]).icache
             var addr: Long = 0x3000
