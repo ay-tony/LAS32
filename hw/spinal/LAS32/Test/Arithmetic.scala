@@ -20,7 +20,7 @@ object Arithmetic extends App {
             def slt(rd: Int, rj: Int, rk: Int) = BigInt((0x24 << 15) | (rk << 10) | (rj << 5) | rd)
             def sltu(rd: Int, rj: Int, rk: Int) = BigInt((0x25 << 15) | (rk << 10) | (rj << 5) | rd)
             def slti(rd: Int, rj: Int, si12: Int) = BigInt((0x8 << 22) | ((si12 & 0xfff) << 10) | (rj << 5) | rd)
-            def slti(rd: Int, rj: Int, si12: Int) = BigInt((0x9 << 22) | ((si12 & 0xfff) << 10) | (rj << 5) | rd)
+            def sltui(rd: Int, rj: Int, si12: Int) = BigInt((0x9 << 22) | ((si12 & 0xfff) << 10) | (rj << 5) | rd)
             def nop() = addw(0, 0, 0)
 
             val reset = for (i <- 1 to 31) yield lu12iw(i, 0)
