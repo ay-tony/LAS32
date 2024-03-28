@@ -63,7 +63,7 @@ object Arithmetic extends App {
 
             val slt_test = List(
                 addiw(1, 0, 1),
-                addiw(2, 0, 2),
+                addiw(2, 0, 1),
                 slt(3, 1, 2),
                 slt(4, 2, 1),
                 addiw(1, 0, -1),
@@ -75,7 +75,7 @@ object Arithmetic extends App {
             val instructions = slt_test
 
             val mem = dut.getPlugin(classOf[Fetcher]).icache
-            var addr = 0x3000
+            var addr: Long = 0x3000
             for (inst <- instructions) {
                 mem.setBigInt(addr / 4, inst)
                 addr += 4
@@ -94,13 +94,17 @@ object Arithmetic extends App {
             dut.clockDomain.waitRisingEdge()
 
             val bus = dut.getPlugin(classOf[DebugBus]).debugBus
-            for (t <- 0 until instructions.length) {
+            var pc: Long = bus.pc.toLong
+            var waddr: Long = bus.regfileWriteAddr.toLong
+            var wdata: Long = bus.regfileWriteVal.toLong
+            var en: Boolean = bus.regfileWriteEnable.toBoolean
+            while (pc != addr) {
                 dut.clockDomain.waitRisingEdge()
-                val pc = bus.pc.toLong
-                val en = bus.regfileWriteEnable.toBoolean
-                val addr = bus.regfileWriteAddr.toInt
-                val data = bus.regfileWriteVal.toLong
-                println("*%8h: %8h > %2d %b".format(pc, data, addr, en))
+                pc = bus.pc.toLong
+                en = bus.regfileWriteEnable.toBoolean
+                waddr = bus.regfileWriteAddr.toLong
+                wdata = bus.regfileWriteVal.toLong
+                println("*%8h: %8h > %2d %b".format(pc, wdata, waddr, en))
             }
         }
 }
